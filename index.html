@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root {
+            --bg: #fdfaf0; /* Cream paper */
+            --accent: #b8d8be; /* Pastel Sage */
+            --text: #5a5a5a;
+        }
+        body { font-family: 'Segoe UI', serif; background: var(--bg); color: var(--text); padding: 20px; }
+        
+        /* The Matrix */
+        .matrix { display: grid; grid-template-columns: 150px repeat(3, 1fr) 80px; gap: 10px; }
+        .cell { background: white; padding: 15px; border-radius: 8px; border: 1px solid #eee; text-align: center; cursor: pointer; transition: 0.3s; }
+        .cell:hover { background: var(--accent); color: white; }
+        .header { font-weight: bold; background: none; border: none; }
+
+        /* Copy Button Styling */
+        .btn-copy { background: #ffcfd2; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8em; }
+        .btn-copy:active { transform: translateY(2px); }
+        
+        textarea { width: 100%; border: 1px solid #ddd; border-radius: 5px; padding: 10px; height: 80px; }
+    </style>
+</head>
+<body>
+
+    <h2>Study Dashboard</h2>
+    <div class="matrix" id="matrix">
+        <div class="header">Date</div>
+        <div class="header">Vocab</div>
+        <div class="header">Grammar</div>
+        <div class="header">Exercises</div>
+        <div class="header">Action</div>
+        </div>
+
+    <script>
+        // Logic to generate rows
+        function renderMatrix() {
+            const container = document.getElementById('matrix');
+            // Mocking dates for the matrix
+            const dates = ["2026-04-18", "2026-04-17", "2026-04-16"]; 
+            
+            dates.forEach(date => {
+                container.innerHTML += `
+                    <div>${date}</div>
+                    <div class="cell" onclick="openInput('${date}', 'vocab')">📝</div>
+                    <div class="cell" onclick="openInput('${date}', 'grammar')">✍️</div>
+                    <div class="cell" onclick="openInput('${date}', 'ex')">📚</div>
+                    <div><button class="btn-copy" onclick="copyFullDay('${date}')">Copy All</button></div>
+                `;
+            });
+        }
+
+        async function copyFullDay(date) {
+            const textToCopy = formatDataForDocs(date); // Use the formatter from Step 2
+            await navigator.clipboard.writeText(textToCopy);
+            alert("Ready to paste into Google Docs!");
+        }
+
+        renderMatrix();
+    </script>
+</body>
+</html>
