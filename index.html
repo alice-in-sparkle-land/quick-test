@@ -19,18 +19,18 @@
             font-family: 'Quicksand', sans-serif;
             background: var(--ghibli-paper);
             color: var(--text);
-            padding: 15px;
+            padding: 10px;
             margin: 0;
         }
 
         /* Header */
-        .header-section { text-align: center; margin-bottom: 20px; }
-        .header-section h1 { font-size: 1.8em; color: #5B84B1; margin: 10px 0; }
-        .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; font-size: 0.85em; }
+        .header-section { text-align: center; margin-bottom: 15px; }
+        .header-section h1 { font-size: 1.5em; color: #5B84B1; margin: 10px 0; }
+        .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; font-size: 0.8em; }
 
         /* Navigation */
-        .top-nav { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; align-items: center; }
-        .backup-tools { display: flex; gap: 8px; }
+        .top-nav { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; align-items: center; }
+        .backup-tools { display: flex; gap: 5px; }
 
         @media (min-width: 992px) {
             body { padding: 40px; }
@@ -40,87 +40,81 @@
         }
 
         /* The Grid Logic */
-        .matrix-header { display: none; } /* Hidden on mobile */
-        .matrix { display: flex; flex-direction: column; gap: 15px; }
-
-        /* Laptop View (Single Row) */
-        @media (min-width: 992px) {
-            .matrix-header { 
-                display: grid; 
-                grid-template-columns: 120px repeat(3, 1fr) 140px 100px; 
-                gap: 15px; 
-                padding: 0 20px 10px 20px;
-                text-align: center;
-                font-weight: bold;
-                color: #aaa;
-                font-size: 0.75em;
-                text-transform: uppercase;
-            }
-            .row-container {
-                display: grid;
-                grid-template-columns: 120px repeat(3, 1fr) 140px 100px;
-                gap: 15px;
-                align-items: center;
-                padding: 15px 20px;
-                background: #fff;
-                border-bottom: 1px solid #f0f0f0;
-            }
-            .row-container:last-child { border-bottom: none; }
-            .mobile-only-header { display: none; }
-            .cell { background: #fafafa; border: 2px dashed #eee; }
+        .matrix-header { 
+            display: grid; 
+            grid-template-columns: 80px repeat(3, 1fr) 70px 45px; /* Compact mobile layout */
+            gap: 5px; 
+            text-align: center;
+            font-weight: bold;
+            color: #aaa;
+            font-size: 0.65em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
         }
 
-        /* Mobile View (Card Style) */
-        @media (max-width: 991px) {
+        .matrix { display: flex; flex-direction: column; gap: 8px; }
+
+        /* Row Styling */
+        .row-container {
+            display: grid;
+            grid-template-columns: 80px repeat(3, 1fr) 70px 45px;
+            gap: 5px;
+            align-items: center;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        @media (min-width: 992px) {
+            .matrix-header { 
+                grid-template-columns: 120px repeat(3, 1fr) 140px 100px; 
+                font-size: 0.75em;
+                gap: 15px;
+            }
             .row-container {
-                background: white;
-                padding: 15px;
-                border-radius: 15px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
+                grid-template-columns: 120px repeat(3, 1fr) 140px 100px;
+                gap: 15px;
+                padding: 15px 20px;
+                box-shadow: none;
+                border-bottom: 1px solid #f0f0f0;
+                border-radius: 0;
             }
-            .mobile-only-header {
-                grid-column: span 4;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 5px;
-                font-weight: bold;
-                color: #888;
-                border-bottom: 1px solid #eee;
-                padding-bottom: 8px;
-            }
-            .cell-date { display: none; } /* Date is in the mobile header */
-            .cell-sync { grid-column: span 4; margin-top: 5px; }
+            .row-container:last-child { border-bottom: none; }
         }
 
         /* Icons & Cells */
-        .icon-size { font-size: 2em; display: block; }
+        .icon-size { font-size: 1.4em; display: block; }
+        @media (min-width: 992px) { .icon-size { font-size: 2.2em; } }
+
         .cell { 
-            padding: 15px 5px; 
-            border-radius: 12px; 
+            padding: 10px 2px; 
+            border-radius: 10px; 
             text-align: center; 
             cursor: pointer;
-            transition: 0.2s;
+            border: 1px dashed #eee;
+            background: #fafafa;
         }
-        .cell.filled { border: 2px solid var(--ghibli-leaf) !important; background: #f0fdf4 !important; }
-        .cell:hover { transform: scale(1.02); }
+        .cell.filled { border: 1px solid var(--ghibli-leaf) !important; background: #f0fdf4 !important; }
 
         /* Buttons */
-        button { cursor: pointer; border-radius: 10px; border: none; padding: 10px 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: inherit; }
-        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.85em; }
-        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.7em; padding: 4px 8px; vertical-align: middle; }
+        button { cursor: pointer; border-radius: 8px; border: none; padding: 8px 10px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-family: inherit; font-size: 0.8em; }
+        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.7em; padding: 6px 2px; }
+        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 5px; }
 
-        /* Input Panel Overlay (Full screen on mobile) */
+        @media (min-width: 992px) {
+            button { padding: 10px 15px; font-size: 0.9em; }
+            .copy-btn { font-size: 0.85em; padding: 10px 15px; }
+        }
+
+        /* Overlay Panel */
         #input-panel { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: white; padding: 20px; z-index: 2000; 
             display: none; overflow-y: auto;
         }
         @media (min-width: 992px) {
-            #input-panel { position: static; margin-top: 30px; border-radius: 20px; border: 3px solid var(--ghibli-sky); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            #input-panel { position: static; margin-top: 30px; border-radius: 20px; border: 3px solid var(--ghibli-sky); }
         }
 
         textarea, input[type="text"] { width: 100%; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 16px; }
@@ -134,7 +128,7 @@
     </div>
 
     <div class="top-nav">
-        <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 Plant a New Day</button>
+        <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 New Day</button>
         <div class="backup-tools">
             <button onclick="exportData()">📤 Export</button>
             <button onclick="document.getElementById('importFile').click()">📥 Import</button>
@@ -144,29 +138,29 @@
 
     <div class="matrix-header">
         <div>Date</div>
-        <div>Vocabulary</div>
-        <div>Manual Ex</div>
-        <div>Textbook</div>
-        <div>Sync Docs</div>
-        <div>Notes <button class="sig-copy-btn" onclick="copyAllSignatures()">📋 All</button></div>
+        <div>Vocab</div>
+        <div>Ex</div>
+        <div>Book</div>
+        <div>Sync</div>
+        <div><button class="sig-copy-btn" onclick="copyAllSignatures()">📋</button></div>
     </div>
 
     <div class="matrix" id="matrix"></div>
 
     <div id="input-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.2em;">Section</h2>
-            <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy Part</button>
+            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.1em;">Section</h2>
+            <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy</button>
         </div>
         <div id="panel-content"></div>
-        <div style="margin-top:30px; display:flex; gap:10px;">
-            <button onclick="saveAndClose()" style="background: var(--ghibli-leaf); flex:2; font-weight:bold;">🌸 Save Progress</button>
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="saveAndClose()" style="background: var(--ghibli-leaf); flex:2; font-weight:bold;">🌸 Save</button>
             <button onclick="document.getElementById('input-panel').style.display='none'" style="background: #eee; flex:1;">Close</button>
         </div>
     </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('studyDB_final_v5')) || {};
+    let db = JSON.parse(localStorage.getItem('studyDB_mobile_compact')) || {};
     let activeDate = null, activeType = null;
     const icons = { vocab: '☁️', manual: '🥖', textbook: '🧸', sigs: '🎀' };
 
@@ -179,53 +173,44 @@
             const div = document.createElement('div');
             div.className = 'row-container';
             div.innerHTML = `
-                <div class="mobile-only-header">
-                    <span>📅 ${date}</span>
-                </div>
-                <div class="cell-date" style="text-align:center; font-weight:bold; color:#888;">${date}</div>
-                
+                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.7em;">${date}</div>
                 <div class="cell ${row.vocabList && row.vocabList.length ? 'filled' : ''}" onclick="openEditor('${date}', 'vocab')">
                     <span class="icon-size">${icons.vocab}</span>
                 </div>
-                
                 <div class="cell ${row.manual && row.manual.length ? 'filled' : ''}" onclick="openEditor('${date}', 'manual')">
                     <span class="icon-size">${icons.manual}</span>
                 </div>
-                
                 <div class="cell ${row.textbook && row.textbook.done ? 'filled' : ''}" onclick="openEditor('${date}', 'textbook')">
                     <span class="icon-size">${icons.textbook}</span>
                 </div>
-
-                <div class="cell-sync">
-                    <button class="copy-btn" onclick="copyForDocs('${date}')">🚀 Sync Docs</button>
+                <div>
+                    <button class="copy-btn" onclick="copyForDocs('${date}')">🚀 Sync</button>
                 </div>
-                
                 <div class="cell ${row.signatures && row.signatures.length ? 'filled' : ''}" onclick="openEditor('${date}', 'signatures')">
                     <span class="icon-size">${icons.sigs}</span>
                 </div>
             `;
             container.appendChild(div);
         });
-        localStorage.setItem('studyDB_final_v5', JSON.stringify(db));
+        localStorage.setItem('studyDB_mobile_compact', JSON.stringify(db));
     }
 
-    /* Input Logic */
     function openEditor(date, type) {
         activeDate = date; activeType = type;
         const panel = document.getElementById('input-panel');
         const content = document.getElementById('panel-content');
-        document.getElementById('panel-title').innerText = type.toUpperCase() + " Editor";
+        document.getElementById('panel-title').innerText = type.toUpperCase();
         panel.style.display = 'block';
         content.innerHTML = '';
 
         if (type === 'vocab') {
-            content.innerHTML = `<textarea id="raw-vocab" placeholder="Paste words..."></textarea><button onclick="processVocab()" style="width:100%; background:var(--ghibli-sky); color:white; margin-bottom:15px;">✨ Add Words</button><div id="vocab-table-container"></div>`;
+            content.innerHTML = `<textarea id="raw-vocab" placeholder="Paste words..."></textarea><button onclick="processVocab()" style="width:100%; background:var(--ghibli-sky); color:white; margin-bottom:15px;">✨ Add</button><div id="vocab-table-container"></div>`;
             renderVocabTable(db[date].vocabList || []);
         } else if (type === 'manual') {
-            content.innerHTML = `<div id="manual-list"></div><button onclick="addManualRow()" style="width:100%;">+ Add Question</button>`;
+            content.innerHTML = `<div id="manual-list"></div><button onclick="addManualRow()" style="width:100%;">+ Add Row</button>`;
             if(db[date].manual) db[date].manual.forEach(ex => addManualRow(ex.q, ex.a));
         } else if (type === 'textbook') {
-            content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Completed</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()" style="width:100%;">+ Note</button>`;
+            content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Finished</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()" style="width:100%;">+ Note</button>`;
             if(db[date].textbook.mistakes) db[date].textbook.mistakes.forEach(m => addMistakeRow(m));
         } else if (type === 'signatures') {
             content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()" style="width:100%;">+ Add Note</button>`;
@@ -247,15 +232,15 @@
         const body = document.getElementById('vocab-body');
         list.forEach((item, index) => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="text" value="${item.word}" onchange="db['${activeDate}'].vocabList[${index}].word=this.value" style="font-weight:bold;"></td><td><input type="text" value="${item.sentence}" onchange="db['${activeDate}'].vocabList[${index}].sentence=this.value" placeholder="Sentence..."></td>`;
+            tr.innerHTML = `<td><input type="text" value="${item.word}" onchange="db['${activeDate}'].vocabList[${index}].word=this.value" style="font-weight:bold;"></td><td><input type="text" value="${item.sentence}" onchange="db['${activeDate}'].vocabList[${index}].sentence=this.value" placeholder="..."></td>`;
             body.appendChild(tr);
         });
     }
 
     function addManualRow(q='', a='') {
-        const div = document.createElement('div'); div.style.marginBottom="10px";
-        div.innerHTML = `<input type="text" class="q" placeholder="Q" value="${q}" style="margin-bottom:5px;"><input type="text" class="a" placeholder="A" value="${a}">`;
-        div.className = "manual-entry"; document.getElementById('manual-list').appendChild(div);
+        const div = document.createElement('div'); div.className = "manual-entry";
+        div.innerHTML = `<input type="text" class="q" placeholder="Q" value="${q}"><input type="text" class="a" placeholder="A" value="${a}">`;
+        document.getElementById('manual-list').appendChild(div);
     }
     function addMistakeRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="mistake-item"; i.value=v; document.getElementById('mistake-list').appendChild(i); }
     function addSigRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="sig-item"; i.value=v; document.getElementById('sig-list').appendChild(i); }
@@ -272,7 +257,7 @@
         if(activeType === 'vocab') db[activeDate].vocabList.forEach(v => t += `${v.word}\n${v.sentence}\n\n`);
         else if(activeType === 'manual') Array.from(document.querySelectorAll('.manual-entry')).forEach(r => t += `Q: ${r.querySelector('.q').value}\nA: ${r.querySelector('.a').value}\n\n`);
         else if(activeType === 'signatures') t = db[activeDate].signatures.join('\n');
-        await navigator.clipboard.writeText(t); alert("Part copied!");
+        await navigator.clipboard.writeText(t); alert("Copied!");
     }
 
     async function copyForDocs(date) {
@@ -282,12 +267,12 @@
         s += `\nMANUAL EXERCISES:\n`;
         d.manual.forEach(m => s += `Q: ${m.q}\nA: ${m.a}\n\n`);
         s += `TEXTBOOK:\nDone: ${d.textbook.done ? 'Yes' : 'No'}\nNotes:\n` + d.textbook.mistakes.join('\n');
-        await navigator.clipboard.writeText(s); alert("Ready for Docs!");
+        await navigator.clipboard.writeText(s); alert("Ready!");
     }
 
     function exportData() {
         const link = document.createElement('a'); link.href = 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(db));
-        link.download = 'journal-backup.json'; link.click();
+        link.download = 'backup.json'; link.click();
     }
 
     function importData(e) {
