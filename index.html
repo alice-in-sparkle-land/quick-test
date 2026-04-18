@@ -23,26 +23,25 @@
             margin: 0;
         }
 
-        .header-section { text-align: center; margin-bottom: 15px; }
-        .header-section h1 { font-size: 1.5em; color: #5B84B1; margin: 10px 0; }
-        .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; font-size: 0.8em; }
+        .header-section { text-align: center; margin-bottom: 20px; }
+        .header-section h1 { font-size: 1.8em; color: #5B84B1; margin: 10px 0; }
+        .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; font-size: 0.85em; }
 
-        .top-nav { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; align-items: center; }
-        .backup-tools { display: flex; gap: 5px; }
+        .top-nav { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; align-items: center; }
+        .backup-tools { display: flex; gap: 8px; }
 
-        @media (min-width: 992px) {
-            body { padding: 40px; }
-            .header-section h1 { font-size: 2.5em; }
-            .top-nav { flex-direction: row; justify-content: space-between; }
-            .matrix { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
-        }
-
-        /* Matrix Grid Layout Updated for Checkbox Column */
+        /* --- THE GRID SYSTEM --- */
+        /* This layout is shared by header and rows to ensure perfect vertical alignment */
         .matrix-header, .row-container { 
             display: grid; 
-            grid-template-columns: 75px repeat(3, 1fr) 65px 40px 30px; 
-            gap: 4px; 
+            /* Mobile column widths */
+            grid-template-columns: 75px repeat(3, 1fr) 65px 40px 35px; 
+            gap: 5px; 
             align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
 
         .matrix-header { 
@@ -51,81 +50,82 @@
             color: #aaa;
             font-size: 0.55em;
             text-transform: uppercase;
-            margin-bottom: 5px;
-            padding: 0 8px;
+            margin-bottom: 8px;
+            padding: 0 10px;
         }
 
-        .matrix { display: flex; flex-direction: column; gap: 8px; }
+        .matrix { display: flex; flex-direction: column; gap: 10px; }
 
         .row-container {
             background: white;
-            padding: 8px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: background 0.3s;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
 
-        .row-done { background: #e8f5e9 !important; border: 1px solid var(--ghibli-leaf); }
+        .row-done { background: #f0fdf4 !important; border: 1px solid var(--ghibli-leaf); }
 
+        /* Laptop Adjustments (Screen > 992px) */
         @media (min-width: 992px) {
+            body { padding: 40px; }
+            .header-section h1 { font-size: 2.5em; }
+            .top-nav { flex-direction: row; justify-content: space-between; margin-bottom: 30px; }
+            
             .matrix-header, .row-container { 
-                grid-template-columns: 120px repeat(3, 1fr) 140px 100px 50px; 
-                gap: 15px;
+                grid-template-columns: 120px repeat(3, 1fr) 140px 100px 60px; 
+                gap: 20px;
+                padding: 15px 30px;
             }
-            .matrix-header { font-size: 0.75em; }
-            .row-container {
-                padding: 15px 20px;
-                box-shadow: none;
-                border-bottom: 1px solid #f0f0f0;
-                border-radius: 0;
-            }
+            .matrix-header { font-size: 0.8em; }
+            .row-container { border-radius: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.03); }
         }
 
-        /* Icons & Cells */
-        .icon-size { font-size: 1.3em; display: block; }
-        @media (min-width: 992px) { .icon-size { font-size: 2.2em; } }
+        /* --- CELLS & ICONS --- */
+        .icon-size { font-size: 1.4em; display: block; }
+        @media (min-width: 992px) { .icon-size { font-size: 2.5em; } }
 
         .cell { 
             padding: 10px 2px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             text-align: center; 
             cursor: pointer;
             border: 1px dashed #eee;
             background: #fafafa;
         }
-        .cell.filled { border: 1px solid var(--ghibli-leaf) !important; background: #f0fdf4 !important; }
+        .cell.filled { border: 1.5px solid var(--ghibli-leaf) !important; background: #e8f5e9 !important; }
 
-        /* Sync Button Styling */
-        button { cursor: pointer; border-radius: 8px; border: none; padding: 8px 10px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-family: inherit; }
+        /* Buttons */
+        button { cursor: pointer; border-radius: 10px; border: none; padding: 10px 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: inherit; }
         
         .copy-btn { 
             background: var(--ghibli-sky); 
             color: white; 
             font-weight: bold; 
             width: 100%; 
-            font-size: 0.6em;
+            font-size: 0.6em; /* Mobile Font */
             padding: 8px 1px; 
-            line-height: 1.1;
             text-transform: uppercase;
         }
 
-        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 4px; border-radius: 4px; }
-        .done-check { cursor: pointer; accent-color: var(--ghibli-leaf); transform: scale(1.1); }
+        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 4px; border-radius: 6px; }
 
         @media (min-width: 992px) {
-            .copy-btn { font-size: 0.85em; padding: 10px 15px; }
-            .sig-copy-btn { padding: 4px 8px; }
-            .done-check { transform: scale(1.5); }
+            .copy-btn { font-size: 0.9em; padding: 12px 20px; }
         }
 
-        /* Overlay Input Panel */
+        /* Checkbox */
+        .done-check { width: 20px; height: 20px; cursor: pointer; accent-color: var(--ghibli-leaf); margin: 0 auto; display: block; }
+        @media (min-width: 992px) { .done-check { width: 28px; height: 28px; } }
+
+        /* Input Panel Overlay */
         #input-panel { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: white; padding: 20px; z-index: 2000; 
             display: none; overflow-y: auto;
         }
         @media (min-width: 992px) {
-            #input-panel { position: static; margin-top: 30px; border-radius: 20px; border: 3px solid var(--ghibli-sky); }
+            #input-panel { position: relative; margin-top: 30px; border-radius: 25px; border: 3px solid var(--ghibli-sky); }
         }
 
         textarea, input[type="text"] { width: 100%; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 16px; }
@@ -139,7 +139,7 @@
     </div>
 
     <div class="top-nav">
-        <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 New Day</button>
+        <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 Plant a New Day</button>
         <div class="backup-tools">
             <button onclick="exportData()">📤 Export</button>
             <button onclick="document.getElementById('importFile').click()">📥 Import</button>
@@ -161,7 +161,7 @@
 
     <div id="input-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.1em;">Section</h2>
+            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.2em;">Section</h2>
             <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy</button>
         </div>
         <div id="panel-content"></div>
@@ -172,7 +172,8 @@
     </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('studyDB_final_v7')) || {};
+    // Database Key v10 for the alignment fix
+    let db = JSON.parse(localStorage.getItem('studyDB_v10')) || {};
     let activeDate = null, activeType = null;
     const icons = { vocab: '☁️', manual: '🥖', textbook: '🧸', sigs: '🎀' };
 
@@ -208,7 +209,7 @@
             `;
             container.appendChild(div);
         });
-        localStorage.setItem('studyDB_final_v7', JSON.stringify(db));
+        localStorage.setItem('studyDB_v10', JSON.stringify(db));
     }
 
     function toggleDone(date, status) {
@@ -278,7 +279,7 @@
         if(activeType === 'vocab') db[activeDate].vocabList.forEach(v => t += `${v.word}\n${v.sentence}\n\n`);
         else if(activeType === 'manual') Array.from(document.querySelectorAll('.manual-entry')).forEach(r => t += `Q: ${r.querySelector('.q').value}\nA: ${r.querySelector('.a').value}\n\n`);
         else if(activeType === 'signatures') t = db[activeDate].signatures.join('\n');
-        await navigator.clipboard.writeText(t); alert("Copied!");
+        await navigator.clipboard.writeText(t); alert("Part copied!");
     }
 
     async function copyForDocs(date) {
@@ -293,7 +294,7 @@
 
     function exportData() {
         const link = document.createElement('a'); link.href = 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(db));
-        link.download = 'journal-backup.json'; link.click();
+        link.download = 'study-journal-backup.json'; link.click();
     }
 
     function importData(e) {
@@ -301,7 +302,7 @@
     }
 
     function addNewDate() {
-        const d = prompt("Date?", new Date().toISOString().split('T')[0]);
+        const d = prompt("Date (YYYY-MM-DD)?", new Date().toISOString().split('T')[0]);
         if(d && !db[d]) { db[d] = { vocabList: [], manual: [], textbook: { done: false, mistakes: [] }, signatures: [], allDone: false }; render(); }
     }
 
