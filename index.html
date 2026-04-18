@@ -23,12 +23,10 @@
             margin: 0;
         }
 
-        /* Header */
         .header-section { text-align: center; margin-bottom: 15px; }
         .header-section h1 { font-size: 1.5em; color: #5B84B1; margin: 10px 0; }
         .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; font-size: 0.8em; }
 
-        /* Navigation */
         .top-nav { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; align-items: center; }
         .backup-tools { display: flex; gap: 5px; }
 
@@ -39,52 +37,52 @@
             .matrix { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
         }
 
-        /* The Grid Logic */
-        .matrix-header { 
+        /* Matrix Grid Layout Updated for Checkbox Column */
+        .matrix-header, .row-container { 
             display: grid; 
-            grid-template-columns: 80px repeat(3, 1fr) 70px 45px; /* Compact mobile layout */
-            gap: 5px; 
+            grid-template-columns: 75px repeat(3, 1fr) 65px 40px 30px; 
+            gap: 4px; 
+            align-items: center;
+        }
+
+        .matrix-header { 
             text-align: center;
             font-weight: bold;
             color: #aaa;
-            font-size: 0.65em;
+            font-size: 0.55em;
             text-transform: uppercase;
             margin-bottom: 5px;
+            padding: 0 8px;
         }
 
         .matrix { display: flex; flex-direction: column; gap: 8px; }
 
-        /* Row Styling */
         .row-container {
-            display: grid;
-            grid-template-columns: 80px repeat(3, 1fr) 70px 45px;
-            gap: 5px;
-            align-items: center;
             background: white;
             padding: 8px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: background 0.3s;
         }
 
+        .row-done { background: #e8f5e9 !important; border: 1px solid var(--ghibli-leaf); }
+
         @media (min-width: 992px) {
-            .matrix-header { 
-                grid-template-columns: 120px repeat(3, 1fr) 140px 100px; 
-                font-size: 0.75em;
+            .matrix-header, .row-container { 
+                grid-template-columns: 120px repeat(3, 1fr) 140px 100px 50px; 
                 gap: 15px;
             }
+            .matrix-header { font-size: 0.75em; }
             .row-container {
-                grid-template-columns: 120px repeat(3, 1fr) 140px 100px;
-                gap: 15px;
                 padding: 15px 20px;
                 box-shadow: none;
                 border-bottom: 1px solid #f0f0f0;
                 border-radius: 0;
             }
-            .row-container:last-child { border-bottom: none; }
         }
 
         /* Icons & Cells */
-        .icon-size { font-size: 1.4em; display: block; }
+        .icon-size { font-size: 1.3em; display: block; }
         @media (min-width: 992px) { .icon-size { font-size: 2.2em; } }
 
         .cell { 
@@ -97,17 +95,30 @@
         }
         .cell.filled { border: 1px solid var(--ghibli-leaf) !important; background: #f0fdf4 !important; }
 
-        /* Buttons */
-        button { cursor: pointer; border-radius: 8px; border: none; padding: 8px 10px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-family: inherit; font-size: 0.8em; }
-        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.7em; padding: 6px 2px; }
-        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 5px; }
-
-        @media (min-width: 992px) {
-            button { padding: 10px 15px; font-size: 0.9em; }
-            .copy-btn { font-size: 0.85em; padding: 10px 15px; }
+        /* Sync Button Styling */
+        button { cursor: pointer; border-radius: 8px; border: none; padding: 8px 10px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-family: inherit; }
+        
+        .copy-btn { 
+            background: var(--ghibli-sky); 
+            color: white; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 0.6em;
+            padding: 8px 1px; 
+            line-height: 1.1;
+            text-transform: uppercase;
         }
 
-        /* Overlay Panel */
+        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 4px; border-radius: 4px; }
+        .done-check { cursor: pointer; accent-color: var(--ghibli-leaf); transform: scale(1.1); }
+
+        @media (min-width: 992px) {
+            .copy-btn { font-size: 0.85em; padding: 10px 15px; }
+            .sig-copy-btn { padding: 4px 8px; }
+            .done-check { transform: scale(1.5); }
+        }
+
+        /* Overlay Input Panel */
         #input-panel { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: white; padding: 20px; z-index: 2000; 
@@ -143,6 +154,7 @@
         <div>Book</div>
         <div>Sync</div>
         <div><button class="sig-copy-btn" onclick="copyAllSignatures()">📋</button></div>
+        <div>Done</div>
     </div>
 
     <div class="matrix" id="matrix"></div>
@@ -160,7 +172,7 @@
     </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('studyDB_mobile_compact')) || {};
+    let db = JSON.parse(localStorage.getItem('studyDB_final_v7')) || {};
     let activeDate = null, activeType = null;
     const icons = { vocab: '☁️', manual: '🥖', textbook: '🧸', sigs: '🎀' };
 
@@ -170,10 +182,11 @@
 
         Object.keys(db).sort().reverse().forEach(date => {
             const row = db[date];
+            const isDone = row.allDone || false;
             const div = document.createElement('div');
-            div.className = 'row-container';
+            div.className = `row-container ${isDone ? 'row-done' : ''}`;
             div.innerHTML = `
-                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.7em;">${date}</div>
+                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.65em;">${date}</div>
                 <div class="cell ${row.vocabList && row.vocabList.length ? 'filled' : ''}" onclick="openEditor('${date}', 'vocab')">
                     <span class="icon-size">${icons.vocab}</span>
                 </div>
@@ -189,10 +202,18 @@
                 <div class="cell ${row.signatures && row.signatures.length ? 'filled' : ''}" onclick="openEditor('${date}', 'signatures')">
                     <span class="icon-size">${icons.sigs}</span>
                 </div>
+                <div style="text-align:center;">
+                    <input type="checkbox" class="done-check" ${isDone ? 'checked' : ''} onchange="toggleDone('${date}', this.checked)">
+                </div>
             `;
             container.appendChild(div);
         });
-        localStorage.setItem('studyDB_mobile_compact', JSON.stringify(db));
+        localStorage.setItem('studyDB_final_v7', JSON.stringify(db));
+    }
+
+    function toggleDone(date, status) {
+        db[date].allDone = status;
+        render();
     }
 
     function openEditor(date, type) {
@@ -213,7 +234,7 @@
             content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Finished</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()" style="width:100%;">+ Note</button>`;
             if(db[date].textbook.mistakes) db[date].textbook.mistakes.forEach(m => addMistakeRow(m));
         } else if (type === 'signatures') {
-            content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()" style="width:100%;">+ Add Note</button>`;
+            content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()">+ Add Note</button>`;
             if(db[date].signatures) db[date].signatures.forEach(s => addSigRow(s));
         }
     }
@@ -272,7 +293,7 @@
 
     function exportData() {
         const link = document.createElement('a'); link.href = 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(db));
-        link.download = 'backup.json'; link.click();
+        link.download = 'journal-backup.json'; link.click();
     }
 
     function importData(e) {
@@ -281,7 +302,7 @@
 
     function addNewDate() {
         const d = prompt("Date?", new Date().toISOString().split('T')[0]);
-        if(d && !db[d]) { db[d] = { vocabList: [], manual: [], textbook: { done: false, mistakes: [] }, signatures: [] }; render(); }
+        if(d && !db[d]) { db[d] = { vocabList: [], manual: [], textbook: { done: false, mistakes: [] }, signatures: [], allDone: false }; render(); }
     }
 
     async function copyAllSignatures() {
