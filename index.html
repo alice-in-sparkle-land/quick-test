@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Study Journal ☁️</title>
+    <title>Mẫn's Study Journal ☁️</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,53 +18,58 @@
         body { font-family: 'Quicksand', sans-serif; background: var(--ghibli-paper); color: var(--text); padding: 10px; margin: 0; }
 
         /* Header & Master Link */
-        .header-section { text-align: center; margin-bottom: 20px; }
-        .header-section h1 { font-size: 1.8em; color: #5B84B1; margin: 10px 0; }
+        .header-section { text-align: center; margin-bottom: 15px; }
+        .header-section h1 { font-size: 1.6em; color: #5B84B1; margin: 10px 0; }
         
-        .master-link-container { font-size: 0.9em; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 30px; }
+        .master-link-container { font-size: 0.85em; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 30px; }
         .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; }
         .edit-link-icon { cursor: pointer; font-size: 0.8em; opacity: 0.6; }
-        .link-input-group { display: flex; gap: 5px; }
-        .link-input-group input { padding: 4px 8px; border-radius: 5px; border: 1px solid #ddd; font-size: 0.8em; width: 200px; }
+        .link-input-group input { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-size: 0.8em; width: 180px; }
 
-        /* Navigation */
+        /* Navigation & Buttons */
         .top-nav { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; align-items: center; }
-        .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .nav-buttons { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; }
 
-        /* Grid System */
+        button { cursor: pointer; border-radius: 10px; border: none; padding: 8px 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.08); font-family: inherit; transition: 0.2s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+        
+        .donate-btn { background: #ffdfba; font-weight: bold; font-size: 0.75em; }
+        .suggest-btn { background: #f0f0f0; border: 1px solid #ddd; display: flex; align-items: center; gap: 5px; padding: 6px 10px; }
+        .suggest-badge { font-size: 0.65em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #777; }
+
+        /* Matrix Grid System */
         .matrix-header, .row-container { 
             display: grid; 
-            grid-template-columns: 75px repeat(3, 1fr) 65px 40px 35px; 
-            gap: 5px; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box;
+            grid-template-columns: 70px repeat(3, 1fr) 60px 35px 30px; 
+            gap: 4px; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box;
         }
-        .matrix-header { text-align: center; font-weight: bold; color: #aaa; font-size: 0.55em; text-transform: uppercase; margin-bottom: 8px; padding: 0 10px; }
+        .matrix-header { text-align: center; font-weight: bold; color: #aaa; font-size: 0.5em; text-transform: uppercase; margin-bottom: 8px; padding: 0 10px; }
         .matrix { display: flex; flex-direction: column; gap: 10px; }
         .row-container { background: white; padding: 10px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .row-done { background: #f0fdf4 !important; border: 1px solid var(--ghibli-leaf); }
+        .row-done { background: #f1fcf1 !important; border: 1px solid var(--ghibli-leaf); }
 
         @media (min-width: 992px) {
             body { padding: 40px; }
             .header-section h1 { font-size: 2.5em; }
             .top-nav { flex-direction: row; justify-content: space-between; }
             .matrix-header, .row-container { grid-template-columns: 120px repeat(3, 1fr) 140px 100px 60px; gap: 20px; padding: 15px 30px; }
-            .row-container { border-radius: 25px; }
+            .matrix-header { font-size: 0.75em; }
         }
 
         /* Icons & Cells */
-        .icon-size { font-size: 1.4em; }
+        .icon-size { font-size: 1.3em; }
         @media (min-width: 992px) { .icon-size { font-size: 2.5em; } }
-        .cell { padding: 10px 2px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px dashed #eee; background: #fafafa; }
+        .cell { padding: 8px 2px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px dashed #eee; background: #fafafa; }
         .cell.filled { border: 1.5px solid var(--ghibli-leaf) !important; background: #e8f5e9 !important; }
 
-        /* Buttons */
-        button { cursor: pointer; border-radius: 10px; border: none; padding: 10px 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-family: inherit; }
-        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.6em; padding: 8px 1px; text-transform: uppercase; }
-        .donate-btn { background: #ffdfba; font-weight: bold; font-size: 0.8em; }
+        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.55em; padding: 8px 1px; text-transform: uppercase; }
+        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 4px; border-radius: 4px; }
+        .done-check { width: 18px; height: 18px; cursor: pointer; accent-color: var(--ghibli-leaf); }
 
-        /* Modals */
+        /* Modals & Panels */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(3px);
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
             z-index: 3000; display: none; justify-content: center; align-items: center;
         }
         .modal-content { 
@@ -73,23 +78,30 @@
         }
         
         #input-panel { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; padding: 20px; z-index: 2000; display: none; overflow-y: auto; }
-        @media (min-width: 992px) { #input-panel { position: relative; margin-top: 30px; border-radius: 25px; border: 3px solid var(--ghibli-sky); } }
+        @media (min-width: 992px) { #input-panel { position: relative; margin-top: 30px; border-radius: 25px; border: 3px solid var(--ghibli-sky); box-shadow: 0 10px 30px rgba(0,0,0,0.05); } }
 
-        textarea, input[type="text"] { width: 100%; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 16px; }
+        textarea, input[type="text"] { width: 100%; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 16px; box-sizing: border-box; }
+        
+        /* 3-Column Vocab Table */
+        .vocab-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 10px; }
+        .vocab-table th { font-size: 0.65em; color: #999; text-transform: uppercase; padding: 5px; text-align: left; }
+        .vocab-table input { width: 100%; border: none; background: transparent; border-bottom: 1px solid #f0f0f0; padding: 8px 2px; font-size: 0.9em; }
     </style>
 </head>
 <body>
 
     <div class="header-section">
         <h1>☁️ My Study Journal ☁️</h1>
-        <div id="master-link-area" class="master-link-container">
-            </div>
+        <div id="master-link-area" class="master-link-container"></div>
     </div>
 
     <div class="top-nav">
         <div class="nav-buttons">
             <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 New Day</button>
             <button onclick="toggleModal('donate-modal', true)" class="donate-btn">☕ Donate</button>
+            <button onclick="toggleModal('suggest-modal', true)" class="suggest-btn">
+                <span>💬</span><span class="suggest-badge">Suggest</span>
+            </button>
         </div>
         <div class="nav-buttons">
             <button onclick="exportData()" title="Export JSON">📤</button>
@@ -99,38 +111,46 @@
     </div>
 
     <div class="matrix-header">
-        <div>Date</div><div>Vocab</div><div>Ex</div><div>Book</div><div>Sync</div><div>📋</div><div>Done</div>
+        <div>Date</div><div>Vocab</div><div>Ex</div><div>Book</div><div>Sync</div><div><button class="sig-copy-btn" onclick="copyAllSignatures()">📋</button></div><div>Done</div>
     </div>
 
     <div class="matrix" id="matrix"></div>
 
     <div id="donate-modal" class="modal-overlay" onclick="toggleModal('donate-modal', false)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h3>Buy me a coffee? ☕</h3>
-            <p>Your support helps me stay motivated!</p>
-            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin: 20px 0;">
-                <strong>Timo by BVBank:</strong><br>
-                9021 8333 9082 3<br>
-                Cao Ngoc Quynh
+            <h3 style="margin-top:0;">Buy me a coffee? ☕</h3>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 0.9em;">
+                <strong>Momo / Banking Info:</strong><br>
+                [Your Info Here]
             </div>
-            <button onclick="toggleModal('donate-modal', false)" style="background: var(--ghibli-sky); color: white; width: 100%;">Close</button>
+            <button onclick="toggleModal('donate-modal', false)" style="background: var(--ghibli-sky); color: white; width: 100%; font-weight:bold;">Close</button>
+        </div>
+    </div>
+
+    <div id="suggest-modal" class="modal-overlay" onclick="toggleModal('suggest-modal', false)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 style="margin-top:0; color: #5B84B1;">Feature Request 💡</h3>
+            <p style="font-size: 0.85em; color: #777; margin-bottom: 15px;">Have an idea to make this tool better? Describe it below!</p>
+            <textarea id="feature-idea" placeholder="I would love to see..." style="height: 120px;"></textarea>
+            <button onclick="sendSuggestion()" style="background: var(--ghibli-leaf); color: white; width: 100%; margin-bottom: 10px; font-weight: bold;">📧 Send to Mẫn</button>
+            <button onclick="toggleModal('suggest-modal', false)" style="background: #eee; width: 100%;">Maybe Later</button>
         </div>
     </div>
 
     <div id="input-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 id="panel-title" style="margin:0; color:#5B84B1;">Editor</h2>
-            <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy</button>
+            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.2em;">Editor</h2>
+            <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy Part</button>
         </div>
         <div id="panel-content"></div>
         <div style="margin-top:20px; display:flex; gap:10px;">
-            <button onclick="saveAndClose()" style="background: var(--ghibli-leaf); flex:2; font-weight:bold;">🌸 Save</button>
+            <button onclick="saveAndClose()" style="background: var(--ghibli-leaf); flex:2; font-weight:bold;">🌸 Save Progress</button>
             <button onclick="togglePanel(false)" style="background: #eee; flex:1;">Close</button>
         </div>
     </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('studyDB_v11')) || {};
+    let db = JSON.parse(localStorage.getItem('studyDB_v14')) || {};
     let masterDocLink = localStorage.getItem('masterDocLink') || "";
     let activeDate = null, activeType = null;
     const icons = { vocab: '☁️', manual: '🥖', textbook: '🧸', sigs: '🎀' };
@@ -138,38 +158,33 @@
     function initHeader() {
         const area = document.getElementById('master-link-area');
         if (!masterDocLink) {
-            area.innerHTML = `
-                <div class="link-input-group">
-                    <input type="text" id="new-master-link" placeholder="Paste GDocs link here...">
-                    <button onclick="saveMasterLink()" style="padding:4px 10px;">💾</button>
-                </div>`;
+            area.innerHTML = `<div class="link-input-group"><input type="text" id="new-master-link" placeholder="GDocs link..."><button onclick="saveMasterLink()">💾</button></div>`;
         } else {
-            area.innerHTML = `
-                <a href="${masterDocLink}" target="_blank" class="master-link">📖 Master Document</a>
-                <span class="edit-link-icon" onclick="resetMasterLink()">✏️</span>`;
+            area.innerHTML = `<a href="${masterDocLink}" target="_blank" class="master-link">📖 Master Document</a><span class="edit-link-icon" onclick="resetMasterLink()">✏️</span>`;
         }
     }
 
     function saveMasterLink() {
         const val = document.getElementById('new-master-link').value.trim();
-        if (val) {
-            masterDocLink = val;
-            localStorage.setItem('masterDocLink', val);
-            initHeader();
+        if (val) { masterDocLink = val; localStorage.setItem('masterDocLink', val); initHeader(); }
+    }
+
+    function resetMasterLink() { masterDocLink = ""; initHeader(); }
+    function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
+    function togglePanel(show) { document.getElementById('input-panel').style.display = show ? 'block' : 'none'; }
+
+    function sendSuggestion() {
+        const idea = document.getElementById('feature-idea').value.trim();
+        if (idea) {
+            const recipient = "thuyman.cao08@gmail.com";
+            const subject = encodeURIComponent("Suggestion for My study note");
+            const body = encodeURIComponent(idea);
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+            navigator.clipboard.writeText(idea);
+            alert("Email app opening... Idea also copied to clipboard! ✨");
+            document.getElementById('feature-idea').value = "";
+            toggleModal('suggest-modal', false);
         }
-    }
-
-    function resetMasterLink() {
-        masterDocLink = "";
-        initHeader();
-    }
-
-    function toggleModal(id, show) {
-        document.getElementById(id).style.display = show ? 'flex' : 'none';
-    }
-
-    function togglePanel(show) {
-        document.getElementById('input-panel').style.display = show ? 'block' : 'none';
     }
 
     function render() {
@@ -181,7 +196,7 @@
             const div = document.createElement('div');
             div.className = `row-container ${isDone ? 'row-done' : ''}`;
             div.innerHTML = `
-                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.65em;">${date}</div>
+                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.6em;">${date}</div>
                 <div class="cell ${row.vocabList?.length ? 'filled' : ''}" onclick="openEditor('${date}', 'vocab')"><span class="icon-size">${icons.vocab}</span></div>
                 <div class="cell ${row.manual?.length ? 'filled' : ''}" onclick="openEditor('${date}', 'manual')"><span class="icon-size">${icons.manual}</span></div>
                 <div class="cell ${row.textbook?.done ? 'filled' : ''}" onclick="openEditor('${date}', 'textbook')"><span class="icon-size">${icons.textbook}</span></div>
@@ -191,7 +206,7 @@
             `;
             container.appendChild(div);
         });
-        localStorage.setItem('studyDB_v11', JSON.stringify(db));
+        localStorage.setItem('studyDB_v14', JSON.stringify(db));
     }
 
     function toggleDone(date, status) { db[date].allDone = status; render(); }
@@ -201,16 +216,16 @@
         togglePanel(true);
         const content = document.getElementById('panel-content');
         if (type === 'vocab') {
-            content.innerHTML = `<textarea id="raw-vocab" placeholder="Paste words..."></textarea><button onclick="processVocab()" style="width:100%; background:var(--ghibli-sky); color:white; margin-bottom:15px;">Add</button><div id="vocab-table-container"></div>`;
+            content.innerHTML = `<textarea id="raw-vocab" placeholder="Paste words (one per line)..."></textarea><button onclick="processVocab()" style="width:100%; background:var(--ghibli-sky); color:white; margin-bottom:15px;">Generate 3-Column List</button><div id="vocab-table-container"></div>`;
             renderVocabTable(db[date].vocabList || []);
         } else if (type === 'manual') {
             content.innerHTML = `<div id="manual-list"></div><button onclick="addManualRow()" style="width:100%;">+ Row</button>`;
             db[date].manual?.forEach(ex => addManualRow(ex.q, ex.a));
         } else if (type === 'textbook') {
-            content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Finished</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()" style="width:100%;">+ Note</button>`;
+            content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Finished</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()">+ Note</button>`;
             db[date].textbook.mistakes?.forEach(m => addMistakeRow(m));
         } else if (type === 'signatures') {
-            content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()" style="width:100%;">+ Note</button>`;
+            content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()">+ Note</button>`;
             db[date].signatures?.forEach(s => addSigRow(s));
         }
     }
@@ -218,26 +233,28 @@
     function processVocab() {
         const raw = document.getElementById('raw-vocab').value.trim();
         if(!db[activeDate].vocabList) db[activeDate].vocabList = [];
-        raw.split('\n').filter(w => w.trim()).forEach(w => db[activeDate].vocabList.push({word: w.trim(), sentence: ""}));
+        raw.split('\n').filter(w => w.trim()).forEach(w => db[activeDate].vocabList.push({word: w.trim(), sentence: "", note: ""}));
         renderVocabTable(db[activeDate].vocabList);
         document.getElementById('raw-vocab').value = "";
     }
 
     function renderVocabTable(list) {
         const container = document.getElementById('vocab-table-container');
-        container.innerHTML = `<table><tbody id="vocab-body"></tbody></table>`;
+        container.innerHTML = `<table class="vocab-table"><thead><tr><th>Word</th><th>Sent.</th><th>Note</th></tr></thead><tbody id="vocab-body"></tbody></table>`;
         list.forEach((item, index) => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="text" value="${item.word}" onchange="db['${activeDate}'].vocabList[${index}].word=this.value" style="font-weight:bold;"></td>
-                            <td><input type="text" value="${item.sentence}" onchange="db['${activeDate}'].vocabList[${index}].sentence=this.value" placeholder="..."></td>`;
+            tr.innerHTML = `
+                <td><input type="text" value="${item.word}" onchange="db['${activeDate}'].vocabList[${index}].word=this.value" style="font-weight:bold;"></td>
+                <td><input type="text" value="${item.sentence}" onchange="db['${activeDate}'].vocabList[${index}].sentence=this.value" placeholder="..."></td>
+                <td><input type="text" value="${item.note || ''}" onchange="db['${activeDate}'].vocabList[${index}].note=this.value" placeholder="..."></td>`;
             document.getElementById('vocab-body').appendChild(tr);
         });
     }
 
     function addManualRow(q='', a='') {
-        const div = document.createElement('div');
+        const div = document.createElement('div'); div.className = "manual-entry";
         div.innerHTML = `<input type="text" class="q" placeholder="Q" value="${q}"><input type="text" class="a" placeholder="A" value="${a}">`;
-        div.className = "manual-entry"; document.getElementById('manual-list').appendChild(div);
+        document.getElementById('manual-list').appendChild(div);
     }
     function addMistakeRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="mistake-item"; i.value=v; document.getElementById('mistake-list').appendChild(i); }
     function addSigRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="sig-item"; i.value=v; document.getElementById('sig-list').appendChild(i); }
@@ -251,16 +268,16 @@
 
     async function copyCurrentPart() {
         let t = "";
-        if(activeType === 'vocab') db[activeDate].vocabList.forEach(v => t += `${v.word}\n${v.sentence}\n\n`);
+        if(activeType === 'vocab') db[activeDate].vocabList.forEach(v => t += `${v.word}\n${v.sentence}\n${v.note || ''}\n\n`);
         else if(activeType === 'manual') db[activeDate].manual.forEach(r => t += `Q: ${r.q}\nA: ${r.a}\n\n`);
         else if(activeType === 'signatures') t = db[activeDate].signatures.join('\n');
-        await navigator.clipboard.writeText(t); alert("Copied!");
+        await navigator.clipboard.writeText(t); alert("Part copied!");
     }
 
     async function copyForDocs(date) {
         const d = db[date];
         let s = `--- ${date} ---\n\nVOCABULARY:\n`;
-        d.vocabList.forEach(v => s += `${v.word}\n${v.sentence}\n\n`);
+        d.vocabList.forEach(v => s += `${v.word}\n${v.sentence}\n${v.note || ''}\n\n`);
         s += `\nMANUAL EXERCISES:\n`;
         d.manual.forEach(m => s += `Q: ${m.q}\nA: ${m.a}\n\n`);
         s += `TEXTBOOK:\nDone: ${d.textbook.done ? 'Yes' : 'No'}\nNotes:\n` + d.textbook.mistakes.join('\n');
