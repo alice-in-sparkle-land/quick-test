@@ -13,14 +13,14 @@
 
         body {
             background: linear-gradient(135deg, #cde2cd 0%, #b1cfaa 100%);
-            font-family: 'Segoe UI', 'Quicksand', 'Hiragino Kaku Gothic ProN', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', 'Quicksand', 'Noto Sans', 'Noto Sans Vietnamese', 'Hiragino Kaku Gothic ProN', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             padding: 1rem 0.9rem 2rem;
             color: #2c4128;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 700px;
+            max-width: 550px;
             margin: 0 auto;
             background: rgba(253, 249, 235, 0.92);
             backdrop-filter: blur(2px);
@@ -30,7 +30,6 @@
             border: 1px solid #f3e5c2;
         }
 
-        /* header */
         .header-area {
             display: flex;
             flex-wrap: wrap;
@@ -74,9 +73,14 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .token-bar:active {
+            background: #e0d4a8;
+            transform: scale(0.98);
         }
 
-        /* action bar for import/export/add role */
         .action-bar {
             display: flex;
             gap: 0.6rem;
@@ -106,79 +110,124 @@
             background: #c8b473;
         }
 
-        /* roles grid - 2 columns mobile */
+        .refresh-all-btn {
+            background: #9bb87f;
+            color: #2c4a1e;
+        }
+
+        .history-mastery-btn {
+            background: #b8a97c;
+            color: #2c3e1f;
+        }
+
         .roles-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
             margin: 1rem 0 1.2rem;
         }
 
         .role-card {
             background: #fffcf0;
             border-radius: 1.5rem;
-            padding: 0.8rem 0.7rem 1rem;
             transition: transform 0.1s ease;
             box-shadow: 0 6px 12px rgba(60, 45, 20, 0.1);
             border: 1px solid #f2e2bf;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
         }
 
-        .role-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #457a39;
-            border-left: 4px solid #e2b87a;
-            padding-left: 0.5rem;
-            margin-bottom: 0.6rem;
+        .role-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 6px;
+            padding: 0.8rem 0.9rem;
+            cursor: pointer;
+            background: #fffcf0;
+            transition: background 0.1s;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
-
-        .role-title span {
-            font-size: 0.9rem;
-            word-break: break-word;
+        .role-header:active {
+            background: #faf3e0;
+        }
+        .role-title-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             flex: 1;
         }
-
-        .btn-group {
-            display: flex;
-            gap: 5px;
-            flex-shrink: 0;
+        .collapse-icon {
+            font-size: 1.1rem;
+            color: #9b855a;
+            width: 24px;
+            text-align: center;
         }
-
+        .role-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #457a39;
+            background: #f7f0df;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            letter-spacing: -0.2px;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        .role-quick-mastery {
+            font-size: 0.75rem;
+            background: #eaddbc;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            color: #5a7247;
+            font-weight: bold;
+        }
+        .icon-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
         .icon-btn {
             background: #ddce9f;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: bold;
             color: #3b592e;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: 0.08s linear;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-
         .icon-btn:active {
             transform: scale(0.92);
             background: #c8b473;
         }
-
+        .refresh-role-btn {
+            background: #b8cf9c;
+            color: #2d5520;
+        }
         .delete-role-btn {
             background: #e7c2a3;
             color: #9b5a3a;
         }
 
+        .role-content {
+            padding: 0 0.9rem 0.9rem 0.9rem;
+            border-top: 1px solid #f0e4ca;
+        }
+        .role-content.collapsed {
+            display: none;
+        }
+
         .task-list {
             list-style: none;
-            margin: 0.3rem 0 0.4rem;
-            max-height: 170px;
+            margin: 0.5rem 0 0.3rem;
+            max-height: 200px;
             overflow-y: auto;
             padding-right: 2px;
         }
@@ -188,20 +237,20 @@
             align-items: center;
             justify-content: space-between;
             background: #fef7ea;
-            margin: 0.35rem 0;
+            margin: 0.3rem 0;
             padding: 0.3rem 0.5rem;
-            border-radius: 40px;
-            gap: 5px;
+            border-radius: 32px;
+            gap: 6px;
             font-size: 0.75rem;
         }
 
         .task-text {
             flex: 2;
             font-weight: 500;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             word-break: break-word;
             cursor: pointer;
-            line-height: 1.3;
+            line-height: 1.35;
         }
 
         .task-text.completed {
@@ -222,11 +271,11 @@
         .delete-task-btn {
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             color: #bc8864;
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -237,15 +286,15 @@
             background: #eedcbb;
         }
 
-        .role-mastery {
-            margin-top: 0.6rem;
+        .role-mastery-bar {
+            margin-top: 0.5rem;
             background: #eaddbc;
             border-radius: 30px;
             padding: 0.2rem 0.5rem;
         }
 
         .progress-label {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -269,9 +318,9 @@
 
         .empty-tasks-hint {
             text-align: center;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #ab956b;
-            padding: 0.3rem 0;
+            padding: 0.4rem 0;
             font-style: italic;
         }
 
@@ -282,10 +331,32 @@
             margin-top: 0.8rem;
         }
 
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
         .summary-title {
             font-weight: 600;
             font-size: 1rem;
-            margin-bottom: 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .history-btn {
+            background: #cfbc8f;
+            border: none;
+            padding: 0.25rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #3b592e;
+            cursor: pointer;
         }
 
         textarea {
@@ -295,7 +366,7 @@
             border: 1px solid #cfbc8a;
             background: #fffff2;
             font-family: inherit;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             resize: vertical;
         }
 
@@ -304,7 +375,7 @@
             border: none;
             color: white;
             font-weight: bold;
-            padding: 0.5rem 1.4rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 3rem;
             margin-top: 0.8rem;
             font-size: 0.85rem;
@@ -317,6 +388,96 @@
             transform: scale(0.97);
         }
 
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 35, 18, 0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-card {
+            background: #fffaf0;
+            max-width: 90%;
+            width: 450px;
+            max-height: 75vh;
+            border-radius: 2rem;
+            padding: 1.2rem;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+            border: 1px solid #f0e2c0;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #457a39;
+            border-bottom: 1px solid #ecdcaa;
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .modal-header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .small-history-btn {
+            background: #cfbc8f;
+            border: none;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+        .spend-btn {
+            background: #b8a97c;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.2rem;
+        }
+        .modal-list {
+            overflow-y: auto;
+            max-height: 55vh;
+        }
+        .history-entry {
+            padding: 0.6rem;
+            border-bottom: 1px solid #eedfc0;
+            font-size: 0.8rem;
+        }
+        .history-date {
+            font-weight: bold;
+            color: #7c603a;
+            font-size: 0.7rem;
+            margin-bottom: 0.2rem;
+        }
+        .close-modal {
+            background: #dbbc87;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            margin-top: 0.8rem;
+            cursor: pointer;
+        }
         .toast-token {
             position: fixed;
             bottom: 20px;
@@ -389,7 +550,15 @@
             color: #7b6842;
         }
 
-        input, textarea, button { font-family: inherit; }
+        .welcome-empty {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #faf3e2;
+            border-radius: 1.5rem;
+            color: #7a6948;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
     </style>
 </head>
 <body>
@@ -398,12 +567,16 @@
         <h1>🍃 Role-Keeper 🍂</h1>
         <div style="display: flex; gap: 8px; align-items: center;">
             <div class="date-badge" id="liveDate"></div>
-            <div class="token-bar"><span>✨</span> <span id="totalTokenDisplay">0</span></div>
+            <div class="token-bar" id="tokenBar">
+                <span>✨</span> <span id="totalTokenDisplay">0</span>
+            </div>
         </div>
     </div>
 
     <div class="action-bar">
         <button class="ghibli-btn" id="addRoleBtn">➕ New Role</button>
+        <button class="ghibli-btn refresh-all-btn" id="refreshAllBtn">🔄 Refresh All</button>
+        <button class="ghibli-btn history-mastery-btn" id="viewMasteryBtn">📊 Mastery Log</button>
         <button class="ghibli-btn" id="exportDataBtn">📤 Export</button>
         <button class="ghibli-btn" id="importDataBtn">📥 Import</button>
     </div>
@@ -411,28 +584,87 @@
     <div class="roles-grid" id="rolesGrid"></div>
 
     <div class="summary-section">
-        <div class="summary-title">📖 Nightfall Journal</div>
-        <textarea id="dailySummary" rows="2" placeholder="Write a closing thought, a whisper of gratitude..."></textarea>
+        <div class="journal-header">
+            <div class="summary-title">📖 Nightfall Journal</div>
+            <button class="history-btn" id="viewJournalHistoryBtn">📜 Journal</button>
+        </div>
+        <textarea id="dailySummary" rows="2" placeholder="Ghi lại một câu cảm nghĩ cuối ngày... (one sentence)"></textarea>
         <button class="sleep-btn" id="sleepTriggerBtn">🌙 Rest & Summarize 🌙</button>
-        <div class="tiny-note">✨ tap task → mark done → earn 1–5 tokens (once per task) | ✕ delete task instantly</div>
+        <div class="tiny-note">✨ chạm task → nhận token (1:40%,2:35%,3:15%,4:5%,5:5%) | 🔄 xóa sạch task | 📊 xem mastery | 🪙 chạm token để tiêu</div>
+    </div>
+</div>
+
+<!-- Modal for Mastery -->
+<div id="masteryModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>📊 Role Mastery</span>
+            <div class="modal-header-buttons">
+                <button class="small-history-btn" id="showMasteryHistoryBtn">📜 Lịch sử</button>
+                <button class="close-modal" id="closeMasteryBtn">✖</button>
+            </div>
+        </div>
+        <div id="masteryCurrentList" class="modal-list"></div>
+    </div>
+</div>
+
+<div id="masteryHistoryModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>📜 Mastery History</span>
+            <button class="close-modal" id="closeMasteryHistoryBtn">✖</button>
+        </div>
+        <div id="masteryHistoryList" class="modal-list"></div>
+    </div>
+</div>
+
+<div id="journalModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>🌙 Nightfall Journal</span>
+            <button class="close-modal" id="closeJournalBtn">✖</button>
+        </div>
+        <div id="journalHistoryList" class="modal-list"></div>
+    </div>
+</div>
+
+<!-- Token Spend Modal -->
+<div id="spendModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>🪙 Tiêu Token</span>
+            <button class="close-modal" id="closeSpendBtn">✖</button>
+        </div>
+        <div style="text-align: center; padding: 0.5rem;">
+            <p style="margin-bottom: 1rem;">Bạn có <strong id="spendCurrentTokens">0</strong> token</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="spend-btn" data-amount="10">10 token</button>
+                <button class="spend-btn" data-amount="30">30 token</button>
+                <button class="spend-btn" data-amount="50">50 token</button>
+            </div>
+            <div id="spendLogList" style="margin-top: 1rem; max-height: 200px; overflow-y: auto; text-align: left; border-top: 1px solid #ecdcaa; padding-top: 0.5rem;"></div>
+        </div>
     </div>
 </div>
 
 <script>
-    // ---------- DEFAULT PREDEFINED TASKS FOR NEW ROLES ----------
-    const DEFAULT_PREDEFINED_MAP = {
-        "Assistant Manager": ["Review priorities", "Team alignment", "Update board", "Delegate 1 task"],
-        "Guzheng Master": ["Practice 30min scales", "Learn new phrase", "Record melody", "Listen to masters"],
-        "Lyre Master": ["Tune lyre", "Finger warmup", "Learn hymn", "Improvise 10min"],
-        "Cook": ["Plan today's dish", "Prep ingredients", "Cook with intention", "Taste & adjust"]
-    };
-
-    // Global state
     let globalTokens = 0;
-    let rolesData = [];      // { roleName, tasks: [ { id, text, done, tokenClaimed, isCustom } ] }
+    let rolesData = [];
     let currentDateKey = "";
+    let journalLogs = [];
+    let masteryLogs = [];
+    let spendLogs = []; // { timestamp, amount, before, after }
+    let collapsedStates = {};
 
-    // Helper: format date
+    function rollToken() {
+        const rand = Math.random() * 100;
+        if (rand < 40) return 1;
+        if (rand < 75) return 2;
+        if (rand < 90) return 3;
+        if (rand < 95) return 4;
+        return 5;
+    }
+
     function getFormattedDate() {
         const now = new Date();
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -447,43 +679,70 @@
         return `${dayName}, ${year} ${month} ${day} ${hours}:${minutes}`;
     }
 
-    function getCurrentDateKey() {
-        const d = new Date();
-        return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    function getCurrentDateKey() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }
+    function getTimestamp() { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`; }
+    function showDopamineMessage(msg) { const toast = document.createElement('div'); toast.className = 'toast-token'; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 1300); }
+    function updateTotalUI() { document.getElementById('totalTokenDisplay').innerText = globalTokens; }
+    function computeRoleMastery(role) { const tasks = role.tasks; if (!tasks.length) return 0; const completedCount = tasks.filter(t => t.done === true).length; return Math.floor((completedCount / tasks.length) * 100); }
+    function getAllMasterySnapshot() { return rolesData.map(role => ({ roleName: role.roleName, masteryPercent: computeRoleMastery(role) })); }
+    
+    function spendTokens(amount) {
+        if (amount > globalTokens) {
+            showDopamineMessage(`❌ Không đủ token! Bạn có ${globalTokens} token`);
+            return false;
+        }
+        const before = globalTokens;
+        globalTokens -= amount;
+        const after = globalTokens;
+        updateTotalUI();
+        const logEntry = { timestamp: getTimestamp(), amount: amount, before: before, after: after };
+        spendLogs.unshift(logEntry);
+        persistAll();
+        showDopamineMessage(`🪙 Đã tiêu ${amount} token! Còn lại ${after}`);
+        updateSpendModal();
+        return true;
     }
-
-    function rollToken() { return Math.floor(Math.random() * 5) + 1; }
-
-    function showDopamineMessage(msg) {
-        const toast = document.createElement('div');
-        toast.className = 'toast-token';
-        toast.innerText = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 1300);
+    
+    function updateSpendModal() {
+        const currentSpan = document.getElementById('spendCurrentTokens');
+        if (currentSpan) currentSpan.innerText = globalTokens;
+        const logDiv = document.getElementById('spendLogList');
+        if (logDiv) {
+            if (spendLogs.length === 0) logDiv.innerHTML = '<div style="text-align:center; color:#ab956b; padding:0.5rem;">Chưa có giao dịch nào</div>';
+            else {
+                logDiv.innerHTML = '';
+                spendLogs.forEach(log => {
+                    const div = document.createElement('div');
+                    div.className = 'history-entry';
+                    div.style.fontSize = '0.7rem';
+                    div.innerHTML = `<div class="history-date">🪙 ${log.timestamp}</div><div>Tiêu ${log.amount} token (${log.before} → ${log.after})</div>`;
+                    logDiv.appendChild(div);
+                });
+            }
+        }
     }
-
-    function updateTotalUI() {
-        document.getElementById('totalTokenDisplay').innerText = globalTokens;
+    
+    function saveMasteryLog() {
+        const snapshot = getAllMasterySnapshot();
+        if (snapshot.length === 0) return;
+        const todayKey = getCurrentDateKey();
+        const nowTimestamp = getTimestamp();
+        const existingIndex = masteryLogs.findIndex(log => log.dateKey === todayKey);
+        const newEntry = { dateKey: todayKey, timestamp: nowTimestamp, entries: snapshot };
+        if (existingIndex !== -1) masteryLogs[existingIndex] = newEntry;
+        else masteryLogs.push(newEntry);
+        masteryLogs.sort((a, b) => b.dateKey.localeCompare(a.dateKey));
+        persistAll();
     }
-
-    function computeRoleMastery(role) {
-        const tasks = role.tasks;
-        if (!tasks.length) return 0;
-        const completedCount = tasks.filter(t => t.done === true).length;
-        return Math.floor((completedCount / tasks.length) * 100);
-    }
-
+    
     function persistAll() {
-        const storage = {
-            dateKey: currentDateKey,
-            tokens: globalTokens,
-            rolesData: rolesData,
-            summaryText: document.getElementById('dailySummary')?.value || ""
-        };
-        localStorage.setItem("ghibli_role_v3", JSON.stringify(storage));
+        const storage = { dateKey: currentDateKey, tokens: globalTokens, rolesData: rolesData, journalLogs: journalLogs, masteryLogs: masteryLogs, collapsedStates: collapsedStates, spendLogs: spendLogs };
+        localStorage.setItem("ghibli_role_v11", JSON.stringify(storage));
     }
-
-    // Toggle task done + token reward once
+    
+    function refreshSingleRole(roleIdx) { rolesData[roleIdx].tasks = []; persistAll(); renderRolesGrid(); showDopamineMessage(`🔄 Đã xóa nhiệm vụ của "${rolesData[roleIdx].roleName}"`); }
+    function refreshAllRoles() { for (let role of rolesData) role.tasks = []; globalTokens = 0; updateTotalUI(); persistAll(); renderRolesGrid(); showDopamineMessage(`🔄 Đã XÓA SẠCH toàn bộ!`); }
+    
     function toggleTask(roleIdx, taskId) {
         const role = rolesData[roleIdx];
         const task = role.tasks.find(t => t.id === taskId);
@@ -495,405 +754,293 @@
                 globalTokens += earned;
                 task.tokenClaimed = true;
                 updateTotalUI();
-                showDopamineMessage(`🎉 +${earned} tokens! (${task.text.substring(0, 20)})`);
+                let rarityMsg = earned <= 2 ? "thường" : (earned === 3 ? "hiếm" : "siêu hiếm");
+                showDopamineMessage(`🎉 +${earned} token${earned>1 ? 's' : ''}! (${rarityMsg}) - ${task.text.substring(0, 20)}`);
             }
-        } else {
-            task.done = false;  // untick, but token stays claimed (no refund)
-        }
+        } else { task.done = false; }
         persistAll();
         renderRolesGrid();
     }
 
-    // Add custom task to a role
     function addCustomTask(roleIdx) {
-        const customName = prompt("✨ Add new daily task:", "e.g., 'water plants'");
+        const customName = prompt("✨ Thêm nhiệm vụ mới:", "");
         if (!customName || customName.trim() === "") return;
-        const newTask = {
-            id: Date.now() + Math.random() * 10000 + roleIdx,
-            text: customName.trim(),
-            done: false,
-            tokenClaimed: false,
-            isCustom: true
-        };
-        rolesData[roleIdx].tasks.push(newTask);
-        persistAll();
-        renderRolesGrid();
-        showDopamineMessage(`➕ added: "${customName.trim()}"`);
+        rolesData[roleIdx].tasks.push({ id: Date.now() + Math.random() * 10000 + roleIdx, text: customName.trim(), done: false, tokenClaimed: false, isCustom: true });
+        persistAll(); renderRolesGrid(); showDopamineMessage(`➕ đã thêm: "${customName.trim()}"`);
     }
-
-    // Delete task: no confirmation
     function deleteTask(roleIdx, taskId) {
         const role = rolesData[roleIdx];
         const taskIndex = role.tasks.findIndex(t => t.id === taskId);
         if (taskIndex === -1) return;
         role.tasks.splice(taskIndex, 1);
-        persistAll();
-        renderRolesGrid();
-        showDopamineMessage(`🗑️ task removed`);
+        persistAll(); renderRolesGrid(); showDopamineMessage(`🗑️ đã xóa nhiệm vụ`);
     }
-
-    // Import predefined tasks for a role (avoid duplicates)
     function importPredefinedTasks(roleIdx) {
         const role = rolesData[roleIdx];
-        const predefinedList = DEFAULT_PREDEFINED_MAP[role.roleName] || [];
+        let predefinedList = role.userPredefinedTasks || [];
         if (!predefinedList.length) {
-            // fallback: generic tasks if role name not in default map
-            const fallback = ["Morning intention", "Focus session", "Reflect", "Evening gratitude"];
-            for (let t of fallback) {
-                if (!role.tasks.some(rt => rt.text.toLowerCase() === t.toLowerCase())) {
-                    role.tasks.push({
-                        id: Date.now() + Math.random() * 10000 + t.length,
-                        text: t,
-                        done: false,
-                        tokenClaimed: false,
-                        isCustom: false
-                    });
-                }
-            }
-            persistAll();
-            renderRolesGrid();
-            showDopamineMessage(`📦 imported fallback tasks`);
-            return;
+            const userInput = prompt(`Nhập các nhiệm vụ cho "${role.roleName}" (cách nhau bằng dấu phẩy):`, "");
+            if (userInput && userInput.trim()) { predefinedList = userInput.split(',').map(s => s.trim()).filter(s => s); role.userPredefinedTasks = [...predefinedList]; }
+            else { showDopamineMessage(`Chưa thêm nhiệm vụ`); return; }
         }
         let added = 0;
         for (let preText of predefinedList) {
-            const exists = role.tasks.some(t => t.text.toLowerCase() === preText.toLowerCase());
-            if (!exists) {
-                role.tasks.push({
-                    id: Date.now() + Math.random() * 10000 + preText.length,
-                    text: preText,
-                    done: false,
-                    tokenClaimed: false,
-                    isCustom: false
-                });
+            if (!role.tasks.some(t => t.text.toLowerCase() === preText.toLowerCase())) {
+                role.tasks.push({ id: Date.now() + Math.random() * 10000 + preText.length, text: preText, done: false, tokenClaimed: false, isCustom: false });
                 added++;
             }
         }
-        if (added) {
-            persistAll();
-            renderRolesGrid();
-            showDopamineMessage(`📦 imported ${added} tasks for ${role.roleName}`);
-        } else {
-            showDopamineMessage(`✨ all default tasks already exist`);
-        }
+        if (added) { persistAll(); renderRolesGrid(); showDopamineMessage(`📦 đã import ${added} nhiệm vụ`); }
+        else showDopamineMessage(`✨ tất cả đã tồn tại`);
     }
-
-    // Add a brand new role (with optional custom name and predefined tasks prompt)
     function addNewRole() {
-        let roleName = prompt("Enter new role name:", "e.g., 'Garden Keeper'");
+        let roleName = prompt("Nhập tên vai trò mới:", "");
         if (!roleName || roleName.trim() === "") return;
         roleName = roleName.trim();
-        // Check duplicate
-        if (rolesData.some(r => r.roleName.toLowerCase() === roleName.toLowerCase())) {
-            alert("Role already exists!");
-            return;
-        }
-        const newRole = {
-            roleName: roleName,
-            tasks: []
-        };
+        if (rolesData.some(r => r.roleName.toLowerCase() === roleName.toLowerCase())) { alert("Vai trò đã tồn tại!"); return; }
+        const tasksInput = prompt(`Nhập các nhiệm vụ cho "${roleName}" (cách nhau bằng dấu phẩy):`, "");
+        let predefined = tasksInput && tasksInput.trim() ? tasksInput.split(',').map(s => s.trim()).filter(s => s) : [];
+        const newRole = { roleName: roleName, tasks: [], userPredefinedTasks: [...predefined] };
+        if (predefined.length > 0 && confirm(`Thêm ${predefined.length} nhiệm vụ ngay?`)) {
+            for (let t of predefined) newRole.tasks.push({ id: Date.now() + Math.random() * 10000 + t.length, text: t, done: false, tokenClaimed: false, isCustom: false });
+            showDopamineMessage(`✨ đã thêm "${roleName}" với ${predefined.length} nhiệm vụ`);
+        } else showDopamineMessage(`✨ đã thêm vai trò trống "${roleName}"`);
         rolesData.push(newRole);
-        // ask if user wants to import predefined tasks for this new role
-        const wantPredefined = confirm(`Add default task set for "${roleName}"? (You can import later via 📋)`);
-        if (wantPredefined) {
-            // try to use default map if name matches common, else generic
-            const genericDefault = ["Daily focus", "Small win", "Mindful moment", "Evening reflection"];
-            const matched = DEFAULT_PREDEFINED_MAP[roleName] || genericDefault;
-            for (let t of matched) {
-                newRole.tasks.push({
-                    id: Date.now() + Math.random() * 10000 + t.length,
-                    text: t,
-                    done: false,
-                    tokenClaimed: false,
-                    isCustom: false
-                });
-            }
-            showDopamineMessage(`✨ added "${roleName}" with ${matched.length} tasks`);
-        } else {
-            showDopamineMessage(`✨ added empty role "${roleName}"`);
+        persistAll(); renderRolesGrid();
+    }
+    function deleteRole(roleIdx) {
+        if (confirm(`Xóa vai trò "${rolesData[roleIdx].roleName}"?`)) {
+            rolesData.splice(roleIdx, 1);
+            persistAll(); renderRolesGrid(); showDopamineMessage(`🗑️ đã xóa vai trò`);
         }
+    }
+    function saveJournalEntry(sentence) {
+        if (!sentence || sentence.trim() === "") return false;
+        const todayKey = getCurrentDateKey();
+        const existingIndex = journalLogs.findIndex(log => log.dateKey === todayKey);
+        const newEntry = { dateKey: todayKey, timestamp: getTimestamp(), sentence: sentence.trim() };
+        if (existingIndex !== -1) journalLogs[existingIndex] = newEntry;
+        else journalLogs.push(newEntry);
+        journalLogs.sort((a, b) => b.dateKey.localeCompare(a.dateKey));
+        persistAll(); return true;
+    }
+    
+    function toggleCollapse(roleIdx) {
+        collapsedStates[roleIdx] = !collapsedStates[roleIdx];
         persistAll();
         renderRolesGrid();
     }
-
-    // Delete entire role (no confirmation for smoothness, but safe with confirm once)
-    function deleteRole(roleIdx) {
-        const roleName = rolesData[roleIdx].roleName;
-        if (confirm(`Delete entire role "${roleName}" and all its tasks?`)) {
-            rolesData.splice(roleIdx, 1);
-            persistAll();
-            renderRolesGrid();
-            showDopamineMessage(`🗑️ role removed: ${roleName}`);
-        }
-    }
-
-    // Export all data (roles, tokens, summary) to JSON file
-    function exportData() {
-        const exportObj = {
-            version: "1.0",
-            exportDate: new Date().toISOString(),
-            tokens: globalTokens,
-            rolesData: rolesData,
-            summaryText: document.getElementById('dailySummary')?.value || "",
-            dateKey: currentDateKey
-        };
-        const dataStr = JSON.stringify(exportObj, null, 2);
-        const blob = new Blob([dataStr], {type: "application/json"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `ghibli-tracker-${getFormattedDate().replace(/[, :]/g, '-')}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showDopamineMessage("📁 Export complete!");
-    }
-
-    // Import data from JSON file (merge or replace)
-    function importData() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'application/json';
-        input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                try {
-                    const imported = JSON.parse(ev.target.result);
-                    if (imported.rolesData && Array.isArray(imported.rolesData)) {
-                        // Replace current data with imported (full restore)
-                        rolesData = imported.rolesData;
-                        globalTokens = typeof imported.tokens === 'number' ? imported.tokens : 0;
-                        currentDateKey = getCurrentDateKey(); // keep current date fresh, but preserve tokens and tasks for today
-                        // Overwrite summary
-                        const summaryField = document.getElementById('dailySummary');
-                        if (summaryField && imported.summaryText !== undefined) summaryField.value = imported.summaryText;
-                        // important: reset any dateKey mismatches? just preserve imported but we keep current day to avoid confusion
-                        // Ensure each task has required fields (migration)
-                        for (let role of rolesData) {
-                            if (!role.tasks) role.tasks = [];
-                            for (let task of role.tasks) {
-                                if (task.tokenClaimed === undefined) task.tokenClaimed = false;
-                                if (task.done === undefined) task.done = false;
-                                if (!task.id) task.id = Date.now() + Math.random();
-                            }
-                        }
-                        persistAll();
-                        updateTotalUI();
-                        renderRolesGrid();
-                        showDopamineMessage("📥 Import successful! Roles restored.");
-                    } else {
-                        alert("Invalid file: missing rolesData.");
-                    }
-                } catch (err) {
-                    alert("Error parsing file: " + err.message);
-                }
-            };
-            reader.readAsText(file);
-        };
-        input.click();
-    }
-
-    // Render roles grid (2 columns)
+    
     function renderRolesGrid() {
         const grid = document.getElementById('rolesGrid');
         if (!grid) return;
         grid.innerHTML = '';
+        if (rolesData.length === 0) {
+            grid.innerHTML = '<div class="welcome-empty">🍃 Chưa có vai trò nào<br>Nhấn "➕ New Role" để bắt đầu</div>';
+            return;
+        }
         for (let rIdx = 0; rIdx < rolesData.length; rIdx++) {
             const role = rolesData[rIdx];
             const masteryPercent = computeRoleMastery(role);
+            const isCollapsed = collapsedStates[rIdx] === true;
             const card = document.createElement('div');
             card.className = 'role-card';
             
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'role-title';
-            const titleSpan = document.createElement('span');
-            titleSpan.innerText = role.roleName;
-            titleSpan.title = role.roleName;
-            const btnGrp = document.createElement('div');
-            btnGrp.className = 'btn-group';
+            const header = document.createElement('div');
+            header.className = 'role-header';
+            const titleArea = document.createElement('div');
+            titleArea.className = 'role-title-area';
+            const collapseIcon = document.createElement('span');
+            collapseIcon.className = 'collapse-icon';
+            collapseIcon.innerText = isCollapsed ? '▶' : '▼';
+            const roleNameSpan = document.createElement('div');
+            roleNameSpan.className = 'role-name';
+            roleNameSpan.innerText = role.roleName;
+            const quickMastery = document.createElement('span');
+            quickMastery.className = 'role-quick-mastery';
+            quickMastery.innerText = `${masteryPercent}%`;
+            titleArea.appendChild(collapseIcon);
+            titleArea.appendChild(roleNameSpan);
+            titleArea.appendChild(quickMastery);
             
-            const importBtn = document.createElement('button');
-            importBtn.innerText = '📋';
-            importBtn.className = 'icon-btn';
-            importBtn.title = 'Import default tasks';
-            importBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                importPredefinedTasks(rIdx);
-            });
+            const iconRow = document.createElement('div');
+            iconRow.className = 'icon-row';
+            const refreshBtn = document.createElement('button'); refreshBtn.innerText = '🔄'; refreshBtn.className = 'icon-btn refresh-role-btn'; refreshBtn.addEventListener('click', (e) => { e.stopPropagation(); refreshSingleRole(rIdx); });
+            const importBtn = document.createElement('button'); importBtn.innerText = '📋'; importBtn.className = 'icon-btn'; importBtn.addEventListener('click', (e) => { e.stopPropagation(); importPredefinedTasks(rIdx); });
+            const addBtn = document.createElement('button'); addBtn.innerText = '+'; addBtn.className = 'icon-btn'; addBtn.addEventListener('click', (e) => { e.stopPropagation(); addCustomTask(rIdx); });
+            const delRoleBtn = document.createElement('button'); delRoleBtn.innerText = '🗑'; delRoleBtn.className = 'icon-btn delete-role-btn'; delRoleBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteRole(rIdx); });
+            iconRow.appendChild(refreshBtn); iconRow.appendChild(importBtn); iconRow.appendChild(addBtn); iconRow.appendChild(delRoleBtn);
+            header.appendChild(titleArea); header.appendChild(iconRow);
+            header.addEventListener('click', (e) => { if (!e.target.closest('.icon-btn')) toggleCollapse(rIdx); });
+            card.appendChild(header);
             
-            const addBtn = document.createElement('button');
-            addBtn.innerText = '+';
-            addBtn.className = 'icon-btn';
-            addBtn.title = 'Add custom task';
-            addBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                addCustomTask(rIdx);
-            });
-            
-            const delRoleBtn = document.createElement('button');
-            delRoleBtn.innerText = '🗑';
-            delRoleBtn.className = 'icon-btn delete-role-btn';
-            delRoleBtn.title = 'Delete role';
-            delRoleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteRole(rIdx);
-            });
-            
-            btnGrp.appendChild(importBtn);
-            btnGrp.appendChild(addBtn);
-            btnGrp.appendChild(delRoleBtn);
-            headerDiv.appendChild(titleSpan);
-            headerDiv.appendChild(btnGrp);
-            card.appendChild(headerDiv);
-            
-            const taskUl = document.createElement('ul');
-            taskUl.className = 'task-list';
-            if (role.tasks.length === 0) {
-                const emptyMsg = document.createElement('li');
-                emptyMsg.className = 'empty-tasks-hint';
-                emptyMsg.innerText = '✨ + to add / 📋 import';
-                taskUl.appendChild(emptyMsg);
-            } else {
+            const contentDiv = document.createElement('div');
+            contentDiv.className = `role-content ${isCollapsed ? 'collapsed' : ''}`;
+            const taskUl = document.createElement('ul'); taskUl.className = 'task-list';
+            if (role.tasks.length === 0) taskUl.innerHTML = '<li class="empty-tasks-hint">✨ + thêm / 📋 import</li>';
+            else {
                 role.tasks.forEach(task => {
-                    const li = document.createElement('li');
-                    li.className = 'task-item';
-                    const taskSpan = document.createElement('span');
-                    taskSpan.className = `task-text ${task.done ? 'completed' : ''}`;
-                    taskSpan.innerText = task.text;
-                    taskSpan.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        toggleTask(rIdx, task.id);
-                    });
-                    const tokenSpan = document.createElement('span');
-                    tokenSpan.className = 'token-badge';
+                    const li = document.createElement('li'); li.className = 'task-item';
+                    const taskSpan = document.createElement('span'); taskSpan.className = `task-text ${task.done ? 'completed' : ''}`; taskSpan.innerText = task.text;
+                    taskSpan.addEventListener('click', (e) => { e.stopPropagation(); toggleTask(rIdx, task.id); });
+                    const tokenSpan = document.createElement('span'); tokenSpan.className = 'token-badge';
                     if (task.tokenClaimed) tokenSpan.innerHTML = '🎁';
                     else if (task.done) tokenSpan.innerHTML = '💫';
                     else tokenSpan.innerHTML = '⚡';
-                    
-                    const delBtn = document.createElement('button');
-                    delBtn.innerText = '✕';
-                    delBtn.className = 'delete-task-btn';
-                    delBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        deleteTask(rIdx, task.id);
-                    });
-                    li.appendChild(taskSpan);
-                    li.appendChild(tokenSpan);
-                    li.appendChild(delBtn);
+                    const delBtn = document.createElement('button'); delBtn.innerText = '✕'; delBtn.className = 'delete-task-btn';
+                    delBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteTask(rIdx, task.id); });
+                    li.appendChild(taskSpan); li.appendChild(tokenSpan); li.appendChild(delBtn);
                     taskUl.appendChild(li);
                 });
             }
-            card.appendChild(taskUl);
-            
-            let levelText = '';
-            if (masteryPercent === 0) levelText = '0%';
-            else if (masteryPercent <= 25) levelText = '25%';
-            else if (masteryPercent <= 50) levelText = '50%';
-            else if (masteryPercent < 100) levelText = '75%';
-            else levelText = '100%';
-            
-            const masteryDiv = document.createElement('div');
-            masteryDiv.className = 'role-mastery';
-            masteryDiv.innerHTML = `
-                <div class="progress-label"><span>✨ mastery</span><span>${masteryPercent}% (${levelText})</span></div>
-                <div class="progress-bar-bg"><div class="progress-fill" style="width: ${masteryPercent}%;"></div></div>
-            `;
-            card.appendChild(masteryDiv);
+            contentDiv.appendChild(taskUl);
+            const masteryDiv = document.createElement('div'); masteryDiv.className = 'role-mastery-bar';
+            let levelText = masteryPercent === 0 ? '0%' : masteryPercent <= 25 ? '25%' : masteryPercent <= 50 ? '50%' : masteryPercent < 100 ? '75%' : '100%';
+            masteryDiv.innerHTML = `<div class="progress-label"><span>✨ mastery</span><span>${masteryPercent}% (${levelText})</span></div><div class="progress-bar-bg"><div class="progress-fill" style="width: ${masteryPercent}%;"></div></div>`;
+            contentDiv.appendChild(masteryDiv);
+            card.appendChild(contentDiv);
             grid.appendChild(card);
         }
     }
     
-    // Sleep dim
-    function sleepAndDim() {
-        const summaryText = document.getElementById('dailySummary').value.trim();
-        if (summaryText === "") {
-            alert("🌙 Write a closing thought before resting... 🌙");
-            return;
+    function showMasteryModal() {
+        const modal = document.getElementById('masteryModal');
+        const currentListDiv = document.getElementById('masteryCurrentList');
+        const snapshot = getAllMasterySnapshot();
+        if (snapshot.length === 0) currentListDiv.innerHTML = '<div style="text-align:center; padding:1rem;">✨ Chưa có vai trò nào</div>';
+        else {
+            currentListDiv.innerHTML = '';
+            snapshot.forEach(entry => {
+                const div = document.createElement('div'); div.className = 'history-entry';
+                div.innerHTML = `<div class="history-date">📌 Hiện tại</div><div>${entry.roleName}: <strong>${entry.masteryPercent}%</strong></div>`;
+                currentListDiv.appendChild(div);
+            });
         }
-        persistAll();
-        const messages = [
-            "💤 The forest sighs with you. Rest now, gentle star.",
-            "🍃 Even Totoro naps. Your spirit did well today.",
-            "🌙 Let stardust carry you into dream. Tomorrow awaits.",
-            "🌸 Every completed task is a petal in your garden. Good night.",
-            "✨ Soot sprites whisper: well done, keeper. Sleep peacefully.",
-            "🍲 Warm tea and quiet mind — rest after a meaningful day.",
-            "🎑 Your tokens glow like fireflies. Drift into slumber."
-        ];
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        let overlay = document.querySelector('.sleep-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'sleep-overlay';
-            document.body.appendChild(overlay);
-        }
-        overlay.innerHTML = `<div class="sleep-message-card">🎐 ${randomMsg} 🎐</div>`;
-        overlay.classList.add('active');
-        overlay.addEventListener('click', function onTap() {
-            overlay.classList.remove('active');
-            overlay.removeEventListener('click', onTap);
-        });
+        modal.classList.add('active');
     }
     
-    // Initialize with local cache & date reset
+    function showMasteryHistoryFull() {
+        const modal = document.getElementById('masteryHistoryModal');
+        const listDiv = document.getElementById('masteryHistoryList');
+        if (masteryLogs.length === 0) listDiv.innerHTML = '<div style="text-align:center; padding:1rem;">📊 Chưa có dữ liệu lịch sử</div>';
+        else {
+            listDiv.innerHTML = '';
+            masteryLogs.forEach(log => {
+                const entryDiv = document.createElement('div'); entryDiv.className = 'history-entry';
+                let rolesHtml = '';
+                log.entries.forEach(e => { rolesHtml += `<div style="margin-left:0.5rem; font-size:0.75rem;">• ${e.roleName}: ${e.masteryPercent}%</div>`; });
+                entryDiv.innerHTML = `<div class="history-date">📅 ${log.timestamp}</div>${rolesHtml}`;
+                listDiv.appendChild(entryDiv);
+            });
+        }
+        modal.classList.add('active');
+    }
+    
+    function showJournalHistory() {
+        const modal = document.getElementById('journalModal');
+        const listDiv = document.getElementById('journalHistoryList');
+        if (journalLogs.length === 0) listDiv.innerHTML = '<div style="text-align:center; padding:1rem;">✨ Chưa có nhật ký</div>';
+        else {
+            listDiv.innerHTML = '';
+            journalLogs.forEach(log => {
+                const entry = document.createElement('div'); entry.className = 'history-entry';
+                entry.innerHTML = `<div class="history-date">🌙 ${log.timestamp}</div><div class="history-text">${escapeHtml(log.sentence)}</div>`;
+                listDiv.appendChild(entry);
+            });
+        }
+        modal.classList.add('active');
+    }
+    
+    function showSpendModal() {
+        const modal = document.getElementById('spendModal');
+        updateSpendModal();
+        modal.classList.add('active');
+    }
+    
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+    
+    const sleepMessages = [
+        "💤 Cánh rừng thở khẽ. Ngủ ngon nhé, người bạn hiền.",
+        "🍃 Cả Totoro cũng chợp mắt. Hôm nay bạn đã làm rất tốt.",
+        "🌙 Hãy để những vì sao đưa bạn vào giấc mơ. Ngày mai đang chờ.",
+        "🌸 Mỗi nhiệm vụ hoàn thành là một cánh hoa trong khu vườn. Chúc ngủ ngon.",
+        "✨ Những chú bụi than thì thầm: làm tốt lắm, hãy nghỉ ngơi.",
+        "🍲 Ấm trà và tâm hồn yên tĩnh — nghỉ ngơi sau một ngày ý nghĩa.",
+        "🎑 Token của bạn lấp lánh như đom đóm. Hãy trôi vào giấc ngủ.",
+        "🌱 Hạt đã gieo, giờ hãy để đất ôm lấy.",
+        "🌙 Việc hôm nay đủ rồi, trăng sẽ giữ dùm bạn.",
+        "⭐ Ngôi sao đã ghi nhận, bạn cứ việc ngủ say.",
+        "🌸 Nỗ lực hóa thành hương, bay xa trong gió đêm.",
+        "🌊 Sóng đã vỗ về bờ, tâm hãy về nghỉ ngơi.",
+        "🌌 Vũ trụ đang tưới tẩm, mai trái ngọt sẽ ra.",
+        "💚 Bạn đã làm rất tốt, đêm nay hãy bình yên.",
+        "📖 Khép lại một chương dài, để gối êm vỗ về.",
+        "🍎 Quả chín từ tĩnh lặng, giấc ngủ là mầm xanh.",
+        "🌕 Đủ đầy và trọn vẹn, ngủ ngon nhé Mẫn ơi."
+    ];
+    
+    function sleepAndDim() {
+        const summaryText = document.getElementById('dailySummary').value.trim();
+        if (summaryText === "") { alert("🌙 Hãy viết một câu cảm nghĩ trước khi nghỉ ngơi..."); return; }
+        saveJournalEntry(summaryText);
+        saveMasteryLog();
+        const randomMsg = sleepMessages[Math.floor(Math.random() * sleepMessages.length)];
+        let overlay = document.querySelector('.sleep-overlay');
+        if (!overlay) { overlay = document.createElement('div'); overlay.className = 'sleep-overlay'; document.body.appendChild(overlay); }
+        overlay.innerHTML = `<div class="sleep-message-card">🎐 ${randomMsg} 🎐</div>`;
+        overlay.classList.add('active');
+        overlay.addEventListener('click', function onTap() { overlay.classList.remove('active'); overlay.removeEventListener('click', onTap); });
+    }
+    
     function initDataAndCache() {
         const todayKey = getCurrentDateKey();
-        const raw = localStorage.getItem("ghibli_role_v3");
+        const raw = localStorage.getItem("ghibli_role_v11");
         if (raw) {
             try {
                 const cached = JSON.parse(raw);
                 if (cached.dateKey !== todayKey) {
-                    // new day: keep roles structure but reset completions and tokens
                     globalTokens = 0;
                     currentDateKey = todayKey;
-                    rolesData = cached.rolesData;
-                    // Reset all tasks (done=false, tokenClaimed=false) but preserve task texts
+                    rolesData = cached.rolesData || [];
+                    journalLogs = cached.journalLogs || [];
+                    masteryLogs = cached.masteryLogs || [];
+                    spendLogs = cached.spendLogs || [];
+                    collapsedStates = cached.collapsedStates || {};
                     for (let role of rolesData) {
-                        if (role.tasks) {
-                            for (let task of role.tasks) {
-                                task.done = false;
-                                task.tokenClaimed = false;
-                            }
-                        } else {
-                            role.tasks = [];
-                        }
+                        if (role.tasks) for (let task of role.tasks) { task.done = false; task.tokenClaimed = false; }
+                        else role.tasks = [];
                     }
-                    const summaryField = document.getElementById('dailySummary');
-                    if (summaryField) summaryField.value = "";
                     persistAll();
                 } else {
                     currentDateKey = cached.dateKey;
                     globalTokens = cached.tokens || 0;
-                    rolesData = cached.rolesData;
-                    const summaryField = document.getElementById('dailySummary');
-                    if (summaryField && cached.summaryText !== undefined) summaryField.value = cached.summaryText;
+                    rolesData = cached.rolesData || [];
+                    journalLogs = cached.journalLogs || [];
+                    masteryLogs = cached.masteryLogs || [];
+                    spendLogs = cached.spendLogs || [];
+                    collapsedStates = cached.collapsedStates || {};
                 }
             } catch(e) { freshStart(); }
-        } else {
-            freshStart();
-        }
+        } else { freshStart(); }
         updateTotalUI();
         renderRolesGrid();
+        const todayJournal = journalLogs.find(log => log.dateKey === getCurrentDateKey());
+        if (todayJournal) document.getElementById('dailySummary').value = todayJournal.sentence;
+        else document.getElementById('dailySummary').value = "";
     }
     
     function freshStart() {
         globalTokens = 0;
         currentDateKey = getCurrentDateKey();
-        rolesData = [
-            { roleName: "Assistant Manager", tasks: [] },
-            { roleName: "Guzheng Master", tasks: [] },
-            { roleName: "Lyre Master", tasks: [] },
-            { roleName: "Cook", tasks: [] }
-        ];
-        document.getElementById('dailySummary').value = "";
+        rolesData = [];
+        journalLogs = [];
+        masteryLogs = [];
+        spendLogs = [];
+        collapsedStates = {};
         persistAll();
     }
     
-    function updateClock() {
-        const dateElem = document.getElementById('liveDate');
-        if (dateElem) dateElem.innerText = getFormattedDate();
-    }
+    function updateClock() { document.getElementById('liveDate').innerText = getFormattedDate(); }
     
     document.addEventListener('DOMContentLoaded', () => {
         initDataAndCache();
@@ -901,10 +1048,22 @@
         setInterval(updateClock, 60000);
         document.getElementById('sleepTriggerBtn').addEventListener('click', sleepAndDim);
         document.getElementById('addRoleBtn').addEventListener('click', addNewRole);
-        document.getElementById('exportDataBtn').addEventListener('click', exportData);
-        document.getElementById('importDataBtn').addEventListener('click', importData);
-        const summaryArea = document.getElementById('dailySummary');
-        summaryArea.addEventListener('input', () => persistAll());
+        document.getElementById('refreshAllBtn').addEventListener('click', refreshAllRoles);
+        document.getElementById('exportDataBtn').addEventListener('click', () => { const ex = { version:"1.0", tokens:globalTokens, rolesData, journalLogs, masteryLogs, spendLogs, dateKey:currentDateKey }; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(ex,null,2)],{type:'application/json'})); a.download=`ghibli-tracker-${getFormattedDate().replace(/[, :]/g,'-')}.json`; a.click(); URL.revokeObjectURL(a.href); showDopamineMessage("📁 Xuất thành công!"); });
+        document.getElementById('importDataBtn').addEventListener('click', () => { const inp=document.createElement('input'); inp.type='file'; inp.accept='application/json'; inp.onchange=e=>{ const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=ev=>{ try{ const data=JSON.parse(ev.target.result); if(data.rolesData){ rolesData=data.rolesData; globalTokens=data.tokens||0; currentDateKey=getCurrentDateKey(); journalLogs=data.journalLogs||[]; masteryLogs=data.masteryLogs||[]; spendLogs=data.spendLogs||[]; for(let r of rolesData){ if(!r.tasks)r.tasks=[]; for(let t of r.tasks){ if(t.tokenClaimed===undefined)t.tokenClaimed=false; if(t.done===undefined)t.done=false; if(!t.id)t.id=Date.now()+Math.random(); } } persistAll(); updateTotalUI(); renderRolesGrid(); showDopamineMessage("📥 Import thành công!"); }else alert("File không hợp lệ"); }catch(err){ alert("Lỗi: "+err.message); } }; r.readAsText(f); }; inp.click(); });
+        document.getElementById('viewMasteryBtn').addEventListener('click', showMasteryModal);
+        document.getElementById('viewJournalHistoryBtn').addEventListener('click', showJournalHistory);
+        document.getElementById('tokenBar').addEventListener('click', showSpendModal);
+        document.getElementById('showMasteryHistoryBtn').addEventListener('click', () => { document.getElementById('masteryModal').classList.remove('active'); showMasteryHistoryFull(); });
+        document.getElementById('closeMasteryBtn').addEventListener('click', () => { document.getElementById('masteryModal').classList.remove('active'); });
+        document.getElementById('closeMasteryHistoryBtn').addEventListener('click', () => { document.getElementById('masteryHistoryModal').classList.remove('active'); });
+        document.getElementById('closeJournalBtn').addEventListener('click', () => { document.getElementById('journalModal').classList.remove('active'); });
+        document.getElementById('closeSpendBtn').addEventListener('click', () => { document.getElementById('spendModal').classList.remove('active'); });
+        document.querySelectorAll('.spend-btn').forEach(btn => {
+            btn.addEventListener('click', () => { spendTokens(parseInt(btn.dataset.amount)); });
+        });
+        [masteryModal, masteryHistoryModal, journalModal, spendModal].forEach(m => { m.addEventListener('click', (e) => { if(e.target === m) m.classList.remove('active'); }); });
+        document.getElementById('dailySummary').addEventListener('input', () => persistAll());
     });
 </script>
 </body>
