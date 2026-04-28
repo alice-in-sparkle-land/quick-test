@@ -19,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* soft ghibli container */
         .container {
             max-width: 700px;
             margin: 0 auto;
@@ -38,7 +37,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 0.6rem;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1rem;
             padding-bottom: 0.6rem;
             border-bottom: 2px dashed #d8c894;
         }
@@ -50,7 +49,6 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.2px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -64,7 +62,6 @@
             font-weight: 500;
             font-size: 0.7rem;
             color: #5f4a2c;
-            box-shadow: inset 0 0 0 1px #ffefbc;
             white-space: nowrap;
         }
 
@@ -77,22 +74,46 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
         }
 
-        .token-bar span:first-child {
-            font-size: 1rem;
+        /* action bar for import/export/add role */
+        .action-bar {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        /* roles grid - mobile 2 columns */
+        .ghibli-btn {
+            background: #ddce9f;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b592e;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .ghibli-btn:active {
+            transform: scale(0.96);
+            background: #c8b473;
+        }
+
+        /* roles grid - 2 columns mobile */
         .roles-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 0.9rem;
-            margin: 1.2rem 0 1.4rem;
+            margin: 1rem 0 1.2rem;
         }
 
-        /* smaller tiles */
         .role-card {
             background: #fffcf0;
             border-radius: 1.5rem;
@@ -104,12 +125,8 @@
             flex-direction: column;
         }
 
-        .role-card:active {
-            transform: scale(0.99);
-        }
-
         .role-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #457a39;
             border-left: 4px solid #e2b87a;
@@ -122,10 +139,9 @@
         }
 
         .role-title span {
-            font-size: 0.95rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.9rem;
+            word-break: break-word;
+            flex: 1;
         }
 
         .btn-group {
@@ -147,8 +163,6 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: 0.08s linear;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .icon-btn:active {
@@ -156,10 +170,15 @@
             background: #c8b473;
         }
 
+        .delete-role-btn {
+            background: #e7c2a3;
+            color: #9b5a3a;
+        }
+
         .task-list {
             list-style: none;
             margin: 0.3rem 0 0.4rem;
-            max-height: 180px;
+            max-height: 170px;
             overflow-y: auto;
             padding-right: 2px;
         }
@@ -182,7 +201,6 @@
             font-size: 0.75rem;
             word-break: break-word;
             cursor: pointer;
-            transition: 0.05s;
             line-height: 1.3;
         }
 
@@ -219,7 +237,6 @@
             background: #eedcbb;
         }
 
-        /* mastery progress compact */
         .role-mastery {
             margin-top: 0.6rem;
             background: #eaddbc;
@@ -252,13 +269,12 @@
 
         .empty-tasks-hint {
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #ab956b;
             padding: 0.3rem 0;
             font-style: italic;
         }
 
-        /* summary section */
         .summary-section {
             background: #e7dfc6cc;
             border-radius: 1.6rem;
@@ -270,8 +286,6 @@
             font-weight: 600;
             font-size: 1rem;
             margin-bottom: 0.6rem;
-            display: flex;
-            gap: 6px;
         }
 
         textarea {
@@ -295,7 +309,6 @@
             margin-top: 0.8rem;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: 0.15s;
             width: 100%;
         }
 
@@ -304,7 +317,6 @@
             transform: scale(0.97);
         }
 
-        /* dopamine toast */
         .toast-token {
             position: fixed;
             bottom: 20px;
@@ -321,28 +333,15 @@
             z-index: 200;
             font-size: 0.85rem;
             white-space: nowrap;
-            font-family: monospace;
         }
 
         @keyframes floatFade {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(15px);
-            }
-            20% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0px);
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-35px);
-            }
+            0% { opacity: 0; transform: translateX(-50%) translateY(15px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0px); }
+            80% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-35px); }
         }
 
-        /* sleep dim overlay */
         .sleep-overlay {
             position: fixed;
             top: 0;
@@ -375,20 +374,12 @@
             font-weight: 500;
             color: #3d612b;
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid #fff0bc;
             animation: softAppear 0.5s forwards;
-            line-height: 1.4;
         }
 
         @keyframes softAppear {
-            0% {
-                transform: scale(0.92);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .tiny-note {
@@ -398,40 +389,38 @@
             color: #7b6842;
         }
 
-        button {
-            cursor: pointer;
-            background: none;
-        }
-
-        /* scroll custom */
-        .task-list::-webkit-scrollbar {
-            width: 3px;
-        }
+        input, textarea, button { font-family: inherit; }
     </style>
 </head>
 <body>
 <div class="container" id="appContainer">
     <div class="header-area">
-        <h1>🍃  Role-Keeper  🍂</h1>
+        <h1>🍃 Role-Keeper 🍂</h1>
         <div style="display: flex; gap: 8px; align-items: center;">
             <div class="date-badge" id="liveDate"></div>
             <div class="token-bar"><span>✨</span> <span id="totalTokenDisplay">0</span></div>
         </div>
     </div>
 
+    <div class="action-bar">
+        <button class="ghibli-btn" id="addRoleBtn">➕ New Role</button>
+        <button class="ghibli-btn" id="exportDataBtn">📤 Export</button>
+        <button class="ghibli-btn" id="importDataBtn">📥 Import</button>
+    </div>
+
     <div class="roles-grid" id="rolesGrid"></div>
 
     <div class="summary-section">
-        <div class="summary-title">📖  Nightfall Journal</div>
+        <div class="summary-title">📖 Nightfall Journal</div>
         <textarea id="dailySummary" rows="2" placeholder="Write a closing thought, a whisper of gratitude..."></textarea>
-        <button class="sleep-btn" id="sleepTriggerBtn">🌙  Rest & Summarize  🌙</button>
-        <div class="tiny-note">✨ tap task → mark done → earn 1–5 random tokens (once per task)</div>
+        <button class="sleep-btn" id="sleepTriggerBtn">🌙 Rest & Summarize 🌙</button>
+        <div class="tiny-note">✨ tap task → mark done → earn 1–5 tokens (once per task) | ✕ delete task instantly</div>
     </div>
 </div>
 
 <script>
-    // ---------- ROLE DEFINITIONS (predefined tasks per role) ----------
-    const ROLE_PREDEFINED_MAP = {
+    // ---------- DEFAULT PREDEFINED TASKS FOR NEW ROLES ----------
+    const DEFAULT_PREDEFINED_MAP = {
         "Assistant Manager": ["Review priorities", "Team alignment", "Update board", "Delegate 1 task"],
         "Guzheng Master": ["Practice 30min scales", "Learn new phrase", "Record melody", "Listen to masters"],
         "Lyre Master": ["Tune lyre", "Finger warmup", "Learn hymn", "Improvise 10min"],
@@ -443,7 +432,7 @@
     let rolesData = [];      // { roleName, tasks: [ { id, text, done, tokenClaimed, isCustom } ] }
     let currentDateKey = "";
 
-    // Helper: format date "Web, 2025 04 21 18:30"
+    // Helper: format date
     function getFormattedDate() {
         const now = new Date();
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -477,7 +466,6 @@
         document.getElementById('totalTokenDisplay').innerText = globalTokens;
     }
 
-    // compute role mastery % based on completed tasks
     function computeRoleMastery(role) {
         const tasks = role.tasks;
         if (!tasks.length) return 0;
@@ -492,16 +480,15 @@
             rolesData: rolesData,
             summaryText: document.getElementById('dailySummary')?.value || ""
         };
-        localStorage.setItem("ghibli_role_v2", JSON.stringify(storage));
+        localStorage.setItem("ghibli_role_v3", JSON.stringify(storage));
     }
 
-    // Toggle task done + token reward (only once)
+    // Toggle task done + token reward once
     function toggleTask(roleIdx, taskId) {
         const role = rolesData[roleIdx];
         const task = role.tasks.find(t => t.id === taskId);
         if (!task) return;
-        const wasDone = task.done;
-        if (!wasDone) {
+        if (!task.done) {
             task.done = true;
             if (!task.tokenClaimed) {
                 const earned = rollToken();
@@ -511,16 +498,15 @@
                 showDopamineMessage(`🎉 +${earned} tokens! (${task.text.substring(0, 20)})`);
             }
         } else {
-            // uncheck: tokens remain claimed, no refund
-            task.done = false;
+            task.done = false;  // untick, but token stays claimed (no refund)
         }
         persistAll();
         renderRolesGrid();
     }
 
-    // Add custom task (flexibility button)
+    // Add custom task to a role
     function addCustomTask(roleIdx) {
-        const customName = prompt("✨ Add new task:", "e.g., 'water plants'");
+        const customName = prompt("✨ Add new daily task:", "e.g., 'water plants'");
         if (!customName || customName.trim() === "") return;
         const newTask = {
             id: Date.now() + Math.random() * 10000 + roleIdx,
@@ -535,26 +521,38 @@
         showDopamineMessage(`➕ added: "${customName.trim()}"`);
     }
 
-    // Delete task
+    // Delete task: no confirmation
     function deleteTask(roleIdx, taskId) {
         const role = rolesData[roleIdx];
         const taskIndex = role.tasks.findIndex(t => t.id === taskId);
         if (taskIndex === -1) return;
-        const taskName = role.tasks[taskIndex].text;
-        if (confirm(`Delete "${taskName}"?`)) {
-            role.tasks.splice(taskIndex, 1);
-            persistAll();
-            renderRolesGrid();
-            showDopamineMessage(`🗑️ removed: ${taskName}`);
-        }
+        role.tasks.splice(taskIndex, 1);
+        persistAll();
+        renderRolesGrid();
+        showDopamineMessage(`🗑️ task removed`);
     }
 
-    // Import predefined tasks (avoid duplicates)
+    // Import predefined tasks for a role (avoid duplicates)
     function importPredefinedTasks(roleIdx) {
         const role = rolesData[roleIdx];
-        const predefinedList = ROLE_PREDEFINED_MAP[role.roleName] || [];
+        const predefinedList = DEFAULT_PREDEFINED_MAP[role.roleName] || [];
         if (!predefinedList.length) {
-            alert("No default tasks for this role.");
+            // fallback: generic tasks if role name not in default map
+            const fallback = ["Morning intention", "Focus session", "Reflect", "Evening gratitude"];
+            for (let t of fallback) {
+                if (!role.tasks.some(rt => rt.text.toLowerCase() === t.toLowerCase())) {
+                    role.tasks.push({
+                        id: Date.now() + Math.random() * 10000 + t.length,
+                        text: t,
+                        done: false,
+                        tokenClaimed: false,
+                        isCustom: false
+                    });
+                }
+            }
+            persistAll();
+            renderRolesGrid();
+            showDopamineMessage(`📦 imported fallback tasks`);
             return;
         }
         let added = 0;
@@ -562,7 +560,7 @@
             const exists = role.tasks.some(t => t.text.toLowerCase() === preText.toLowerCase());
             if (!exists) {
                 role.tasks.push({
-                    id: Date.now() + Math.random() * 10000 + roleIdx + preText.length,
+                    id: Date.now() + Math.random() * 10000 + preText.length,
                     text: preText,
                     done: false,
                     tokenClaimed: false,
@@ -576,11 +574,127 @@
             renderRolesGrid();
             showDopamineMessage(`📦 imported ${added} tasks for ${role.roleName}`);
         } else {
-            alert("All default tasks already exist ✨");
+            showDopamineMessage(`✨ all default tasks already exist`);
         }
     }
 
-    // render grid: 2 columns mobile-first
+    // Add a brand new role (with optional custom name and predefined tasks prompt)
+    function addNewRole() {
+        let roleName = prompt("Enter new role name:", "e.g., 'Garden Keeper'");
+        if (!roleName || roleName.trim() === "") return;
+        roleName = roleName.trim();
+        // Check duplicate
+        if (rolesData.some(r => r.roleName.toLowerCase() === roleName.toLowerCase())) {
+            alert("Role already exists!");
+            return;
+        }
+        const newRole = {
+            roleName: roleName,
+            tasks: []
+        };
+        rolesData.push(newRole);
+        // ask if user wants to import predefined tasks for this new role
+        const wantPredefined = confirm(`Add default task set for "${roleName}"? (You can import later via 📋)`);
+        if (wantPredefined) {
+            // try to use default map if name matches common, else generic
+            const genericDefault = ["Daily focus", "Small win", "Mindful moment", "Evening reflection"];
+            const matched = DEFAULT_PREDEFINED_MAP[roleName] || genericDefault;
+            for (let t of matched) {
+                newRole.tasks.push({
+                    id: Date.now() + Math.random() * 10000 + t.length,
+                    text: t,
+                    done: false,
+                    tokenClaimed: false,
+                    isCustom: false
+                });
+            }
+            showDopamineMessage(`✨ added "${roleName}" with ${matched.length} tasks`);
+        } else {
+            showDopamineMessage(`✨ added empty role "${roleName}"`);
+        }
+        persistAll();
+        renderRolesGrid();
+    }
+
+    // Delete entire role (no confirmation for smoothness, but safe with confirm once)
+    function deleteRole(roleIdx) {
+        const roleName = rolesData[roleIdx].roleName;
+        if (confirm(`Delete entire role "${roleName}" and all its tasks?`)) {
+            rolesData.splice(roleIdx, 1);
+            persistAll();
+            renderRolesGrid();
+            showDopamineMessage(`🗑️ role removed: ${roleName}`);
+        }
+    }
+
+    // Export all data (roles, tokens, summary) to JSON file
+    function exportData() {
+        const exportObj = {
+            version: "1.0",
+            exportDate: new Date().toISOString(),
+            tokens: globalTokens,
+            rolesData: rolesData,
+            summaryText: document.getElementById('dailySummary')?.value || "",
+            dateKey: currentDateKey
+        };
+        const dataStr = JSON.stringify(exportObj, null, 2);
+        const blob = new Blob([dataStr], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ghibli-tracker-${getFormattedDate().replace(/[, :]/g, '-')}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showDopamineMessage("📁 Export complete!");
+    }
+
+    // Import data from JSON file (merge or replace)
+    function importData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const imported = JSON.parse(ev.target.result);
+                    if (imported.rolesData && Array.isArray(imported.rolesData)) {
+                        // Replace current data with imported (full restore)
+                        rolesData = imported.rolesData;
+                        globalTokens = typeof imported.tokens === 'number' ? imported.tokens : 0;
+                        currentDateKey = getCurrentDateKey(); // keep current date fresh, but preserve tokens and tasks for today
+                        // Overwrite summary
+                        const summaryField = document.getElementById('dailySummary');
+                        if (summaryField && imported.summaryText !== undefined) summaryField.value = imported.summaryText;
+                        // important: reset any dateKey mismatches? just preserve imported but we keep current day to avoid confusion
+                        // Ensure each task has required fields (migration)
+                        for (let role of rolesData) {
+                            if (!role.tasks) role.tasks = [];
+                            for (let task of role.tasks) {
+                                if (task.tokenClaimed === undefined) task.tokenClaimed = false;
+                                if (task.done === undefined) task.done = false;
+                                if (!task.id) task.id = Date.now() + Math.random();
+                            }
+                        }
+                        persistAll();
+                        updateTotalUI();
+                        renderRolesGrid();
+                        showDopamineMessage("📥 Import successful! Roles restored.");
+                    } else {
+                        alert("Invalid file: missing rolesData.");
+                    }
+                } catch (err) {
+                    alert("Error parsing file: " + err.message);
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    // Render roles grid (2 columns)
     function renderRolesGrid() {
         const grid = document.getElementById('rolesGrid');
         if (!grid) return;
@@ -591,11 +705,10 @@
             const card = document.createElement('div');
             card.className = 'role-card';
             
-            // header with title + buttons
             const headerDiv = document.createElement('div');
             headerDiv.className = 'role-title';
             const titleSpan = document.createElement('span');
-            titleSpan.innerText = role.roleName.length > 14 ? role.roleName.slice(0,12)+".." : role.roleName;
+            titleSpan.innerText = role.roleName;
             titleSpan.title = role.roleName;
             const btnGrp = document.createElement('div');
             btnGrp.className = 'btn-group';
@@ -618,13 +731,22 @@
                 addCustomTask(rIdx);
             });
             
+            const delRoleBtn = document.createElement('button');
+            delRoleBtn.innerText = '🗑';
+            delRoleBtn.className = 'icon-btn delete-role-btn';
+            delRoleBtn.title = 'Delete role';
+            delRoleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteRole(rIdx);
+            });
+            
             btnGrp.appendChild(importBtn);
             btnGrp.appendChild(addBtn);
+            btnGrp.appendChild(delRoleBtn);
             headerDiv.appendChild(titleSpan);
             headerDiv.appendChild(btnGrp);
             card.appendChild(headerDiv);
             
-            // task list
             const taskUl = document.createElement('ul');
             taskUl.className = 'task-list';
             if (role.tasks.length === 0) {
@@ -664,18 +786,17 @@
             }
             card.appendChild(taskUl);
             
-            // mastery progress bar (shows 0/25/50/100 flavor)
-            let levelLabel = '';
-            if (masteryPercent === 0) levelLabel = '🌱 0%';
-            else if (masteryPercent <= 25) levelLabel = '🍂 25%';
-            else if (masteryPercent <= 50) levelLabel = '🍁 50%';
-            else if (masteryPercent < 100) levelLabel = '🌸 75%';
-            else levelLabel = '🌟 100%';
+            let levelText = '';
+            if (masteryPercent === 0) levelText = '0%';
+            else if (masteryPercent <= 25) levelText = '25%';
+            else if (masteryPercent <= 50) levelText = '50%';
+            else if (masteryPercent < 100) levelText = '75%';
+            else levelText = '100%';
             
             const masteryDiv = document.createElement('div');
             masteryDiv.className = 'role-mastery';
             masteryDiv.innerHTML = `
-                <div class="progress-label"><span>✨ mastery</span><span>${masteryPercent}% (${levelLabel.split(' ')[1]})</span></div>
+                <div class="progress-label"><span>✨ mastery</span><span>${masteryPercent}% (${levelText})</span></div>
                 <div class="progress-bar-bg"><div class="progress-fill" style="width: ${masteryPercent}%;"></div></div>
             `;
             card.appendChild(masteryDiv);
@@ -683,7 +804,7 @@
         }
     }
     
-    // Sleep dim & random encouraging sentence
+    // Sleep dim
     function sleepAndDim() {
         const summaryText = document.getElementById('dailySummary').value.trim();
         if (summaryText === "") {
@@ -698,8 +819,7 @@
             "🌸 Every completed task is a petal in your garden. Good night.",
             "✨ Soot sprites whisper: well done, keeper. Sleep peacefully.",
             "🍲 Warm tea and quiet mind — rest after a meaningful day.",
-            "🎑 Your tokens glow like fireflies. Drift into slumber.",
-            "🐉 Calcifer murmurs: 'Good spark, rest now.'"
+            "🎑 Your tokens glow like fireflies. Drift into slumber."
         ];
         const randomMsg = messages[Math.floor(Math.random() * messages.length)];
         let overlay = document.querySelector('.sleep-overlay');
@@ -710,50 +830,64 @@
         }
         overlay.innerHTML = `<div class="sleep-message-card">🎐 ${randomMsg} 🎐</div>`;
         overlay.classList.add('active');
-        overlay.addEventListener('click', function onOverlayTap() {
+        overlay.addEventListener('click', function onTap() {
             overlay.classList.remove('active');
-            overlay.removeEventListener('click', onOverlayTap);
+            overlay.removeEventListener('click', onTap);
         });
     }
     
-    // Date detection & localStorage init (reset on new day)
+    // Initialize with local cache & date reset
     function initDataAndCache() {
         const todayKey = getCurrentDateKey();
-        const raw = localStorage.getItem("ghibli_role_v2");
-        let needsFresh = false;
+        const raw = localStorage.getItem("ghibli_role_v3");
         if (raw) {
             try {
                 const cached = JSON.parse(raw);
                 if (cached.dateKey !== todayKey) {
-                    needsFresh = true;
+                    // new day: keep roles structure but reset completions and tokens
+                    globalTokens = 0;
+                    currentDateKey = todayKey;
+                    rolesData = cached.rolesData;
+                    // Reset all tasks (done=false, tokenClaimed=false) but preserve task texts
+                    for (let role of rolesData) {
+                        if (role.tasks) {
+                            for (let task of role.tasks) {
+                                task.done = false;
+                                task.tokenClaimed = false;
+                            }
+                        } else {
+                            role.tasks = [];
+                        }
+                    }
+                    const summaryField = document.getElementById('dailySummary');
+                    if (summaryField) summaryField.value = "";
+                    persistAll();
                 } else {
                     currentDateKey = cached.dateKey;
                     globalTokens = cached.tokens || 0;
                     rolesData = cached.rolesData;
-                    const summaryArea = document.getElementById('dailySummary');
-                    if (summaryArea && cached.summaryText !== undefined) summaryArea.value = cached.summaryText;
-                    updateTotalUI();
-                    renderRolesGrid();
-                    return;
+                    const summaryField = document.getElementById('dailySummary');
+                    if (summaryField && cached.summaryText !== undefined) summaryField.value = cached.summaryText;
                 }
-            } catch(e) { needsFresh = true; }
+            } catch(e) { freshStart(); }
         } else {
-            needsFresh = true;
+            freshStart();
         }
-        if (needsFresh) {
-            globalTokens = 0;
-            currentDateKey = todayKey;
-            const baseNames = ["Assistant Manager", "Guzheng Master", "Lyre Master", "Cook"];
-            rolesData = baseNames.map(name => ({
-                roleName: name,
-                tasks: []      // empty; user imports or adds manually (no default clutter)
-            }));
-            const summaryField = document.getElementById('dailySummary');
-            if (summaryField) summaryField.value = "";
-            persistAll();
-            updateTotalUI();
-            renderRolesGrid();
-        }
+        updateTotalUI();
+        renderRolesGrid();
+    }
+    
+    function freshStart() {
+        globalTokens = 0;
+        currentDateKey = getCurrentDateKey();
+        rolesData = [
+            { roleName: "Assistant Manager", tasks: [] },
+            { roleName: "Guzheng Master", tasks: [] },
+            { roleName: "Lyre Master", tasks: [] },
+            { roleName: "Cook", tasks: [] }
+        ];
+        document.getElementById('dailySummary').value = "";
+        persistAll();
     }
     
     function updateClock() {
@@ -761,13 +895,14 @@
         if (dateElem) dateElem.innerText = getFormattedDate();
     }
     
-    // Event listeners
     document.addEventListener('DOMContentLoaded', () => {
         initDataAndCache();
         updateClock();
         setInterval(updateClock, 60000);
-        const sleepBtn = document.getElementById('sleepTriggerBtn');
-        if (sleepBtn) sleepBtn.addEventListener('click', sleepAndDim);
+        document.getElementById('sleepTriggerBtn').addEventListener('click', sleepAndDim);
+        document.getElementById('addRoleBtn').addEventListener('click', addNewRole);
+        document.getElementById('exportDataBtn').addEventListener('click', exportData);
+        document.getElementById('importDataBtn').addEventListener('click', importData);
         const summaryArea = document.getElementById('dailySummary');
         summaryArea.addEventListener('input', () => persistAll());
     });
