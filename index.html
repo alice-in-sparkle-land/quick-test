@@ -2,312 +2,774 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mẫn's Study Journal ☁️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Spirit Keeper · Ghibli Role Tracker</title>
     <style>
-        :root {
-            --ghibli-sky: #A7C7E7;
-            --ghibli-leaf: #C1E1C1;
-            --ghibli-paper: #FDFBF0;
-            --ghibli-accent: #FFD1DC;
-            --ghibli-gold: #FFD700;
-            --text: #4A4A4A;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        body { font-family: 'Quicksand', sans-serif; background: var(--ghibli-paper); color: var(--text); padding: 10px; margin: 0; }
-
-        /* Header & Master Link */
-        .header-section { text-align: center; margin-bottom: 15px; }
-        .header-section h1 { font-size: 1.6em; color: #5B84B1; margin: 10px 0; }
-        
-        .master-link-container { font-size: 0.85em; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 30px; }
-        .master-link { color: var(--ghibli-sky); text-decoration: none; font-weight: bold; }
-        .edit-link-icon { cursor: pointer; font-size: 0.8em; opacity: 0.6; }
-        .link-input-group input { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-size: 0.8em; width: 180px; }
-
-        /* Navigation & Buttons */
-        .top-nav { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; align-items: center; }
-        .nav-buttons { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; align-items: center; }
-
-        button { cursor: pointer; border-radius: 10px; border: none; padding: 8px 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.08); font-family: inherit; transition: 0.2s; }
-        button:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
-        
-        .donate-btn { background: #ffdfba; font-weight: bold; font-size: 0.75em; }
-        .suggest-btn { background: #f0f0f0; border: 1px solid #ddd; display: flex; align-items: center; gap: 5px; padding: 6px 10px; }
-        .suggest-badge { font-size: 0.65em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #777; }
-
-        /* Matrix Grid System */
-        .matrix-header, .row-container { 
-            display: grid; 
-            grid-template-columns: 70px repeat(3, 1fr) 60px 35px 30px; 
-            gap: 4px; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box;
-        }
-        .matrix-header { text-align: center; font-weight: bold; color: #aaa; font-size: 0.5em; text-transform: uppercase; margin-bottom: 8px; padding: 0 10px; }
-        .matrix { display: flex; flex-direction: column; gap: 10px; }
-        .row-container { background: white; padding: 10px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .row-done { background: #f1fcf1 !important; border: 1px solid var(--ghibli-leaf); }
-
-        @media (min-width: 992px) {
-            body { padding: 40px; }
-            .header-section h1 { font-size: 2.5em; }
-            .top-nav { flex-direction: row; justify-content: space-between; }
-            .matrix-header, .row-container { grid-template-columns: 120px repeat(3, 1fr) 140px 100px 60px; gap: 20px; padding: 15px 30px; }
-            .matrix-header { font-size: 0.75em; }
+        body {
+            background: linear-gradient(135deg, #d9e6cf 0%, #bdd9b8 100%);
+            font-family: 'Segoe UI', 'Quicksand', 'Hiragino Kaku Gothic ProN', system-ui, -apple-system, sans-serif;
+            padding: 1.8rem 1.5rem 2.5rem;
+            color: #2d3e2b;
+            transition: all 0.4s ease;
+            min-height: 100vh;
         }
 
-        /* Icons & Cells */
-        .icon-size { font-size: 1.3em; }
-        @media (min-width: 992px) { .icon-size { font-size: 2.5em; } }
-        .cell { padding: 8px 2px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px dashed #eee; background: #fafafa; }
-        .cell.filled { border: 1.5px solid var(--ghibli-leaf) !important; background: #e8f5e9 !important; }
-
-        .copy-btn { background: var(--ghibli-sky); color: white; font-weight: bold; width: 100%; font-size: 0.55em; padding: 8px 1px; text-transform: uppercase; }
-        .sig-copy-btn { background: var(--ghibli-gold); font-size: 0.8em; padding: 2px 4px; border-radius: 4px; }
-        .done-check { width: 18px; height: 18px; cursor: pointer; accent-color: var(--ghibli-leaf); }
-
-        /* Modals & Panels */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-            z-index: 3000; display: none; justify-content: center; align-items: center;
+        /* studio ghibli soft forest & kodama palette */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(253, 249, 235, 0.84);
+            backdrop-filter: blur(2px);
+            border-radius: 2.8rem;
+            padding: 1.8rem 2rem 2.5rem;
+            box-shadow: 0 20px 38px rgba(45, 60, 30, 0.2), inset 0 1px 3px rgba(255, 252, 210, 0.8);
+            border: 1px solid #eedfab;
         }
-        .modal-content { 
-            background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px;
-            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        #input-panel { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; padding: 20px; z-index: 2000; display: none; overflow-y: auto; }
-        @media (min-width: 992px) { #input-panel { position: relative; margin-top: 30px; border-radius: 25px; border: 3px solid var(--ghibli-sky); box-shadow: 0 10px 30px rgba(0,0,0,0.05); } }
 
-        textarea, input[type="text"] { width: 100%; border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 16px; box-sizing: border-box; }
-        
-        /* 3-Column Vocab Table */
-        .vocab-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 10px; }
-        .vocab-table th { font-size: 0.65em; color: #999; text-transform: uppercase; padding: 5px; text-align: left; }
-        .vocab-table input { width: 100%; border: none; background: transparent; border-bottom: 1px solid #f0f0f0; padding: 8px 2px; font-size: 0.9em; }
+        /* header + date */
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 2px dashed #cbbf8c;
+            padding-bottom: 0.9rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            background: linear-gradient(130deg, #418549, #a27636);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-badge {
+            background: #fef0cf;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-family: 'SF Mono', monospace;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #5a4329;
+            box-shadow: inset 0 0 0 1px #ffe7ae, 0 6px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .token-bar {
+            background: #e9dfb4;
+            border-radius: 2rem;
+            padding: 0.3rem 1.3rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* roles grid */
+        .roles-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0 2rem;
+        }
+
+        .role-card {
+            background: #fffcf0;
+            border-radius: 2rem;
+            width: 300px;
+            flex: 1 1 280px;
+            padding: 1.3rem 1rem 1.5rem;
+            transition: transform 0.2s ease;
+            box-shadow: 0 12px 22px rgba(70, 55, 25, 0.12);
+            border: 1px solid #f4e5c8;
+        }
+
+        .role-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .role-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #467a3a;
+            border-left: 5px solid #e5bc7c;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-btn {
+            background: #dbbc87;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 34px;
+            height: 34px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-btn:active {
+            transform: scale(0.92);
+            background: #b48b48;
+        }
+
+        .task-list {
+            list-style: none;
+            margin: 0.7rem 0 0.8rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fef7e8;
+            margin: 0.5rem 0;
+            padding: 0.4rem 0.7rem;
+            border-radius: 50px;
+            gap: 8px;
+            transition: all 0.1s;
+        }
+
+        .task-text {
+            flex: 2;
+            font-weight: 500;
+            font-size: 0.9rem;
+            word-break: break-word;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            color: #8faa7b;
+            font-style: italic;
+        }
+
+        .token-badge {
+            background: #f2e5c2;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .delete-task-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #bc8f6b;
+            border-radius: 30px;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+        }
+
+        .delete-task-btn:hover {
+            background: #f0dbc0;
+            color: #b3413a;
+        }
+
+        /* mastery progress bar (global per role) */
+        .role-mastery {
+            margin-top: 1rem;
+            background: #e6ddbc;
+            border-radius: 40px;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-bg {
+            background: #cdbc93;
+            border-radius: 40px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #60964f;
+            width: 0%;
+            height: 100%;
+            border-radius: 40px;
+            transition: width 0.25s ease;
+        }
+
+        /* summary section */
+        .summary-section {
+            background: #e9e1caaa;
+            border-radius: 2rem;
+            padding: 1.4rem 1.8rem;
+            margin-top: 1rem;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1.6rem;
+            border: 1px solid #dacb9a;
+            background: #fffff2;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .sleep-btn {
+            background: #658a4e;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.6rem 1.8rem;
+            border-radius: 3rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sleep-btn:hover {
+            background: #3d6130;
+        }
+
+        /* dopamine toast */
+        .toast-token {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #fdebb3;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #3b6129;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            animation: floatFade 1.2s forwards;
+            pointer-events: none;
+            z-index: 200;
+            font-size: 0.95rem;
+        }
+
+        @keyframes floatFade {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-35px);
+            }
+        }
+
+        /* sleep overlay dim + message */
+        .sleep-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(30, 35, 18, 0.92), rgba(5, 12, 2, 0.97));
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+            flex-direction: column;
+        }
+
+        .sleep-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sleep-message-card {
+            background: #faf0cf;
+            padding: 1.8rem 2.5rem;
+            border-radius: 3rem;
+            font-size: 1.7rem;
+            max-width: 85%;
+            text-align: center;
+            font-weight: 500;
+            color: #3d5a2b;
+            box-shadow: 0 30px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ffe7b0;
+            animation: softAppear 0.5s forwards;
+        }
+
+        @keyframes softAppear {
+            0% {
+                transform: scale(0.92);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .tiny-footnote {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            color: #7b6a48;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-
-    <div class="header-section">
-        <h1>☁️ My Study Journal ☁️</h1>
-        <div id="master-link-area" class="master-link-container"></div>
-    </div>
-
-    <div class="top-nav">
-        <div class="nav-buttons">
-            <button onclick="addNewDate()" style="background: var(--ghibli-accent); font-weight: bold;">🌱 New Day</button>
-            <button onclick="toggleModal('donate-modal', true)" class="donate-btn">☕ Donate</button>
-            <button onclick="toggleModal('suggest-modal', true)" class="suggest-btn">
-                <span>💬</span><span class="suggest-badge">Suggest</span>
-            </button>
-        </div>
-        <div class="nav-buttons">
-            <button onclick="exportData()" title="Export JSON">📤</button>
-            <button onclick="document.getElementById('importFile').click()" title="Import JSON">📥</button>
-            <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+<div class="container" id="appContainer">
+    <div class="header-area">
+        <h1>🍃  Role-Keeper  🌾</h1>
+        <div class="flex-row">
+            <div class="date-badge" id="liveDate"></div>
+            <div class="token-bar"><span>✨</span> <span id="totalTokenDisplay">0</span> spirit tokens</div>
         </div>
     </div>
 
-    <div class="matrix-header">
-        <div>Date</div><div>Vocab</div><div>Ex</div><div>Book</div><div>Sync</div><div><button class="sig-copy-btn" onclick="copyAllSignatures()">📋</button></div><div>Done</div>
-    </div>
+    <div class="roles-grid" id="rolesGrid"></div>
 
-    <div class="matrix" id="matrix"></div>
-
-    <div id="donate-modal" class="modal-overlay" onclick="toggleModal('donate-modal', false)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="margin-top:0;">Buy me a coffee? ☕</h3>
-            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 0.9em;">
-                <strong>Banking Info:</strong><br>
-                Timo by BVBank:
-                9021 8333 90823
-                Cao Ngoc Quynh
-            </div>
-            <button onclick="toggleModal('donate-modal', false)" style="background: var(--ghibli-sky); color: white; width: 100%; font-weight:bold;">Close</button>
+    <div class="summary-section">
+        <div class="summary-title">📜  Nightfall Journal</div>
+        <textarea id="dailySummary" rows="2" placeholder="Write a closing thought, a whisper of gratitude, or a lesson learned today ..."></textarea>
+        <div style="display: flex; justify-content: flex-end;">
+            <button class="sleep-btn" id="sleepTriggerBtn">🌙  Rest & Summarize  🌙</button>
         </div>
+        <div class="tiny-footnote">💫 Click on any task to mark done → earn 1–5 random tokens! Each task gives dopamine only once.</div>
     </div>
-
-    <div id="suggest-modal" class="modal-overlay" onclick="toggleModal('suggest-modal', false)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="margin-top:0; color: #5B84B1;">Feature Request 💡</h3>
-            <p style="font-size: 0.85em; color: #777; margin-bottom: 15px;">Have an idea to make this tool better? Describe it below!</p>
-            <textarea id="feature-idea" placeholder="I would love to see..." style="height: 120px;"></textarea>
-            <button onclick="sendSuggestion()" style="background: var(--ghibli-leaf); color: white; width: 100%; margin-bottom: 10px; font-weight: bold;">📧 Send to Mẫn</button>
-            <button onclick="toggleModal('suggest-modal', false)" style="background: #eee; width: 100%;">Maybe Later</button>
-        </div>
-    </div>
-
-    <div id="input-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 id="panel-title" style="margin:0; color:#5B84B1; font-size: 1.2em;">Editor</h2>
-            <button onclick="copyCurrentPart()" style="background:var(--ghibli-accent);">🐾 Copy Part</button>
-        </div>
-        <div id="panel-content"></div>
-        <div style="margin-top:20px; display:flex; gap:10px;">
-            <button onclick="saveAndClose()" style="background: var(--ghibli-leaf); flex:2; font-weight:bold;">🌸 Save Progress</button>
-            <button onclick="togglePanel(false)" style="background: #eee; flex:1;">Close</button>
-        </div>
-    </div>
+</div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('studyDB_v14')) || {};
-    let masterDocLink = localStorage.getItem('masterDocLink') || "";
-    let activeDate = null, activeType = null;
-    const icons = { vocab: '☁️', manual: '🥖', textbook: '🧸', sigs: '🎀' };
+    // ---------- ROLE DEFINITIONS (predefined tasks, not auto-showing all unless imported) ----------
+    // requirement: "option to import all predefined task, do not show all"
+    // Meaning: each role starts with maybe 1 default important task? Actually we want flexibility: initially show only 1 quick sample? But best: each role shows 0 predefined tasks, instead we have "Import default tasks" button for that role? Requirement: "Each role has predefined daily task (option to import all predefined task, do not show all)"
+    // Therefore: each role has a set of hidden predefined tasks, the user can click "import prefilled" to populate that role with its own default tasks. Or we show a small "📦 Import tasks" button. That matches: 'do not show all' initially.
+    // I'll implement: each role card has "➕ Add" (custom task) and "📋 Predefined" button to import that role's predefined tasks (only once, avoid duplicates with some protection). perfect.
 
-    function initHeader() {
-        const area = document.getElementById('master-link-area');
-        if (!masterDocLink) {
-            area.innerHTML = `<div class="link-input-group"><input type="text" id="new-master-link" placeholder="GDocs link..."><button onclick="saveMasterLink()">💾</button></div>`;
+    const ROLE_PREDEFINED_MAP = {
+        "Assistant Manager": ["Review priorities", "Team alignment", "Update board", "Delegate 1 task"],
+        "Guzheng Master": ["Practice 30min scales", "Learn new phrase", "Record melody", "Listen to master"],
+        "Lyre Master": ["Tune lyre", "Finger warmup", "Learn hymn", "Improvise 10min"],
+        "Cook": ["Plan today's dish", "Prep ingredients", "Cook with intention", "Taste & adjust"]
+    };
+
+    // global data model
+    let globalTokens = 0;
+    let rolesData = [];      // { roleName, tasks: [ { id, text, done, tokenClaimed } ] }
+    let currentDateKey = "";
+    
+    // Helper: format date like "Web, 2025 04 21 18:30"
+    function getFormattedDate() {
+        const now = new Date();
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const dayName = days[now.getDay()];
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${dayName}, ${year} ${month} ${day} ${hours}:${minutes} ${ampm}`;
+    }
+
+    function getCurrentDateKey() {
+        const d = new Date();
+        return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    }
+
+    function rollToken() {
+        return Math.floor(Math.random() * 5) + 1;
+    }
+
+    function showDopamineMessage(msg) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-token';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 1300);
+    }
+
+    function updateTotalUI() {
+        document.getElementById('totalTokenDisplay').innerText = globalTokens;
+    }
+
+    // compute role mastery % based on completed tasks (done === true)
+    function computeRoleMastery(role) {
+        const tasks = role.tasks;
+        if (!tasks.length) return 0;
+        const completedCount = tasks.filter(t => t.done === true).length;
+        return Math.floor((completedCount / tasks.length) * 100);
+    }
+
+    // save to localStorage
+    function persistAll() {
+        const storage = {
+            dateKey: currentDateKey,
+            tokens: globalTokens,
+            rolesData: rolesData,
+            summaryText: document.getElementById('dailySummary')?.value || ""
+        };
+        localStorage.setItem("ghibli_role_saver", JSON.stringify(storage));
+    }
+
+    // mark task as done (toggle) + token reward if just completed & not claimed
+    function toggleTask(roleIdx, taskId) {
+        const role = rolesData[roleIdx];
+        const task = role.tasks.find(t => t.id === taskId);
+        if (!task) return;
+        // if already done, we allow undo? requirement: each task done gain token once; if they uncheck, we keep token? Better to NOT refund, but we prevent exploiting by not awarding again. Toggle done off: don't remove tokens. But mastery recalcs. We'll allow crossing off but undoing doesn't give token again. Also penalize? To be consistent: when done becomes true and tokenClaimed == false, award. 
+        const wasDone = task.done;
+        if (!wasDone) {
+            // marking done
+            task.done = true;
+            if (!task.tokenClaimed) {
+                const earned = rollToken();
+                globalTokens += earned;
+                task.tokenClaimed = true;
+                updateTotalUI();
+                showDopamineMessage(`🎉 +${earned} tokens! (${task.text.substring(0, 25)})`);
+            }
         } else {
-            area.innerHTML = `<a href="${masterDocLink}" target="_blank" class="master-link">📖 Master Document</a><span class="edit-link-icon" onclick="resetMasterLink()">✏️</span>`;
+            // unchecking, but token remains claimed, no penalty, just visual
+            task.done = false;
+            // optional: token stays claimed.
+        }
+        persistAll();
+        renderRolesGrid();
+    }
+
+    // add custom task (flexibility)
+    function addCustomTask(roleIdx) {
+        const customName = prompt("✨ Add a new daily task:", "e.g., 'draw a kodama'");
+        if (!customName || customName.trim() === "") return;
+        const newTask = {
+            id: Date.now() + Math.random() * 10000 + roleIdx,
+            text: customName.trim(),
+            done: false,
+            tokenClaimed: false,
+            isCustom: true
+        };
+        rolesData[roleIdx].tasks.push(newTask);
+        persistAll();
+        renderRolesGrid();
+        showDopamineMessage(`➕ added: "${customName.trim()}"`);
+    }
+
+    // delete task (button X)
+    function deleteTask(roleIdx, taskId) {
+        const role = rolesData[roleIdx];
+        const taskIndex = role.tasks.findIndex(t => t.id === taskId);
+        if (taskIndex === -1) return;
+        const taskName = role.tasks[taskIndex].text;
+        if (confirm(`Delete task "${taskName}"? Progress and tokens stay unaffected.`)) {
+            role.tasks.splice(taskIndex, 1);
+            persistAll();
+            renderRolesGrid();
+            showDopamineMessage(`🗑️ removed: ${taskName}`);
         }
     }
 
-    function saveMasterLink() {
-        const val = document.getElementById('new-master-link').value.trim();
-        if (val) { masterDocLink = val; localStorage.setItem('masterDocLink', val); initHeader(); }
-    }
-
-    function resetMasterLink() { masterDocLink = ""; initHeader(); }
-    function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
-    function togglePanel(show) { document.getElementById('input-panel').style.display = show ? 'block' : 'none'; }
-
-    function sendSuggestion() {
-        const idea = document.getElementById('feature-idea').value.trim();
-        if (idea) {
-            const recipient = "thuyman.cao08@gmail.com";
-            const subject = encodeURIComponent("Suggestion for My study note");
-            const body = encodeURIComponent(idea);
-            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-            navigator.clipboard.writeText(idea);
-            alert("Email app opening... Idea also copied to clipboard! ✨");
-            document.getElementById('feature-idea').value = "";
-            toggleModal('suggest-modal', false);
+    // import predefined tasks for specific role (only adds missing ones, avoid adding duplicates of same text case-insensitive)
+    function importPredefinedTasks(roleIdx) {
+        const role = rolesData[roleIdx];
+        const roleName = role.roleName;
+        const predefinedList = ROLE_PREDEFINED_MAP[roleName] || [];
+        if (!predefinedList.length) {
+            alert("No predefined tasks for this role.");
+            return;
+        }
+        let addedCount = 0;
+        for (let preText of predefinedList) {
+            const alreadyExists = role.tasks.some(t => t.text.toLowerCase() === preText.toLowerCase());
+            if (!alreadyExists) {
+                role.tasks.push({
+                    id: Date.now() + Math.random() * 10000 + roleIdx + preText.length,
+                    text: preText,
+                    done: false,
+                    tokenClaimed: false,
+                    isCustom: false
+                });
+                addedCount++;
+            }
+        }
+        if (addedCount > 0) {
+            persistAll();
+            renderRolesGrid();
+            showDopamineMessage(`📦 imported ${addedCount} default tasks for ${roleName}`);
+        } else {
+            alert("All predefined tasks already exist ✨");
         }
     }
 
-    function render() {
-        const container = document.getElementById('matrix');
-        container.innerHTML = '';
-        Object.keys(db).sort().reverse().forEach(date => {
-            const row = db[date];
-            const isDone = row.allDone || false;
-            const div = document.createElement('div');
-            div.className = `row-container ${isDone ? 'row-done' : ''}`;
-            div.innerHTML = `
-                <div style="text-align:center; font-weight:bold; color:#888; font-size:0.6em;">${date}</div>
-                <div class="cell ${row.vocabList?.length ? 'filled' : ''}" onclick="openEditor('${date}', 'vocab')"><span class="icon-size">${icons.vocab}</span></div>
-                <div class="cell ${row.manual?.length ? 'filled' : ''}" onclick="openEditor('${date}', 'manual')"><span class="icon-size">${icons.manual}</span></div>
-                <div class="cell ${row.textbook?.done ? 'filled' : ''}" onclick="openEditor('${date}', 'textbook')"><span class="icon-size">${icons.textbook}</span></div>
-                <div><button class="copy-btn" onclick="copyForDocs('${date}')">🚀 Sync</button></div>
-                <div class="cell ${row.signatures?.length ? 'filled' : ''}" onclick="openEditor('${date}', 'signatures')"><span class="icon-size">${icons.sigs}</span></div>
-                <div style="text-align:center;"><input type="checkbox" class="done-check" ${isDone ? 'checked' : ''} onchange="toggleDone('${date}', this.checked)"></div>
+    // render roles, tasks and progress bars
+    function renderRolesGrid() {
+        const grid = document.getElementById('rolesGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        for (let rIdx = 0; rIdx < rolesData.length; rIdx++) {
+            const role = rolesData[rIdx];
+            const masteryPercent = computeRoleMastery(role);
+            const card = document.createElement('div');
+            card.className = 'role-card';
+            // header with actions (add custom + import predefined)
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'role-title';
+            const titleSpan = document.createElement('span');
+            titleSpan.innerText = role.roleName;
+            const btnGroup = document.createElement('div');
+            btnGroup.style.display = 'flex';
+            btnGroup.style.gap = '8px';
+
+            const importBtn = document.createElement('button');
+            importBtn.innerText = '📋';
+            importBtn.title = 'Import predefined daily tasks';
+            importBtn.style.background = '#b5cb9b';
+            importBtn.style.border = 'none';
+            importBtn.style.width = '32px';
+            importBtn.style.borderRadius = '30px';
+            importBtn.style.fontSize = '1.2rem';
+            importBtn.style.cursor = 'pointer';
+            importBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                importPredefinedTasks(rIdx);
+            });
+
+            const addCustom = document.createElement('button');
+            addCustom.innerText = '+';
+            addCustom.className = 'add-btn';
+            addCustom.style.width = '32px';
+            addCustom.style.height = '32px';
+            addCustom.style.fontSize = '1.4rem';
+            addCustom.addEventListener('click', (e) => {
+                e.stopPropagation();
+                addCustomTask(rIdx);
+            });
+
+            btnGroup.appendChild(importBtn);
+            btnGroup.appendChild(addCustom);
+            headerDiv.appendChild(titleSpan);
+            headerDiv.appendChild(btnGroup);
+            card.appendChild(headerDiv);
+
+            // tasks list
+            const taskUl = document.createElement('ul');
+            taskUl.className = 'task-list';
+            if (role.tasks.length === 0) {
+                const emptyHint = document.createElement('li');
+                emptyHint.innerText = '✨ add a task or import ✨';
+                emptyHint.style.textAlign = 'center';
+                emptyHint.style.opacity = '0.7';
+                emptyHint.style.fontSize = '0.8rem';
+                taskUl.appendChild(emptyHint);
+            } else {
+                role.tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = 'task-item';
+                    const taskSpan = document.createElement('span');
+                    taskSpan.className = `task-text ${task.done ? 'completed' : ''}`;
+                    taskSpan.innerText = task.text;
+                    // click on text toggles done
+                    taskSpan.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleTask(rIdx, task.id);
+                    });
+                    const tokenSpan = document.createElement('span');
+                    tokenSpan.className = 'token-badge';
+                    if (task.tokenClaimed) {
+                        tokenSpan.innerHTML = '🎁 token';
+                    } else if (task.done) {
+                        tokenSpan.innerHTML = '💫 ready';
+                    } else {
+                        tokenSpan.innerHTML = '⚡';
+                    }
+                    const delBtn = document.createElement('button');
+                    delBtn.innerText = '✕';
+                    delBtn.className = 'delete-task-btn';
+                    delBtn.title = 'Delete task';
+                    delBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteTask(rIdx, task.id);
+                    });
+                    li.appendChild(taskSpan);
+                    li.appendChild(tokenSpan);
+                    li.appendChild(delBtn);
+                    taskUl.appendChild(li);
+                });
+            }
+            card.appendChild(taskUl);
+
+            // Mastery progress bar (0%,25%,50%,100% mapping to actual completion %)
+            const masteryContainer = document.createElement('div');
+            masteryContainer.className = 'role-mastery';
+            let levelLabel = '';
+            if (masteryPercent === 0) levelLabel = '🌱 0%';
+            else if (masteryPercent <= 25) levelLabel = '🍂 25%';
+            else if (masteryPercent <= 50) levelLabel = '🍁 50%';
+            else if (masteryPercent < 100) levelLabel = '🌼 75%';
+            else levelLabel = '🌟 100%';
+            // but we show exact percent based on tasks: general mastery corresponding to 0/25/50/100 done for all tasks of that day. We'll round to nearest: but show exact percent.
+            const percentShown = masteryPercent;
+            let descriptive = '';
+            if (percentShown === 0) descriptive = '0%';
+            else if (percentShown <= 25) descriptive = '25%';
+            else if (percentShown <= 50) descriptive = '50%';
+            else if (percentShown < 100) descriptive = '~75%';
+            else descriptive = '100%';
+            masteryContainer.innerHTML = `
+                <div class="progress-label"><span>✨ mastery</span><span>${percentShown}% (${descriptive})</span></div>
+                <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percentShown}%;"></div></div>
             `;
-            container.appendChild(div);
-        });
-        localStorage.setItem('studyDB_v14', JSON.stringify(db));
-    }
-
-    function toggleDone(date, status) { db[date].allDone = status; render(); }
-
-    function openEditor(date, type) {
-        activeDate = date; activeType = type;
-        togglePanel(true);
-        const content = document.getElementById('panel-content');
-        if (type === 'vocab') {
-            content.innerHTML = `<textarea id="raw-vocab" placeholder="Paste words (one per line)..."></textarea><button onclick="processVocab()" style="width:100%; background:var(--ghibli-sky); color:white; margin-bottom:15px;">Generate 3-Column List</button><div id="vocab-table-container"></div>`;
-            renderVocabTable(db[date].vocabList || []);
-        } else if (type === 'manual') {
-            content.innerHTML = `<div id="manual-list"></div><button onclick="addManualRow()" style="width:100%;">+ Row</button>`;
-            db[date].manual?.forEach(ex => addManualRow(ex.q, ex.a));
-        } else if (type === 'textbook') {
-            content.innerHTML = `<label><input type="checkbox" id="tb-done" ${db[date].textbook.done ? 'checked' : ''}> Finished</label><div id="mistake-list" style="margin-top:15px;"></div><button onclick="addMistakeRow()">+ Note</button>`;
-            db[date].textbook.mistakes?.forEach(m => addMistakeRow(m));
-        } else if (type === 'signatures') {
-            content.innerHTML = `<div id="sig-list"></div><button onclick="addSigRow()">+ Note</button>`;
-            db[date].signatures?.forEach(s => addSigRow(s));
+            card.appendChild(masteryContainer);
+            grid.appendChild(card);
         }
     }
 
-    function processVocab() {
-        const raw = document.getElementById('raw-vocab').value.trim();
-        if(!db[activeDate].vocabList) db[activeDate].vocabList = [];
-        raw.split('\n').filter(w => w.trim()).forEach(w => db[activeDate].vocabList.push({word: w.trim(), sentence: "", note: ""}));
-        renderVocabTable(db[activeDate].vocabList);
-        document.getElementById('raw-vocab').value = "";
-    }
-
-    function renderVocabTable(list) {
-        const container = document.getElementById('vocab-table-container');
-        container.innerHTML = `<table class="vocab-table"><thead><tr><th>Word</th><th>Sent.</th><th>Note</th></tr></thead><tbody id="vocab-body"></tbody></table>`;
-        list.forEach((item, index) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><input type="text" value="${item.word}" onchange="db['${activeDate}'].vocabList[${index}].word=this.value" style="font-weight:bold;"></td>
-                <td><input type="text" value="${item.sentence}" onchange="db['${activeDate}'].vocabList[${index}].sentence=this.value" placeholder="..."></td>
-                <td><input type="text" value="${item.note || ''}" onchange="db['${activeDate}'].vocabList[${index}].note=this.value" placeholder="..."></td>`;
-            document.getElementById('vocab-body').appendChild(tr);
+    // Sleep dim + random encouraging sentence after summary
+    function sleepWithGlow() {
+        const summaryText = document.getElementById('dailySummary').value.trim();
+        if (summaryText === "") {
+            alert("🌙 Write a closing thought before the day rests... 🌙");
+            return;
+        }
+        persistAll(); // save summary
+        const encouragements = [
+            "💤 The forest sighs with you. Rest now, gentle star.",
+            "🍃 Even Totoro naps. Your spirit did well today.",
+            "🌙 Let the stardust carry you into dream. Tomorrow awaits.",
+            "🌸 Every completed task is a petal in your garden. Sleep peacefully.",
+            "✨ The soot sprites whisper: well done, keeper. Good night.",
+            "🍲 Warm tea and quiet mind — rest after a meaningful day.",
+            "🎑 Your tokens glow like fireflies. Time to drift into slumber."
+        ];
+        const randomMsg = encouragements[Math.floor(Math.random() * encouragements.length)];
+        let overlay = document.querySelector('.sleep-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'sleep-overlay';
+            document.body.appendChild(overlay);
+        }
+        overlay.innerHTML = `<div class="sleep-message-card">🎐 ${randomMsg} 🎐</div>`;
+        overlay.classList.add('active');
+        // click overlay anywhere to "wake" (dismiss dim)
+        overlay.addEventListener('click', function onOverlayClick() {
+            overlay.classList.remove('active');
+            overlay.removeEventListener('click', onOverlayClick);
         });
     }
 
-    function addManualRow(q='', a='') {
-        const div = document.createElement('div'); div.className = "manual-entry";
-        div.innerHTML = `<input type="text" class="q" placeholder="Q" value="${q}"><input type="text" class="a" placeholder="A" value="${a}">`;
-        document.getElementById('manual-list').appendChild(div);
-    }
-    function addMistakeRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="mistake-item"; i.value=v; document.getElementById('mistake-list').appendChild(i); }
-    function addSigRow(v='') { const i = document.createElement('input'); i.type="text"; i.className="sig-item"; i.value=v; document.getElementById('sig-list').appendChild(i); }
-
-    function saveAndClose() {
-        if (activeType === 'manual') db[activeDate].manual = Array.from(document.querySelectorAll('.manual-entry')).map(r => ({q: r.querySelector('.q').value, a: r.querySelector('.a').value}));
-        else if (activeType === 'textbook') { db[activeDate].textbook.done = document.getElementById('tb-done').checked; db[activeDate].textbook.mistakes = Array.from(document.querySelectorAll('.mistake-item')).map(i => i.value); }
-        else if (activeType === 'signatures') db[activeDate].signatures = Array.from(document.querySelectorAll('.sig-item')).map(i => i.value);
-        render(); togglePanel(false);
-    }
-
-    async function copyCurrentPart() {
-        let t = "";
-        if(activeType === 'vocab') db[activeDate].vocabList.forEach(v => t += `${v.word}\n${v.sentence}\n${v.note || ''}\n\n`);
-        else if(activeType === 'manual') db[activeDate].manual.forEach(r => t += `Q: ${r.q}\nA: ${r.a}\n\n`);
-        else if(activeType === 'signatures') t = db[activeDate].signatures.join('\n');
-        await navigator.clipboard.writeText(t); alert("Part copied!");
-    }
-
-    async function copyForDocs(date) {
-        const d = db[date];
-        let s = `--- ${date} ---\n\nVOCABULARY:\n`;
-        d.vocabList.forEach(v => s += `${v.word}\n${v.sentence}\n${v.note || ''}\n\n`);
-        s += `\nMANUAL EXERCISES:\n`;
-        d.manual.forEach(m => s += `Q: ${m.q}\nA: ${m.a}\n\n`);
-        s += `TEXTBOOK:\nDone: ${d.textbook.done ? 'Yes' : 'No'}\nNotes:\n` + d.textbook.mistakes.join('\n');
-        await navigator.clipboard.writeText(s); alert("Ready!");
-    }
-
-    function exportData() {
-        const link = document.createElement('a'); link.href = 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(db));
-        link.download = 'study-backup.json'; link.click();
-    }
-
-    function importData(e) {
-        const r = new FileReader(); r.onload = (ev) => { db = JSON.parse(ev.target.result); render(); }; r.readAsText(e.target.files[0]);
-    }
-
-    function addNewDate() {
-        const d = prompt("Date?", new Date().toISOString().split('T')[0]);
-        if(d && !db[d]) { db[d] = { vocabList: [], manual: [], textbook: { done: false, mistakes: [] }, signatures: [], allDone: false }; render(); }
+    // initialize or reset based on date (local cache)
+    function initDataAndCache() {
+        const todayKey = getCurrentDateKey();
+        const cachedRaw = localStorage.getItem("ghibli_role_saver");
+        let needFreshReset = false;
+        if (cachedRaw) {
+            try {
+                const cached = JSON.parse(cachedRaw);
+                if (cached.dateKey !== todayKey) {
+                    needFreshReset = true;
+                } else {
+                    currentDateKey = cached.dateKey;
+                    globalTokens = cached.tokens || 0;
+                    rolesData = cached.rolesData;
+                    const summaryField = document.getElementById('dailySummary');
+                    if (summaryField && cached.summaryText !== undefined) summaryField.value = cached.summaryText;
+                    updateTotalUI();
+                    renderRolesGrid();
+                    return;
+                }
+            } catch (e) { needFreshReset = true; }
+        } else {
+            needFreshReset = true;
+        }
+        if (needFreshReset) {
+            // fresh start: create roles with empty tasks (no predefined shown initially)
+            globalTokens = 0;
+            currentDateKey = todayKey;
+            const baseRoleNames = ["Assistant Manager", "Guzheng Master", "Lyre Master", "Cook"];
+            rolesData = baseRoleNames.map(name => ({
+                roleName: name,
+                tasks: []    // empty, user imports or adds
+            }));
+            const summaryField = document.getElementById('dailySummary');
+            if (summaryField) summaryField.value = "";
+            persistAll();
+            updateTotalUI();
+            renderRolesGrid();
+        }
     }
 
-    async function copyAllSignatures() {
-        let all = "";
-        Object.keys(db).sort().reverse().forEach(d => { if(db[d].signatures?.length) all += `[${d}]\n${db[d].signatures.join('\n')}\n\n`; });
-        await navigator.clipboard.writeText(all); alert("All notes copied!");
+    // update header clock live
+    function refreshClock() {
+        const dateElem = document.getElementById('liveDate');
+        if (dateElem) dateElem.innerText = getFormattedDate();
     }
 
-    initHeader();
-    render();
+    // Event listeners + DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+        initDataAndCache();
+        refreshClock();
+        setInterval(refreshClock, 60000);
+        const sleepBtn = document.getElementById('sleepTriggerBtn');
+        if (sleepBtn) sleepBtn.addEventListener('click', sleepWithGlow);
+        const summaryArea = document.getElementById('dailySummary');
+        summaryArea.addEventListener('input', () => persistAll());
+    });
 </script>
 </body>
 </html>
