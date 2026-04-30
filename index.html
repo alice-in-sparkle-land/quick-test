@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Spirit Keeper · Foldable Roles + Grids</title>
+    <title>Spirit Keeper · Nightly Reflections ✨</title>
     <style>
         * {
             margin: 0;
@@ -216,10 +216,7 @@
         .time-input { width: 70px; padding: 0.3rem; border-radius: 30px; border: 1px solid #cfbc8a; text-align: center; }
         .log-time-btn { background: #9bb87f; border: none; padding: 0.3rem 1rem; border-radius: 2rem; font-weight: bold; cursor: pointer; }
 
-        /* GitHub heatmap - perfect squares */
-        .heatmap-container {
-            margin-top: 0.8rem;
-        }
+        .heatmap-container { margin-top: 0.8rem; }
         .heatmap-title {
             font-size: 0.7rem;
             font-weight: 600;
@@ -239,15 +236,7 @@
             padding: 2px 8px;
             border-radius: 30px;
         }
-        .week-selector button {
-            background: none;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 20px;
-        }
+        .week-selector button { background: none; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem; padding: 2px 6px; border-radius: 20px; }
         .week-selector span { font-size: 0.65rem; font-weight: bold; }
         .grid-wrapper { overflow-x: auto; padding-bottom: 4px; }
         .contribution-grid { display: inline-flex; flex-direction: column; gap: 3px; min-width: 100%; }
@@ -263,7 +252,6 @@
         .legend { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; font-size: 0.6rem; align-items: center; }
         .legend-color { width: 10px; height: 10px; border-radius: 2px; }
 
-        /* Global section: timer + heatmap side by side */
         .global-section {
             background: #fef8ea;
             border-radius: 1.5rem;
@@ -292,14 +280,158 @@
         .timer-btn-sm { background: #6d944f; border: none; border-radius: 2rem; padding: 0.2rem 0.8rem; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
         .stop-btn { background: #b88b5c; }
 
-        .summary-section { background: #e7dfc6cc; border-radius: 1.6rem; padding: 1rem; margin-top: 1rem; }
-        textarea { width: 100%; padding: 0.7rem; border-radius: 1.3rem; border: 1px solid #cfbc8a; background: #fffff2; font-family: inherit; font-size: 0.85rem; resize: vertical; }
-        .sleep-btn { background: #6d944f; border: none; color: white; font-weight: bold; padding: 0.6rem; border-radius: 3rem; margin-top: 0.8rem; cursor: pointer; width: 100%; }
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(30,35,18,0.92); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: 0.2s; }
+        /* Journal & Reflections */
+        .journal-section {
+            background: #e7dfc6cc;
+            border-radius: 1.6rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .journal-title {
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .view-journal-btn {
+            background: #cfbc8f;
+            border: none;
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 1.3rem;
+            border: 1px solid #cfbc8a;
+            background: #fffff2;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+        .reflect-btn {
+            background: #6d944f;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.6rem;
+            border-radius: 3rem;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.1s;
+        }
+        .reflect-btn:active { transform: scale(0.97); background: #4c7035; }
+
+        /* Encouragement overlay */
+        .encouragement-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 55, 30, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+        .encouragement-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .encouragement-card {
+            background: linear-gradient(145deg, #fff8e7, #fff0da);
+            border-radius: 2.5rem;
+            padding: 1.8rem 2rem;
+            max-width: 85%;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            border: 1px solid #f3e2b5;
+            animation: gentlePop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes gentlePop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .encouragement-emoji {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+        .encouragement-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #457a39;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+        .encouragement-sub {
+            font-size: 0.8rem;
+            color: #7b6842;
+            margin-bottom: 1rem;
+        }
+        .encouragement-close {
+            background: #ddce9f;
+            border: none;
+            padding: 0.4rem 1.4rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.4rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(30,35,18,0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-card { background: #fffaf0; max-width: 90%; width: 350px; border-radius: 2rem; padding: 1.2rem; }
+        .modal-card {
+            background: #fffaf0;
+            max-width: 90%;
+            width: 400px;
+            max-height: 70vh;
+            border-radius: 2rem;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold; border-bottom: 1px solid #ecdcaa; padding-bottom: 0.5rem; }
+        .modal-list { overflow-y: auto; max-height: 55vh; }
+        .history-entry { padding: 0.6rem; border-bottom: 1px solid #eedfc0; font-size: 0.8rem; }
+        .history-date { font-weight: bold; color: #7c603a; font-size: 0.7rem; margin-bottom: 0.2rem; }
         .close-modal { background: #dbbc87; border: none; padding: 0.3rem 1rem; border-radius: 2rem; margin-top: 0.8rem; cursor: pointer; }
-        .toast-token { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #f8efcb; padding: 6px 16px; border-radius: 60px; font-weight: bold; color: #367c26; animation: floatFade 1.2s forwards; pointer-events: none; z-index: 200; font-size: 0.85rem; }
+        
+        .toast-token {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #f8efcb; padding: 6px 16px; border-radius: 60px; font-weight: bold;
+            color: #367c26; animation: floatFade 1.2s forwards; pointer-events: none; z-index: 200;
+        }
         @keyframes floatFade { 0% { opacity: 0; transform: translateX(-50%) translateY(15px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(-35px); } }
         .tiny-note { text-align: center; font-size: 0.6rem; margin-top: 0.6rem; color: #7b6842; }
         .welcome-empty { text-align: center; padding: 2rem; background: #faf3e2; border-radius: 1.5rem; }
@@ -308,7 +440,7 @@
 <body>
 <div class="container">
     <div class="header-area">
-        <h1>🍃 Spirit Keeper · Foldable</h1>
+        <h1>🍃 Spirit Keeper · Reflections</h1>
         <div style="display: flex; gap: 8px;">
             <div class="date-badge" id="liveDate"></div>
             <div class="token-bar" id="tokenBar">✨ <span id="totalTokenDisplay">0</span></div>
@@ -317,7 +449,7 @@
 
     <div class="action-bar">
         <button class="ghibli-btn" id="addRoleBtn">➕ New Role</button>
-        <button class="ghibli-btn refresh-all-btn" id="refreshAllBtn">🔄 Reset All Logs</button>
+        <button class="ghibli-btn refresh-all-btn" id="refreshAllBtn">🔄 Reset Logs</button>
         <button class="ghibli-btn" id="exportDataBtn">📤 Export</button>
         <button class="ghibli-btn" id="importDataBtn">📥 Import</button>
     </div>
@@ -325,9 +457,9 @@
     <!-- GLOBAL SECTION -->
     <div class="global-section">
         <div class="global-header">
-            <span style="font-weight: bold;">🌍 Global Focus (all roles)</span>
+            <span style="font-weight: bold;">🌍 Global Focus</span>
             <div class="timer-compact">
-                <input type="number" id="globalTimerMins" value="25" step="5" style="width:60px;">
+                <input type="number" id="globalTimerMins" value="25" step="5">
                 <div id="globalTimerDisplay" class="timer-display-sm">00:00</div>
                 <button id="globalTimerStart" class="timer-btn-sm">▶</button>
                 <button id="globalTimerStop" class="timer-btn-sm stop-btn">⏹</button>
@@ -353,16 +485,33 @@
         </div>
     </div>
 
-    <!-- ROLE CARDS (foldable) -->
+    <!-- ROLE CARDS -->
     <div class="roles-grid" id="rolesGrid"></div>
 
-    <div class="summary-section">
-        <textarea id="dailySummary" rows="2" placeholder="🌙 nightly reflection..."></textarea>
-        <button class="sleep-btn" id="sleepTriggerBtn">🌙 Rest & Save Day 🌙</button>
-        <div class="tiny-note">✨ Click role header to collapse/expand. Click name or quote to edit. Timer adds minutes to selected role.</div>
+    <!-- JOURNAL SECTION with Reflection -->
+    <div class="journal-section">
+        <div class="journal-header">
+            <div class="journal-title">🌙 Nightly Reflection · Journal</div>
+            <button class="view-journal-btn" id="viewJournalBtn">📜 View Past Entries</button>
+        </div>
+        <textarea id="nightlyReflection" rows="2" placeholder="How did today feel? What are you grateful for? What did you learn?"></textarea>
+        <button class="reflect-btn" id="submitReflectionBtn">✨ Log Reflection & Receive Encouragement ✨</button>
+        <div class="tiny-note">Writing a nightly reflection helps you close the day with intention. Each entry is saved in your journal.</div>
     </div>
 </div>
 
+<!-- Journal History Modal -->
+<div id="journalModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>📖 Nightly Reflections</span>
+            <button class="close-modal" id="closeJournalBtn">✖</button>
+        </div>
+        <div id="journalEntriesList" class="modal-list"></div>
+    </div>
+</div>
+
+<!-- Spend Modal -->
 <div id="spendModal" class="modal-overlay"><div class="modal-card">
     <div style="display:flex; justify-content:space-between;"><span>🪙 Spend Tokens</span><button class="close-modal" id="closeSpendBtn">✖</button></div>
     <div style="text-align:center;"><p>You have <strong id="spendCurrentTokens">0</strong> token</p>
@@ -370,27 +519,56 @@
     <div id="spendLogList" style="margin-top:1rem; max-height:150px; overflow-y:auto;"></div>
 </div></div>
 
+<!-- Encouragement Overlay (will be injected dynamically) -->
+<div id="encouragementOverlay" class="encouragement-overlay">
+    <div class="encouragement-card">
+        <div class="encouragement-emoji">🌟</div>
+        <div class="encouragement-text">You're doing beautifully</div>
+        <div class="encouragement-sub">Your reflection has been saved</div>
+        <button class="encouragement-close" id="closeEncouragementBtn">🌙 Thank you</button>
+    </div>
+</div>
+
 <script>
+    // --- Core Data ---
     let globalTokens = 0;
-    let rolesData = []; // each: { roleName, quote, timeLogs: [{dateKey, minutes}] }
-    let journalLogs = [];
+    let rolesData = [];          // each: { roleName, quote, timeLogs: [{dateKey, minutes}] }
+    let journalEntries = [];     // each: { timestamp, dateKey, reflection }
     let spendLogs = [];
     let currentDateKey = "";
-    let roleWeeks = {}; // roleIdx -> weeks (12-24)
-    let roleCollapsed = {}; // roleIdx -> boolean (true = collapsed)
+    let roleWeeks = {};
+    let roleCollapsed = {};
     let globalWeeks = 16;
 
+    // Timer
     let globalTimerInterval = null;
     let globalTimerSeconds = 0;
 
-    // Helpers
+    // --- Encouragement messages (warm, Ghibli-style) ---
+    const encouragementMessages = [
+        { emoji: "🌙", msg: "The moon applauds your honesty. Rest well, dreamer." },
+        { emoji: "🍃", msg: "You've added another leaf to your growth. Tomorrow will bloom." },
+        { emoji: "✨", msg: "Your words are seeds. Tonight they rest, tomorrow they grow." },
+        { emoji: "🌸", msg: "Like cherry blossoms, your thoughts are precious. Thank you for sharing." },
+        { emoji: "🕯️", msg: "A quiet candle for a quiet mind. You're exactly where you need to be." },
+        { emoji: "💚", msg: "Kodama spirits nod in approval. You're tending your inner forest." },
+        { emoji: "🌿", msg: "Every reflection is a step toward clarity. Proud of you." },
+        { emoji: "⭐", msg: "Your stars are aligned. Keep listening to your heart." },
+        { emoji: "🎑", msg: "The night holds your wisdom. You're doing great." },
+        { emoji: "🍂", msg: "Letting go of the day, holding onto the lesson. Beautiful work." },
+        { emoji: "🌌", msg: "The universe hears you. Your reflection is a gentle echo." },
+        { emoji: "💫", msg: "Even the forest rests. You've earned this peace." }
+    ];
+
+    // --- Helpers ---
     function getDateKey(date = new Date()) { return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`; }
     function getFormattedDate() { const now = new Date(); return `${now.toDateString()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`; }
-    function getTimestamp() { return new Date().toLocaleString(); }
+    function getTimestamp() { const now = new Date(); return `${now.toLocaleString()}`; }
     function showMessage(msg) { const t=document.createElement('div'); t.className='toast-token'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1300); }
     function updateTotalUI() { document.getElementById('totalTokenDisplay').innerText = globalTokens; }
     function getIntensity(minutes) { if(minutes===0) return 0; if(minutes<15) return 1; if(minutes<30) return 2; if(minutes<60) return 3; return 4; }
 
+    // --- Heatmap rendering ---
     function getDateRangeWeeks(weeksCount) {
         const today = new Date(); today.setHours(0,0,0,0);
         let monday = new Date(today);
@@ -437,9 +615,7 @@
 
     function computeGlobalDailyMinutes() {
         const map = {};
-        for(let role of rolesData) {
-            if(role.timeLogs) for(let log of role.timeLogs) map[log.dateKey] = (map[log.dateKey] || 0) + log.minutes;
-        }
+        for(let role of rolesData) if(role.timeLogs) for(let log of role.timeLogs) map[log.dateKey] = (map[log.dateKey] || 0) + log.minutes;
         return map;
     }
 
@@ -462,6 +638,7 @@
         renderHeatmapToContainer(container, roleMap, weeks, true);
     }
 
+    // --- Role Rendering with Collapse ---
     function toggleCollapse(roleIdx) {
         roleCollapsed[roleIdx] = !roleCollapsed[roleIdx];
         const contentDiv = document.getElementById(`roleContent_${roleIdx}`);
@@ -477,7 +654,7 @@
     function renderRolesGrid() {
         const grid = document.getElementById('rolesGrid');
         if(!grid) return;
-        if(rolesData.length === 0) { grid.innerHTML = '<div class="welcome-empty">🍃 Create a role to see focus heatmaps</div>'; return; }
+        if(rolesData.length === 0) { grid.innerHTML = '<div class="welcome-empty">🍃 Create a role to begin your focus journey</div>'; return; }
         grid.innerHTML = '';
         rolesData.forEach((role, idx) => {
             const todayKey = currentDateKey;
@@ -534,63 +711,25 @@
                 </div>
             `;
             grid.appendChild(card);
-            
-            // Render heatmap
             renderRoleHeatmap(idx, `roleHeatmap_${idx}`);
             
-            // Collapse toggle
             const header = card.querySelector(`[data-toggle="${idx}"]`);
             header?.addEventListener('click', (e) => {
                 if(e.target.closest('.icon-btn') || e.target.closest('[data-edit-name]') || e.target.closest('[data-edit-quote]')) return;
                 toggleCollapse(idx);
             });
-            
-            // Add minutes
             const addBtn = card.querySelector(`[data-addmin="${idx}"]`);
-            addBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const input = document.getElementById(`minutesInput_${idx}`);
-                let mins = parseInt(input.value);
-                if(isNaN(mins) || mins<=0) mins = 5;
-                addMinutesToRole(idx, mins);
-            });
-            
-            // Edit name
+            addBtn?.addEventListener('click', (e) => { e.stopPropagation(); const input = document.getElementById(`minutesInput_${idx}`); let mins = parseInt(input.value); if(isNaN(mins) || mins<=0) mins = 5; addMinutesToRole(idx, mins); });
             const nameSpan = card.querySelector(`[data-edit-name="${idx}"]`);
-            nameSpan?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const newName = prompt("Edit role name:", role.roleName);
-                if(newName && newName.trim()) { role.roleName = newName.trim(); renderRolesGrid(); updateGlobalHeatmap(); persistAll(); showMessage(`Role renamed`); }
-            });
-            
-            // Edit quote
+            nameSpan?.addEventListener('click', (e) => { e.stopPropagation(); const newName = prompt("Edit role name:", role.roleName); if(newName && newName.trim()) { role.roleName = newName.trim(); renderRolesGrid(); updateGlobalHeatmap(); persistAll(); showMessage(`Role renamed`); } });
             const quoteDiv = card.querySelector(`[data-edit-quote="${idx}"]`);
-            quoteDiv?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const newQuote = prompt("Edit focus quote:", role.quote || "");
-                if(newQuote !== null) { role.quote = newQuote.trim() || "Stay present"; renderRolesGrid(); persistAll(); showMessage(`Quote updated`); }
-            });
-            
-            // Delete
+            quoteDiv?.addEventListener('click', (e) => { e.stopPropagation(); const newQuote = prompt("Edit focus quote:", role.quote || ""); if(newQuote !== null) { role.quote = newQuote.trim() || "Stay present"; renderRolesGrid(); persistAll(); showMessage(`Quote updated`); } });
             const delBtn = card.querySelector(`[data-del="${idx}"]`);
-            delBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteRole(idx);
-            });
-            
-            // Week controls
+            delBtn?.addEventListener('click', (e) => { e.stopPropagation(); deleteRole(idx); });
             const decBtn = card.querySelector(`.roleDecWeeks[data-idx="${idx}"]`);
             const incBtn = card.querySelector(`.roleIncWeeks[data-idx="${idx}"]`);
-            decBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                let w = roleWeeks[idx] || 16;
-                if(w > 12) { w--; roleWeeks[idx] = w; document.getElementById(`roleWeeksLabel_${idx}`).innerText = w; renderRoleHeatmap(idx, `roleHeatmap_${idx}`); persistAll(); }
-            });
-            incBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                let w = roleWeeks[idx] || 16;
-                if(w < 24) { w++; roleWeeks[idx] = w; document.getElementById(`roleWeeksLabel_${idx}`).innerText = w; renderRoleHeatmap(idx, `roleHeatmap_${idx}`); persistAll(); }
-            });
+            decBtn?.addEventListener('click', (e) => { e.stopPropagation(); let w = roleWeeks[idx] || 16; if(w > 12) { w--; roleWeeks[idx] = w; document.getElementById(`roleWeeksLabel_${idx}`).innerText = w; renderRoleHeatmap(idx, `roleHeatmap_${idx}`); persistAll(); } });
+            incBtn?.addEventListener('click', (e) => { e.stopPropagation(); let w = roleWeeks[idx] || 16; if(w < 24) { w++; roleWeeks[idx] = w; document.getElementById(`roleWeeksLabel_${idx}`).innerText = w; renderRoleHeatmap(idx, `roleHeatmap_${idx}`); persistAll(); } });
         });
     }
 
@@ -626,10 +765,6 @@
     function deleteRole(idx) {
         if(confirm(`Delete "${rolesData[idx].roleName}"?`)) {
             rolesData.splice(idx,1);
-            // Clean up stored settings for this index
-            delete roleWeeks[idx];
-            delete roleCollapsed[idx];
-            // re-index remaining settings (optional, but keep as is)
             updateGlobalHeatmap();
             renderRolesGrid();
             persistAll();
@@ -637,7 +772,7 @@
     }
 
     function resetAllLogs() {
-        if(confirm("Erase ALL time logs for every role? Tokens remain.")) {
+        if(confirm("Erase ALL time logs? Tokens remain.")) {
             for(let role of rolesData) role.timeLogs = [];
             updateGlobalHeatmap();
             renderRolesGrid();
@@ -646,7 +781,59 @@
         }
     }
 
-    // Timer
+    // --- JOURNAL & ENCOURAGEMENT ---
+    function showEncouragement(reflectionText) {
+        const random = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+        const overlay = document.getElementById('encouragementOverlay');
+        const card = overlay.querySelector('.encouragement-card');
+        card.innerHTML = `
+            <div class="encouragement-emoji">${random.emoji}</div>
+            <div class="encouragement-text">${random.msg}</div>
+            <div class="encouragement-sub">"${reflectionText.substring(0, 80)}${reflectionText.length > 80 ? '…' : ''}"</div>
+            <button class="encouragement-close" id="closeEncouragementBtn">🌙 Thank you</button>
+        `;
+        overlay.classList.add('active');
+        const closeBtn = document.getElementById('closeEncouragementBtn');
+        closeBtn?.addEventListener('click', () => { overlay.classList.remove('active'); });
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+    }
+
+    function saveNightlyReflection() {
+        const textarea = document.getElementById('nightlyReflection');
+        const reflection = textarea.value.trim();
+        if(!reflection) {
+            showMessage("✨ Write something from your heart before saving...");
+            return;
+        }
+        const todayKey = getDateKey();
+        const existingIndex = journalEntries.findIndex(entry => entry.dateKey === todayKey);
+        const newEntry = { timestamp: getTimestamp(), dateKey: todayKey, reflection: reflection };
+        if(existingIndex !== -1) journalEntries[existingIndex] = newEntry;
+        else journalEntries.unshift(newEntry);
+        if(journalEntries.length > 50) journalEntries.pop();
+        textarea.value = '';
+        persistAll();
+        showEncouragement(reflection);
+        showMessage("🌙 Reflection saved. Thank you for your honesty.");
+    }
+
+    function showJournalHistory() {
+        const modal = document.getElementById('journalModal');
+        const listDiv = document.getElementById('journalEntriesList');
+        if(journalEntries.length === 0) listDiv.innerHTML = '<div style="text-align:center; padding:1rem;">✨ No reflections yet. Write your first nightly thought.</div>';
+        else {
+            listDiv.innerHTML = '';
+            journalEntries.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'history-entry';
+                div.innerHTML = `<div class="history-date">📅 ${entry.timestamp}</div><div style="font-style:italic;">“${escapeHtml(entry.reflection)}”</div>`;
+                listDiv.appendChild(div);
+            });
+        }
+        modal.classList.add('active');
+    }
+
+    // --- Timer Logic ---
     function updateGlobalTimerDisplay() { const mins=Math.floor(globalTimerSeconds/60), secs=globalTimerSeconds%60; document.getElementById('globalTimerDisplay').innerText=`${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`; }
     function startGlobalTimer() {
         if(globalTimerInterval) clearInterval(globalTimerInterval);
@@ -673,29 +860,19 @@
     }
     function stopGlobalTimer() { if(globalTimerInterval) { clearInterval(globalTimerInterval); globalTimerInterval=null; showMessage("Timer stopped"); } globalTimerSeconds=0; updateGlobalTimerDisplay(); }
 
-    function sleepAndJournal() {
-        const text = document.getElementById('dailySummary').value.trim();
-        if(!text) { alert("Write a thought before resting"); return; }
-        journalLogs.unshift({ timestamp: getTimestamp(), entry: text });
-        if(journalLogs.length>30) journalLogs.pop();
-        document.getElementById('dailySummary').value = '';
-        showMessage("🌙 Day archived");
-        persistAll();
-    }
-
+    // --- Persistence ---
     function persistAll() {
-        const data = { version:"foldable_v4", tokens:globalTokens, rolesData, journalLogs, spendLogs, roleWeeks, roleCollapsed, globalWeeks, currentDateKey };
-        localStorage.setItem("spirit_keeper_foldable", JSON.stringify(data));
+        const data = { version:"reflections_v5", tokens:globalTokens, rolesData, journalEntries, spendLogs, roleWeeks, roleCollapsed, globalWeeks, currentDateKey };
+        localStorage.setItem("spirit_keeper_reflections", JSON.stringify(data));
     }
-
     function loadData() {
-        const raw = localStorage.getItem("spirit_keeper_foldable");
+        const raw = localStorage.getItem("spirit_keeper_reflections");
         if(raw) {
             try {
                 const d=JSON.parse(raw);
                 globalTokens = d.tokens||0;
                 rolesData = d.rolesData||[];
-                journalLogs = d.journalLogs||[];
+                journalEntries = d.journalEntries||[];
                 spendLogs = d.spendLogs||[];
                 roleWeeks = d.roleWeeks||{};
                 roleCollapsed = d.roleCollapsed||{};
@@ -705,12 +882,14 @@
                 updateTotalUI();
                 updateGlobalHeatmap();
                 renderRolesGrid();
+                // load today's reflection if any
+                const todayEntry = journalEntries.find(e => e.dateKey === currentDateKey);
+                if(todayEntry) document.getElementById('nightlyReflection').value = todayEntry.reflection;
             } catch(e) { freshStart(); }
         } else freshStart();
     }
-
     function freshStart() {
-        globalTokens=0; rolesData=[]; journalLogs=[]; spendLogs=[]; roleWeeks={}; roleCollapsed={}; globalWeeks=16;
+        globalTokens=0; rolesData=[]; journalEntries=[]; spendLogs=[]; roleWeeks={}; roleCollapsed={}; globalWeeks=16;
         currentDateKey=getDateKey();
         persistAll();
         updateTotalUI();
@@ -726,7 +905,6 @@
         showMessage(`Spent ${amount} tokens`);
         if(document.getElementById('spendCurrentTokens')) document.getElementById('spendCurrentTokens').innerText=globalTokens;
     }
-
     function showSpendModal() {
         const modal=document.getElementById('spendModal');
         document.getElementById('spendCurrentTokens').innerText=globalTokens;
@@ -735,9 +913,9 @@
         else logDiv.innerHTML=spendLogs.map(l=>`<div>🪙 ${l.timestamp} : -${l.amount}</div>`).join('');
         modal.classList.add('active');
     }
-
     function escapeHtml(str){ return String(str).replace(/[&<>]/g, m=> m==='&'?'&amp;': m==='<'?'&lt;':'&gt;'); }
 
+    // --- Event Listeners ---
     document.addEventListener('DOMContentLoaded', () => {
         currentDateKey = getDateKey();
         loadData();
@@ -745,17 +923,19 @@
         document.getElementById('liveDate').innerText=getFormattedDate();
         document.getElementById('addRoleBtn').addEventListener('click', addNewRole);
         document.getElementById('refreshAllBtn').addEventListener('click', resetAllLogs);
-        document.getElementById('exportDataBtn').addEventListener('click',()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({rolesData,globalTokens,journalLogs,spendLogs,roleWeeks,roleCollapsed,globalWeeks})],{type:'application/json'})); a.download=`focus_foldable.json`; a.click(); showMessage("Exported"); });
-        document.getElementById('importDataBtn').addEventListener('click',()=>{ const inp=document.createElement('input'); inp.type='file'; inp.onchange=e=>{ const f=e.target.files[0]; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); if(d.rolesData) rolesData=d.rolesData; if(d.tokens!==undefined) globalTokens=d.tokens; if(d.roleWeeks) roleWeeks=d.roleWeeks; if(d.roleCollapsed) roleCollapsed=d.roleCollapsed; if(d.globalWeeks) globalWeeks=d.globalWeeks; for(let role of rolesData) if(!role.timeLogs) role.timeLogs=[]; updateGlobalHeatmap(); renderRolesGrid(); updateTotalUI(); persistAll(); showMessage("Import success"); }catch(err){ alert("Invalid"); } }; r.readAsText(f); }; inp.click(); });
+        document.getElementById('exportDataBtn').addEventListener('click',()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({rolesData,globalTokens,journalEntries,spendLogs,roleWeeks,roleCollapsed,globalWeeks})],{type:'application/json'})); a.download=`reflections_backup.json`; a.click(); showMessage("Exported"); });
+        document.getElementById('importDataBtn').addEventListener('click',()=>{ const inp=document.createElement('input'); inp.type='file'; inp.onchange=e=>{ const f=e.target.files[0]; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); if(d.rolesData) rolesData=d.rolesData; if(d.tokens!==undefined) globalTokens=d.tokens; if(d.journalEntries) journalEntries=d.journalEntries; if(d.roleWeeks) roleWeeks=d.roleWeeks; if(d.roleCollapsed) roleCollapsed=d.roleCollapsed; if(d.globalWeeks) globalWeeks=d.globalWeeks; for(let role of rolesData) if(!role.timeLogs) role.timeLogs=[]; updateGlobalHeatmap(); renderRolesGrid(); updateTotalUI(); persistAll(); showMessage("Import success"); }catch(err){ alert("Invalid"); } }; r.readAsText(f); }; inp.click(); });
         document.getElementById('tokenBar').addEventListener('click', showSpendModal);
         document.getElementById('closeSpendBtn').addEventListener('click',()=>document.getElementById('spendModal').classList.remove('active'));
         document.querySelectorAll('.spend-btn').forEach(btn=>btn.addEventListener('click',()=>spendTokens(parseInt(btn.dataset.amount))));
-        document.getElementById('sleepTriggerBtn').addEventListener('click', sleepAndJournal);
         document.getElementById('globalTimerStart').addEventListener('click', startGlobalTimer);
         document.getElementById('globalTimerStop').addEventListener('click', stopGlobalTimer);
         document.getElementById('globalDecWeeks').addEventListener('click', () => { if(globalWeeks>12){ globalWeeks--; document.getElementById('globalWeeksCount').innerText=globalWeeks; updateGlobalHeatmap(); persistAll(); } });
         document.getElementById('globalIncWeeks').addEventListener('click', () => { if(globalWeeks<24){ globalWeeks++; document.getElementById('globalWeeksCount').innerText=globalWeeks; updateGlobalHeatmap(); persistAll(); } });
         document.getElementById('globalWeeksCount').innerText = globalWeeks;
+        document.getElementById('submitReflectionBtn').addEventListener('click', saveNightlyReflection);
+        document.getElementById('viewJournalBtn').addEventListener('click', showJournalHistory);
+        document.getElementById('closeJournalBtn').addEventListener('click', () => document.getElementById('journalModal').classList.remove('active'));
         window.addEventListener('click',(e)=>{ if(e.target.classList?.contains('modal-overlay')) e.target.classList.remove('active'); });
     });
 </script>
