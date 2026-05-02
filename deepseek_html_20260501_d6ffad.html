@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Spirit Keeper · Universal Heatmap (Fixed)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #cde2cd 0%, #b1cfaa 100%);
+            font-family: 'Segoe UI', 'Quicksand', 'Noto Sans', system-ui, sans-serif;
+            padding: 1rem 0.9rem 2rem;
+            color: #2c4128;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: rgba(253, 249, 235, 0.94);
+            backdrop-filter: blur(2px);
+            border-radius: 2.2rem;
+            padding: 1.2rem 1rem 1.8rem;
+            box-shadow: 0 12px 28px rgba(40, 55, 25, 0.2);
+            border: 1px solid #f3e5c2;
+        }
+
+        .header-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px dashed #d8c894;
+        }
+
+        h1 {
+            font-size: 1.65rem;
+            font-weight: 650;
+            background: linear-gradient(130deg, #437a38, #9c7842);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .date-badge {
+            background: #fef2da;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: #5f4a2c;
+        }
+
+        .token-bar {
+            background: #ece1b6;
+            border-radius: 2rem;
+            padding: 0.25rem 1rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ghibli-btn {
+            background: #ddce9f;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b592e;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        .ghibli-btn:active { transform: scale(0.96); background: #c8b473; }
+        .refresh-all-btn { background: #9bb87f; }
+
+        .roles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0 1.2rem;
+        }
+
+        .role-card {
+            background: #fffcf0;
+            border-radius: 1.5rem;
+            box-shadow: 0 6px 12px rgba(60, 45, 20, 0.1);
+            border: 1px solid #f2e2bf;
+            overflow: hidden;
+            transition: all 0.1s;
+        }
+
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0.9rem;
+            background: #fffcf0;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            cursor: pointer;
+            transition: background 0.1s;
+            border-bottom: 1px solid #f0e4ca;
+        }
+        .role-header:active { background: #faf3e0; }
+        .role-title-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+        .collapse-icon {
+            font-size: 0.9rem;
+            color: #9b855a;
+            width: 22px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .role-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #457a39;
+            background: #f7f0df;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .role-name:active { background: #e8ddbb; }
+        .role-stats {
+            font-size: 0.7rem;
+            background: #eaddbc;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+        .icon-row {
+            display: flex;
+            gap: 6px;
+        }
+        .icon-btn {
+            background: #ddce9f;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .icon-btn:active { transform: scale(0.92); background: #c8b473; }
+        .delete-role-btn { background: #e7c2a3; color: #9b5a3a; }
+
+        .role-content {
+            padding: 0.8rem 0.9rem;
+            background: #fffcf0;
+            transition: all 0.2s ease;
+        }
+        .role-content.collapsed {
+            display: none;
+        }
+
+        .quote-area {
+            background: #fef7e8;
+            border-radius: 1.2rem;
+            padding: 0.5rem 0.8rem;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+            font-size: 0.8rem;
+            color: #5f4a2c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .quote-text { flex: 1; word-break: break-word; }
+        .edit-icon { font-size: 0.9rem; opacity: 0.6; }
+
+        .time-tracker {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            background: #f3edd9;
+            padding: 0.6rem;
+            border-radius: 2rem;
+        }
+        .minutes-display { background: white; padding: 0.2rem 0.7rem; border-radius: 2rem; font-weight: bold; font-size: 0.8rem; }
+        .add-time-group { display: flex; gap: 6px; align-items: center; }
+        .time-input { width: 70px; padding: 0.3rem; border-radius: 30px; border: 1px solid #cfbc8a; text-align: center; }
+        .log-time-btn { background: #9bb87f; border: none; padding: 0.3rem 1rem; border-radius: 2rem; font-weight: bold; cursor: pointer; }
+
+        .heatmap-container { margin-top: 0.8rem; }
+        .heatmap-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #7c6a44;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .week-selector {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #eaddbc;
+            padding: 2px 8px;
+            border-radius: 30px;
+        }
+        .week-selector button { background: none; border: none; font-weight: bold; cursor: pointer; font-size: 0.7rem; padding: 2px 6px; border-radius: 20px; }
+        .week-selector span { font-size: 0.65rem; font-weight: bold; }
+        .grid-wrapper { overflow-x: auto; padding-bottom: 4px; }
+        .contribution-grid { display: inline-flex; flex-direction: column; gap: 3px; min-width: 100%; }
+        .week-row { display: flex; gap: 3px; align-items: center; }
+        .day-label { width: 32px; font-size: 0.6rem; color: #8b764c; text-align: right; padding-right: 6px; font-weight: 500; }
+        .cells-row { display: flex; gap: 3px; }
+        .contribution-cell { width: 12px; height: 12px; border-radius: 2px; background-color: #ebedf0; }
+        .contribution-cell.level-0 { background-color: #ebedf0; }
+        .contribution-cell.level-1 { background-color: #9be9a8; }
+        .contribution-cell.level-2 { background-color: #40c463; }
+        .contribution-cell.level-3 { background-color: #30a14e; }
+        .contribution-cell.level-4 { background-color: #216e39; }
+        
+        .legend { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; font-size: 0.6rem; align-items: center; flex-wrap: wrap; }
+        .legend-color { width: 10px; height: 10px; border-radius: 2px; }
+        .legend-label { font-size: 0.55rem; color: #7c6a44; }
+
+        .global-section {
+            background: #fef8ea;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ecdcaa;
+        }
+        .global-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+            gap: 10px;
+        }
+        .timer-compact {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #eaddbc;
+            padding: 0.2rem 0.8rem;
+            border-radius: 3rem;
+        }
+        .timer-compact input { width: 55px; padding: 0.2rem; border-radius: 30px; border: none; text-align: center; font-size: 0.8rem; }
+        .timer-display-sm { font-family: monospace; font-weight: bold; background: #2c4128; color: #f3e5c2; padding: 0.2rem 0.6rem; border-radius: 2rem; font-size: 0.8rem; }
+        .timer-btn-sm { background: #6d944f; border: none; border-radius: 2rem; padding: 0.2rem 0.8rem; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
+        .stop-btn { background: #b88b5c; }
+
+        .journal-section {
+            background: #e7dfc6cc;
+            border-radius: 1.6rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .journal-title {
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .view-journal-btn {
+            background: #cfbc8f;
+            border: none;
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 1.3rem;
+            border: 1px solid #cfbc8a;
+            background: #fffff2;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+        .reflect-btn {
+            background: #6d944f;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.6rem;
+            border-radius: 3rem;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.1s;
+        }
+        .reflect-btn:active { transform: scale(0.97); background: #4c7035; }
+
+        .encouragement-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 55, 30, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+        .encouragement-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .encouragement-card {
+            background: linear-gradient(145deg, #fff8e7, #fff0da);
+            border-radius: 2.5rem;
+            padding: 1.8rem 2rem;
+            max-width: 85%;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            border: 1px solid #f3e2b5;
+            animation: gentlePop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes gentlePop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .encouragement-emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+        .encouragement-text { font-size: 1.2rem; font-weight: 600; color: #457a39; margin-bottom: 0.8rem; line-height: 1.4; }
+        .encouragement-sub { font-size: 0.8rem; color: #7b6842; margin-bottom: 1rem; }
+        .encouragement-close { background: #ddce9f; border: none; padding: 0.4rem 1.4rem; border-radius: 2rem; font-weight: bold; cursor: pointer; margin-top: 0.4rem; }
+
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(30,35,18,0.92);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-card {
+            background: #fffaf0;
+            max-width: 90%;
+            width: 400px;
+            max-height: 70vh;
+            border-radius: 2rem;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold; border-bottom: 1px solid #ecdcaa; padding-bottom: 0.5rem; }
+        .modal-list { overflow-y: auto; max-height: 55vh; }
+        .history-entry { padding: 0.6rem; border-bottom: 1px solid #eedfc0; font-size: 0.8rem; }
+        .history-date { font-weight: bold; color: #7c603a; font-size: 0.7rem; margin-bottom: 0.2rem; }
+        .close-modal { background: #dbbc87; border: none; padding: 0.3rem 1rem; border-radius: 2rem; margin-top: 0.8rem; cursor: pointer; }
+        
+        .toast-token {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #f8efcb; padding: 6px 16px; border-radius: 60px; font-weight: bold;
+            color: #367c26; animation: floatFade 1.2s forwards; pointer-events: none; z-index: 200;
+        }
+        @keyframes floatFade { 0% { opacity: 0; transform: translateX(-50%) translateY(15px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) translateY(-35px); } }
+        .tiny-note { text-align: center; font-size: 0.6rem; margin-top: 0.6rem; color: #7b6842; }
+        .welcome-empty { text-align: center; padding: 2rem; background: #faf3e2; border-radius: 1.5rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-area">
+        <h1>🍃 Spirit Keeper · Universal Scale</h1>
+        <div style="display: flex; gap: 8px;">
+            <div class="date-badge" id="liveDate"></div>
+            <div class="token-bar" id="tokenBar">✨ <span id="totalTokenDisplay">0</span></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="ghibli-btn" id="addRoleBtn">➕ New Role</button>
+        <button class="ghibli-btn refresh-all-btn" id="refreshAllBtn">🔄 Reset Logs</button>
+        <button class="ghibli-btn" id="exportDataBtn">📤 Export</button>
+        <button class="ghibli-btn" id="importDataBtn">📥 Import</button>
+    </div>
+
+    <div class="global-section">
+        <div class="global-header">
+            <span style="font-weight: bold;">🌍 Global Focus</span>
+            <div class="timer-compact">
+                <input type="number" id="globalTimerMins" value="25" step="5">
+                <div id="globalTimerDisplay" class="timer-display-sm">00:00</div>
+                <button id="globalTimerStart" class="timer-btn-sm">▶</button>
+                <button id="globalTimerStop" class="timer-btn-sm stop-btn">⏹</button>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+            <div class="week-selector">
+                <button id="globalDecWeeks">−</button>
+                <span id="globalWeeksCount">16</span><span> weeks</span>
+                <button id="globalIncWeeks">+</button>
+            </div>
+        </div>
+        <div id="globalHeatmapContainer"></div>
+        <div id="globalLegend" class="legend"></div>
+    </div>
+
+    <div class="roles-grid" id="rolesGrid"></div>
+
+    <div class="journal-section">
+        <div class="journal-header">
+            <div class="journal-title">🌙 Nightly Reflection · Journal</div>
+            <button class="view-journal-btn" id="viewJournalBtn">📜 View Past Entries</button>
+        </div>
+        <textarea id="nightlyReflection" rows="2" placeholder="How did today feel? What are you grateful for? What did you learn?"></textarea>
+        <button class="reflect-btn" id="submitReflectionBtn">✨ Log Reflection & Receive Encouragement ✨</button>
+        <div class="tiny-note">Universal heatmap scale: colors adjust to YOUR actual minutes range (from min to max logged). No fixed thresholds.</div>
+    </div>
+</div>
+
+<div id="journalModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <span>📖 Nightly Reflections</span>
+            <button class="close-modal" id="closeJournalBtn">✖</button>
+        </div>
+        <div id="journalEntriesList" class="modal-list"></div>
+    </div>
+</div>
+
+<div id="spendModal" class="modal-overlay"><div class="modal-card">
+    <div style="display:flex; justify-content:space-between;"><span>🪙 Spend Tokens</span><button class="close-modal" id="closeSpendBtn">✖</button></div>
+    <div style="text-align:center;"><p>You have <strong id="spendCurrentTokens">0</strong> token</p>
+    <div style="display:flex; gap:1rem; justify-content:center;"><button class="spend-btn" data-amount="10">10</button><button class="spend-btn" data-amount="30">30</button><button class="spend-btn" data-amount="50">50</button></div>
+    <div id="spendLogList" style="margin-top:1rem; max-height:150px; overflow-y:auto;"></div>
+</div></div>
+
+<div id="encouragementOverlay" class="encouragement-overlay">
+    <div class="encouragement-card">
+        <div class="encouragement-emoji">🌟</div>
+        <div class="encouragement-text">You're doing beautifully</div>
+        <div class="encouragement-sub">Your reflection has been saved</div>
+        <button class="encouragement-close" id="closeEncouragementBtn">🌙 Thank you</button>
+    </div>
+</div>
+
+<script>
+    // --- Helper Functions (defined first) ---
+    function getDateKey(date = new Date()) { 
+        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`; 
+    }
+    
+    function getFormattedDate() { 
+        const now = new Date(); 
+        return `${now.toDateString()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`; 
+    }
+    
+    function getTimestamp() { 
+        return new Date().toLocaleString(); 
+    }
+    
+    function showMessage(msg) { 
+        const t = document.createElement('div'); 
+        t.className = 'toast-token'; 
+        t.innerText = msg; 
+        document.body.appendChild(t); 
+        setTimeout(() => t.remove(), 1300); 
+    }
+    
+    function updateTotalUI() { 
+        document.getElementById('totalTokenDisplay').innerText = globalTokens; 
+    }
+    
+    function escapeHtml(str) { 
+        return String(str).replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); 
+    }
+
+    // --- Core Data ---
+    let globalTokens = 0;
+    let rolesData = [];
+    let journalEntries = [];
+    let spendLogs = [];
+    let currentDateKey = getDateKey();
+    let roleWeeks = {};
+    let roleCollapsed = {};
+    let globalWeeks = 16;
+
+    let globalTimerInterval = null;
+    let globalTimerSeconds = 0;
+
+    // --- UNIVERSAL SCALE FUNCTION (Fixed) ---
+    function createUniversalScaler(minutesArray) {
+        const nonZero = minutesArray.filter(m => m > 0);
+        if (nonZero.length === 0) {
+            return (minutes) => 0;
+        }
+        const minVal = Math.min(...nonZero);
+        const maxVal = Math.max(...nonZero);
+        
+        if (minVal === maxVal) {
+            return (minutes) => minutes > 0 ? 4 : 0;
+        }
+        
+        const range = maxVal - minVal;
+        return (minutes) => {
+            if (minutes === 0) return 0;
+            const normalized = (minutes - minVal) / range;
+            if (normalized < 0.25) return 1;
+            if (normalized < 0.5) return 2;
+            if (normalized < 0.75) return 3;
+            return 4;
+        };
+    }
+
+    function buildLegendHtml(minVal, maxVal, hasData) {
+        if (!hasData) {
+            return `<div class="legend"><span>✨ Add minutes to see heatmap scale</span></div>`;
+        }
+        if (minVal === maxVal) {
+            return `<div class="legend"><span>${minVal} min</span><div class="legend-color" style="background:#216e39;"></div><span>${maxVal} min</span></div>`;
+        }
+        const range = maxVal - minVal;
+        const q1 = minVal + range * 0.25;
+        const q2 = minVal + range * 0.5;
+        const q3 = minVal + range * 0.75;
+        return `
+            <span>Less</span>
+            <div class="legend-color" style="background:#ebedf0;"></div>
+            <span class="legend-label">0</span>
+            <div class="legend-color" style="background:#9be9a8;"></div>
+            <span class="legend-label">~${Math.round(q1)}</span>
+            <div class="legend-color" style="background:#40c463;"></div>
+            <span class="legend-label">~${Math.round(q2)}</span>
+            <div class="legend-color" style="background:#30a14e;"></div>
+            <span class="legend-label">~${Math.round(q3)}</span>
+            <div class="legend-color" style="background:#216e39;"></div>
+            <span class="legend-label">${maxVal}</span>
+            <span>More</span>
+        `;
+    }
+
+    function getDateRangeWeeks(weeksCount) {
+        const today = new Date(); 
+        today.setHours(0, 0, 0, 0);
+        let monday = new Date(today);
+        const dayOfWeek = today.getDay();
+        const daysToMonday = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+        monday.setDate(today.getDate() - daysToMonday);
+        const startDate = new Date(monday);
+        startDate.setDate(monday.getDate() - ((weeksCount - 1) * 7));
+        const weeks = [];
+        for (let w = 0; w < weeksCount; w++) {
+            const weekStart = new Date(startDate);
+            weekStart.setDate(startDate.getDate() + (w * 7));
+            const weekDays = [];
+            for (let d = 0; d < 7; d++) {
+                const dayDate = new Date(weekStart);
+                dayDate.setDate(weekStart.getDate() + d);
+                weekDays.push(dayDate);
+            }
+            weeks.push(weekDays);
+        }
+        return weeks;
+    }
+
+    function renderHeatmapWithUniversalScale(containerEl, dailyMinutesMap, weeksCount, showTooltip = true, legendContainerId = null) {
+        if (!containerEl) return;
+        
+        const allMinutes = Object.values(dailyMinutesMap);
+        const scaler = createUniversalScaler(allMinutes);
+        
+        const nonZero = allMinutes.filter(m => m > 0);
+        const hasData = nonZero.length > 0;
+        const minVal = hasData ? Math.min(...nonZero) : 0;
+        const maxVal = hasData ? Math.max(...nonZero) : 0;
+        
+        if (legendContainerId) {
+            const legendContainer = document.getElementById(legendContainerId);
+            if (legendContainer) {
+                legendContainer.innerHTML = buildLegendHtml(minVal, maxVal, hasData);
+            }
+        }
+        
+        const weeks = getDateRangeWeeks(weeksCount);
+        const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        let html = `<div class="grid-wrapper"><div class="contribution-grid">`;
+        for (let row = 0; row < 7; row++) {
+            html += `<div class="week-row"><div class="day-label">${dayNames[row]}</div><div class="cells-row">`;
+            for (let week = 0; week < weeksCount; week++) {
+                const date = weeks[week][row];
+                const key = getDateKey(date);
+                const minutes = dailyMinutesMap[key] || 0;
+                const intensity = scaler(minutes);
+                const title = showTooltip ? `${key}: ${minutes} min` : '';
+                html += `<div class="contribution-cell level-${intensity}" title="${title}"></div>`;
+            }
+            html += `</div></div>`;
+        }
+        html += `</div></div>`;
+        containerEl.innerHTML = html;
+    }
+
+    function computeGlobalDailyMinutes() {
+        const map = {};
+        for (let role of rolesData) {
+            if (role.timeLogs) {
+                for (let log of role.timeLogs) {
+                    map[log.dateKey] = (map[log.dateKey] || 0) + log.minutes;
+                }
+            }
+        }
+        return map;
+    }
+
+    function updateGlobalHeatmap() {
+        const globalMap = computeGlobalDailyMinutes();
+        const total = Object.values(globalMap).reduce((a, b) => a + b, 0);
+        const totalElem = document.getElementById('globalTotalMinutes');
+        if (totalElem) totalElem.innerText = total;
+        const container = document.getElementById('globalHeatmapContainer');
+        if (container) {
+            renderHeatmapWithUniversalScale(container, globalMap, globalWeeks, true, 'globalLegend');
+        }
+    }
+
+    function renderRoleHeatmap(roleIdx, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const role = rolesData[roleIdx];
+        if (!role) return;
+        const roleMap = {};
+        if (role.timeLogs) {
+            role.timeLogs.forEach(log => { roleMap[log.dateKey] = log.minutes; });
+        }
+        const weeks = roleWeeks[roleIdx] !== undefined ? roleWeeks[roleIdx] : 16;
+        const legendId = `roleLegend_${roleIdx}`;
+        renderHeatmapWithUniversalScale(container, roleMap, weeks, true, legendId);
+    }
+
+    // --- Role Actions ---
+    function addMinutesToRole(roleIdx, minutes) {
+        if (minutes <= 0) return;
+        const role = rolesData[roleIdx];
+        if (!role) return;
+        const todayKey = currentDateKey;
+        if (!role.timeLogs) role.timeLogs = [];
+        let existing = role.timeLogs.find(l => l.dateKey === todayKey);
+        if (existing) existing.minutes += minutes;
+        else role.timeLogs.push({ dateKey: todayKey, minutes: minutes });
+        const tokensEarned = Math.floor(minutes / 5);
+        if (tokensEarned > 0) { 
+            globalTokens += tokensEarned; 
+            updateTotalUI(); 
+            showMessage(`✨ +${tokensEarned} token (${minutes} min on "${role.roleName}")`); 
+        } else { 
+            showMessage(`⏱️ +${minutes} min to "${role.roleName}"`); 
+        }
+        updateGlobalHeatmap();
+        renderRolesGrid();
+        persistAll();
+    }
+
+    function toggleCollapse(roleIdx) {
+        roleCollapsed[roleIdx] = !roleCollapsed[roleIdx];
+        const contentDiv = document.getElementById(`roleContent_${roleIdx}`);
+        if (contentDiv) {
+            if (roleCollapsed[roleIdx]) contentDiv.classList.add('collapsed');
+            else contentDiv.classList.remove('collapsed');
+        }
+        const iconSpan = document.getElementById(`collapseIcon_${roleIdx}`);
+        if (iconSpan) iconSpan.innerText = roleCollapsed[roleIdx] ? '▶' : '▼';
+        persistAll();
+    }
+
+    function renderRolesGrid() {
+        const grid = document.getElementById('rolesGrid');
+        if (!grid) return;
+        if (rolesData.length === 0) { 
+            grid.innerHTML = '<div class="welcome-empty">🍃 Create a role to begin your focus journey</div>'; 
+            return; 
+        }
+        grid.innerHTML = '';
+        rolesData.forEach((role, idx) => {
+            const todayKey = currentDateKey;
+            const todayLog = role.timeLogs?.find(l => l.dateKey === todayKey);
+            const todayMinutes = todayLog ? todayLog.minutes : 0;
+            const totalRoleMinutes = role.timeLogs?.reduce((a, b) => a + b.minutes, 0) || 0;
+            const currentWeeks = roleWeeks[idx] !== undefined ? roleWeeks[idx] : 16;
+            const isCollapsed = roleCollapsed[idx] === true;
+            
+            const card = document.createElement('div');
+            card.className = 'role-card';
+            card.innerHTML = `
+                <div class="role-header" data-toggle="${idx}">
+                    <div class="role-title-area">
+                        <span class="collapse-icon" id="collapseIcon_${idx}">${isCollapsed ? '▶' : '▼'}</span>
+                        <div class="role-name" data-edit-name="${idx}">${escapeHtml(role.roleName)}</div>
+                        <div class="role-stats">📅 ${todayMinutes} min today | total ${totalRoleMinutes} min</div>
+                    </div>
+                    <div class="icon-row">
+                        <button class="icon-btn delete-role-btn" data-del="${idx}">🗑</button>
+                    </div>
+                </div>
+                <div class="role-content ${isCollapsed ? 'collapsed' : ''}" id="roleContent_${idx}">
+                    <div class="quote-area" data-edit-quote="${idx}">
+                        <span class="quote-text">“ ${escapeHtml(role.quote || 'Focus like a forest spirit')} ”</span>
+                        <span class="edit-icon">✎</span>
+                    </div>
+                    <div class="time-tracker">
+                        <span class="minutes-display">⏱️ today: ${todayMinutes} min</span>
+                        <div class="add-time-group">
+                            <input type="number" id="minutesInput_${idx}" class="time-input" value="15" step="5">
+                            <button class="log-time-btn" data-addmin="${idx}">➕ Add minutes</button>
+                        </div>
+                        <span style="font-size:0.7rem;">✨ +1 token / 5min</span>
+                    </div>
+                    <div class="heatmap-container">
+                        <div class="heatmap-title">
+                            <span>📆 Weekly focus (universal scale)</span>
+                            <div class="week-selector">
+                                <button class="roleDecWeeks" data-idx="${idx}">−</button>
+                                <span id="roleWeeksLabel_${idx}">${currentWeeks}</span><span> weeks</span>
+                                <button class="roleIncWeeks" data-idx="${idx}">+</button>
+                            </div>
+                        </div>
+                        <div id="roleHeatmap_${idx}"></div>
+                        <div id="roleLegend_${idx}" class="legend"></div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+            
+            // Render heatmap after element is in DOM
+            setTimeout(() => {
+                renderRoleHeatmap(idx, `roleHeatmap_${idx}`);
+            }, 0);
+            
+            // Event listeners
+            const header = card.querySelector(`[data-toggle="${idx}"]`);
+            header?.addEventListener('click', (e) => {
+                if (e.target.closest('.icon-btn') || e.target.closest('[data-edit-name]') || e.target.closest('[data-edit-quote]')) return;
+                toggleCollapse(idx);
+            });
+            
+            const addBtn = card.querySelector(`[data-addmin="${idx}"]`);
+            addBtn?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                const input = document.getElementById(`minutesInput_${idx}`); 
+                let mins = parseInt(input.value); 
+                if (isNaN(mins) || mins <= 0) mins = 5; 
+                addMinutesToRole(idx, mins); 
+            });
+            
+            const nameSpan = card.querySelector(`[data-edit-name="${idx}"]`);
+            nameSpan?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                const newName = prompt("Edit role name:", role.roleName); 
+                if (newName && newName.trim()) { 
+                    role.roleName = newName.trim(); 
+                    renderRolesGrid(); 
+                    updateGlobalHeatmap(); 
+                    persistAll(); 
+                    showMessage(`Role renamed`); 
+                } 
+            });
+            
+            const quoteDiv = card.querySelector(`[data-edit-quote="${idx}"]`);
+            quoteDiv?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                const newQuote = prompt("Edit focus quote:", role.quote || ""); 
+                if (newQuote !== null) { 
+                    role.quote = newQuote.trim() || "Stay present"; 
+                    renderRolesGrid(); 
+                    persistAll(); 
+                    showMessage(`Quote updated`); 
+                } 
+            });
+            
+            const delBtn = card.querySelector(`[data-del="${idx}"]`);
+            delBtn?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                deleteRole(idx); 
+            });
+            
+            const decBtn = card.querySelector(`.roleDecWeeks[data-idx="${idx}"]`);
+            const incBtn = card.querySelector(`.roleIncWeeks[data-idx="${idx}"]`);
+            decBtn?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                let w = roleWeeks[idx] || 16; 
+                if (w > 12) { 
+                    w--; 
+                    roleWeeks[idx] = w; 
+                    const label = document.getElementById(`roleWeeksLabel_${idx}`);
+                    if (label) label.innerText = w;
+                    renderRoleHeatmap(idx, `roleHeatmap_${idx}`); 
+                    persistAll(); 
+                } 
+            });
+            incBtn?.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                let w = roleWeeks[idx] || 16; 
+                if (w < 24) { 
+                    w++; 
+                    roleWeeks[idx] = w; 
+                    const label = document.getElementById(`roleWeeksLabel_${idx}`);
+                    if (label) label.innerText = w;
+                    renderRoleHeatmap(idx, `roleHeatmap_${idx}`); 
+                    persistAll(); 
+                } 
+            });
+        });
+    }
+
+    function addNewRole() {
+        let name = prompt("Role name:", "");
+        if (!name) return;
+        name = name.trim();
+        if (rolesData.some(r => r.roleName.toLowerCase() === name.toLowerCase())) { 
+            alert("Role exists"); 
+            return; 
+        }
+        const quote = prompt("Focus quote (optional):", "One step at a time") || "One step at a time";
+        rolesData.push({ 
+            roleName: name, 
+            quote: quote, 
+            timeLogs: [] 
+        });
+        renderRolesGrid();
+        updateGlobalHeatmap();
+        persistAll();
+        showMessage(`✨ "${name}" created`);
+    }
+
+    function deleteRole(idx) {
+        if (confirm(`Delete "${rolesData[idx].roleName}"?`)) {
+            rolesData.splice(idx, 1);
+            updateGlobalHeatmap();
+            renderRolesGrid();
+            persistAll();
+            showMessage("Role removed");
+        }
+    }
+
+    function resetAllLogs() {
+        if (confirm("Erase ALL time logs for every role? Tokens remain.")) {
+            for (let role of rolesData) role.timeLogs = [];
+            updateGlobalHeatmap();
+            renderRolesGrid();
+            persistAll();
+            showMessage("All logs cleared");
+        }
+    }
+
+    // --- Journal & Encouragement ---
+    const encouragementMessages = [
+        { emoji: "🌙", msg: "The moon applauds your honesty. Rest well, dreamer." },
+        { emoji: "🍃", msg: "You've added another leaf to your growth. Tomorrow will bloom." },
+        { emoji: "✨", msg: "Your words are seeds. Tonight they rest, tomorrow they grow." },
+        { emoji: "🌸", msg: "Like cherry blossoms, your thoughts are precious. Thank you for sharing." },
+        { emoji: "🕯️", msg: "A quiet candle for a quiet mind. You're exactly where you need to be." },
+        { emoji: "💚", msg: "Kodama spirits nod in approval. You're tending your inner forest." },
+        { emoji: "🌿", msg: "Every reflection is a step toward clarity. Proud of you." },
+        { emoji: "⭐", msg: "Your stars are aligned. Keep listening to your heart." }
+    ];
+
+    function showEncouragement(reflectionText) {
+        const random = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+        const overlay = document.getElementById('encouragementOverlay');
+        const card = overlay.querySelector('.encouragement-card');
+        card.innerHTML = `
+            <div class="encouragement-emoji">${random.emoji}</div>
+            <div class="encouragement-text">${random.msg}</div>
+            <div class="encouragement-sub">"${reflectionText.substring(0, 80)}${reflectionText.length > 80 ? '…' : ''}"</div>
+            <button class="encouragement-close" id="closeEncouragementBtn">🌙 Thank you</button>
+        `;
+        overlay.classList.add('active');
+        const closeBtn = document.getElementById('closeEncouragementBtn');
+        closeBtn?.addEventListener('click', () => { overlay.classList.remove('active'); });
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+    }
+
+    function saveNightlyReflection() {
+        const textarea = document.getElementById('nightlyReflection');
+        const reflection = textarea.value.trim();
+        if (!reflection) {
+            showMessage("✨ Write something from your heart before saving...");
+            return;
+        }
+        const todayKey = currentDateKey;
+        const existingIndex = journalEntries.findIndex(entry => entry.dateKey === todayKey);
+        const newEntry = { timestamp: getTimestamp(), dateKey: todayKey, reflection: reflection };
+        if (existingIndex !== -1) journalEntries[existingIndex] = newEntry;
+        else journalEntries.unshift(newEntry);
+        if (journalEntries.length > 50) journalEntries.pop();
+        textarea.value = '';
+        persistAll();
+        showEncouragement(reflection);
+        showMessage("🌙 Reflection saved. Thank you for your honesty.");
+    }
+
+    function showJournalHistory() {
+        const modal = document.getElementById('journalModal');
+        const listDiv = document.getElementById('journalEntriesList');
+        if (journalEntries.length === 0) {
+            listDiv.innerHTML = '<div style="text-align:center; padding:1rem;">✨ No reflections yet. Write your first nightly thought.</div>';
+        } else {
+            listDiv.innerHTML = '';
+            journalEntries.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'history-entry';
+                div.innerHTML = `<div class="history-date">📅 ${entry.timestamp}</div><div style="font-style:italic;">“${escapeHtml(entry.reflection)}”</div>`;
+                listDiv.appendChild(div);
+            });
+        }
+        modal.classList.add('active');
+    }
+
+    // --- Timer ---
+    function updateGlobalTimerDisplay() { 
+        const mins = Math.floor(globalTimerSeconds / 60); 
+        const secs = globalTimerSeconds % 60; 
+        document.getElementById('globalTimerDisplay').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`; 
+    }
+    
+    function startGlobalTimer() {
+        if (globalTimerInterval) clearInterval(globalTimerInterval);
+        let mins = parseInt(document.getElementById('globalTimerMins').value);
+        if (isNaN(mins) || mins <= 0) mins = 25;
+        globalTimerSeconds = mins * 60;
+        updateGlobalTimerDisplay();
+        globalTimerInterval = setInterval(() => {
+            if (globalTimerSeconds <= 0) {
+                clearInterval(globalTimerInterval); 
+                globalTimerInterval = null;
+                showMessage(`⏰ Timer finished! +${mins} minutes to?`);
+                if (rolesData.length === 0) { 
+                    showMessage("No roles yet"); 
+                    return; 
+                }
+                let list = rolesData.map((r, i) => `${i+1}: ${r.roleName}`).join("\n");
+                let choice = prompt(`Add ${mins} focus minutes to which role?\n${list}`, "1");
+                let idx = parseInt(choice) - 1;
+                if (!isNaN(idx) && idx >= 0 && idx < rolesData.length) {
+                    addMinutesToRole(idx, mins);
+                } else {
+                    showMessage("No role selected");
+                }
+                globalTimerSeconds = 0; 
+                updateGlobalTimerDisplay();
+                return;
+            }
+            globalTimerSeconds--;
+            updateGlobalTimerDisplay();
+        }, 1000);
+    }
+    
+    function stopGlobalTimer() { 
+        if (globalTimerInterval) { 
+            clearInterval(globalTimerInterval); 
+            globalTimerInterval = null; 
+            showMessage("Timer stopped"); 
+        } 
+        globalTimerSeconds = 0; 
+        updateGlobalTimerDisplay(); 
+    }
+
+    // --- Persistence ---
+    function persistAll() {
+        const data = { 
+            version: "universal_v7_fixed", 
+            tokens: globalTokens, 
+            rolesData: rolesData, 
+            journalEntries: journalEntries, 
+            spendLogs: spendLogs, 
+            roleWeeks: roleWeeks, 
+            roleCollapsed: roleCollapsed, 
+            globalWeeks: globalWeeks, 
+            currentDateKey: currentDateKey 
+        };
+        localStorage.setItem("spirit_keeper_universal_fixed", JSON.stringify(data));
+    }
+    
+    function loadData() {
+        const raw = localStorage.getItem("spirit_keeper_universal_fixed");
+        if (raw) {
+            try {
+                const d = JSON.parse(raw);
+                globalTokens = d.tokens || 0;
+                rolesData = d.rolesData || [];
+                journalEntries = d.journalEntries || [];
+                spendLogs = d.spendLogs || [];
+                roleWeeks = d.roleWeeks || {};
+                roleCollapsed = d.roleCollapsed || {};
+                globalWeeks = d.globalWeeks || 16;
+                for (let r of rolesData) if (!r.timeLogs) r.timeLogs = [];
+                currentDateKey = getDateKey();
+                updateTotalUI();
+                updateGlobalHeatmap();
+                renderRolesGrid();
+                const todayEntry = journalEntries.find(e => e.dateKey === currentDateKey);
+                if (todayEntry) document.getElementById('nightlyReflection').value = todayEntry.reflection;
+            } catch (e) { 
+                console.error("Load error:", e);
+                freshStart(); 
+            }
+        } else { 
+            freshStart(); 
+        }
+    }
+    
+    function freshStart() {
+        globalTokens = 0;
+        rolesData = [];
+        journalEntries = [];
+        spendLogs = [];
+        roleWeeks = {};
+        roleCollapsed = {};
+        globalWeeks = 16;
+        currentDateKey = getDateKey();
+        updateTotalUI();
+        updateGlobalHeatmap();
+        renderRolesGrid();
+        persistAll();
+    }
+
+    function spendTokens(amount) {
+        if (amount > globalTokens) { 
+            showMessage(`Not enough tokens`); 
+            return; 
+        }
+        globalTokens -= amount;
+        spendLogs.unshift({ timestamp: getTimestamp(), amount: amount });
+        updateTotalUI(); 
+        persistAll();
+        showMessage(`Spent ${amount} tokens`);
+        if (document.getElementById('spendCurrentTokens')) {
+            document.getElementById('spendCurrentTokens').innerText = globalTokens;
+        }
+    }
+    
+    function showSpendModal() {
+        const modal = document.getElementById('spendModal');
+        document.getElementById('spendCurrentTokens').innerText = globalTokens;
+        const logDiv = document.getElementById('spendLogList');
+        if (spendLogs.length === 0) {
+            logDiv.innerHTML = '<div>No transactions</div>';
+        } else {
+            logDiv.innerHTML = spendLogs.map(l => `<div>🪙 ${l.timestamp} : -${l.amount}</div>`).join('');
+        }
+        modal.classList.add('active');
+    }
+
+    // --- Initialize ---
+    document.addEventListener('DOMContentLoaded', () => {
+        currentDateKey = getDateKey();
+        loadData();
+        setInterval(() => { 
+            document.getElementById('liveDate').innerText = getFormattedDate(); 
+        }, 60000);
+        document.getElementById('liveDate').innerText = getFormattedDate();
+        
+        document.getElementById('addRoleBtn').addEventListener('click', addNewRole);
+        document.getElementById('refreshAllBtn').addEventListener('click', resetAllLogs);
+        document.getElementById('exportDataBtn').addEventListener('click', () => { 
+            const a = document.createElement('a'); 
+            a.href = URL.createObjectURL(new Blob([JSON.stringify({ rolesData, globalTokens, journalEntries, spendLogs, roleWeeks, roleCollapsed, globalWeeks })], { type: 'application/json' })); 
+            a.download = `universal_heatmap_backup.json`; 
+            a.click(); 
+            showMessage("Exported"); 
+        });
+        document.getElementById('importDataBtn').addEventListener('click', () => { 
+            const inp = document.createElement('input'); 
+            inp.type = 'file'; 
+            inp.accept = 'application/json';
+            inp.onchange = e => { 
+                const f = e.target.files[0]; 
+                if (!f) return;
+                const r = new FileReader(); 
+                r.onload = ev => { 
+                    try { 
+                        const d = JSON.parse(ev.target.result); 
+                        if (d.rolesData) rolesData = d.rolesData; 
+                        if (d.tokens !== undefined) globalTokens = d.tokens; 
+                        if (d.journalEntries) journalEntries = d.journalEntries; 
+                        if (d.roleWeeks) roleWeeks = d.roleWeeks; 
+                        if (d.roleCollapsed) roleCollapsed = d.roleCollapsed; 
+                        if (d.globalWeeks) globalWeeks = d.globalWeeks; 
+                        for (let role of rolesData) if (!role.timeLogs) role.timeLogs = []; 
+                        updateGlobalHeatmap(); 
+                        renderRolesGrid(); 
+                        updateTotalUI(); 
+                        persistAll(); 
+                        showMessage("Import success"); 
+                    } catch (err) { 
+                        alert("Invalid file"); 
+                    } 
+                }; 
+                r.readAsText(f); 
+            }; 
+            inp.click(); 
+        });
+        document.getElementById('tokenBar').addEventListener('click', showSpendModal);
+        document.getElementById('closeSpendBtn').addEventListener('click', () => document.getElementById('spendModal').classList.remove('active'));
+        document.querySelectorAll('.spend-btn').forEach(btn => btn.addEventListener('click', () => spendTokens(parseInt(btn.dataset.amount))));
+        document.getElementById('globalTimerStart').addEventListener('click', startGlobalTimer);
+        document.getElementById('globalTimerStop').addEventListener('click', stopGlobalTimer);
+        document.getElementById('globalDecWeeks').addEventListener('click', () => { 
+            if (globalWeeks > 12) { 
+                globalWeeks--; 
+                document.getElementById('globalWeeksCount').innerText = globalWeeks; 
+                updateGlobalHeatmap(); 
+                persistAll(); 
+            } 
+        });
+        document.getElementById('globalIncWeeks').addEventListener('click', () => { 
+            if (globalWeeks < 24) { 
+                globalWeeks++; 
+                document.getElementById('globalWeeksCount').innerText = globalWeeks; 
+                updateGlobalHeatmap(); 
+                persistAll(); 
+            } 
+        });
+        document.getElementById('globalWeeksCount').innerText = globalWeeks;
+        document.getElementById('submitReflectionBtn').addEventListener('click', saveNightlyReflection);
+        document.getElementById('viewJournalBtn').addEventListener('click', showJournalHistory);
+        document.getElementById('closeJournalBtn').addEventListener('click', () => document.getElementById('journalModal').classList.remove('active'));
+        window.addEventListener('click', (e) => { 
+            if (e.target.classList?.contains('modal-overlay')) e.target.classList.remove('active'); 
+        });
+    });
+</script>
+</body>
+</html>
